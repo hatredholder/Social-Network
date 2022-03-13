@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Profile
+{% endblock title %}
+
+{% block content %}
+    <h1>My Profile: {{profile}}</h1>
+    <hr>
+    <img src="{{profile.avatar.url}}"><br>
+    {{profile.first_name}}<br>
+    {{profile.last_name}}<br>
+    {{profile.bio}}<br>
+    {{profile.country}}<br>
+    {{profile.friends.all.count}}<br>
+    <ul>
+    {% for friend in profile.friends.all %}
+        <li>{{friend}}</li>
+    {% endfor %}
+    </ul>
+{% endblock content %}
