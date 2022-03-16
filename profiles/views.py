@@ -30,12 +30,11 @@ def invites_received_view(request):
     results = list(map(lambda x: x.sender, qs))
     is_empty = False
     if len(results) == 0:
-        is_empty == True
+        is_empty = True
     context = {
         'qs':results,
         'is_empty':is_empty,
     }
-
     return render(request, 'profiles/my_invites.html', context)
 
 
