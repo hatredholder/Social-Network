@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .models import Profile, Relationship
@@ -79,10 +79,38 @@ def profile_list_view(request):
 
     return render(request, 'profiles/profile_list.html', context)
 
+class ProfileDetailView(DetailView):
+    model = Profile
+    template_name = 'profiles/detail.html'
+    
+    def get_object(self):
+        slug = self.kwargs.get('slug')
+        profile = Profile.objects.get(slug=slug)
+        return profile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(username__iexact=self.request.user)
+        profile = Profile.objects.get(user=user)
+
+        rel_r = Relationship.objects.filter(sender=profile)
+        rel_s = Relationship.objects.filter(receiver=profile)
+        rel_receiver = []
+        rel_sender = []
+        for item in rel_r:
+            rel_receiver.append(item.receiver.user)
+        for item in rel_s:
+            rel_sender.append(item.receiver.user)
+        context['rel_receiver'] = rel_receiver
+        context['rel_sender'] = rel_sender
+        context['posts'] = self.get_object().get_all_authors_posts()
+        context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
+        return context  
+
 class ProfileListView(ListView):
     model = Profile
     template_name = 'profiles/profile_list.html'
-    context_object_name = 'qs'
+    # context_object_name = 'qs'
 
     def get_queryset(self):
         qs = Profile.objects.get_all_profiles(self.request.user)
@@ -129,7 +157,7 @@ def remove_from_friends(request):
         receiver = Profile.objects.get(pk=pk)
 
         rel = Relationship.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender))
+            (Q(sender=sender) & Q(receiver=receiver)) or (Q(sender=receiver) & Q(receiver=sender))
         )
         rel.delete()
         return redirect(request.META.get('HTTP_REFERER'))
