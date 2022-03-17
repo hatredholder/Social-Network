@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
-from platformdirs import user_cache_dir
 from profiles.models import Profile
 
 

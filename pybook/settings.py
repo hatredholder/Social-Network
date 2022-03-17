@@ -39,10 +39,26 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Added Apps
     'profiles',
-    'posts'
+    'posts',
+    # django all-auth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
-LOGIN_URL = '/admin'
+SITE_ID = 1
+
+# LOGIN_URL = '/admin'
+LOGIN_REDIRECT_URL = '/posts'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_UNIQUE = True
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,6 +88,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'pybook.wsgi.application'
