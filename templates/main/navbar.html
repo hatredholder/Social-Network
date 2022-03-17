@@ -1,3 +1,11 @@
+{% url 'home-view' as path_to_home %}
+{% url 'posts:main-post-view' as path_to_posts %}
+{% url 'profiles:my-profile-view' as path_to_my_profile %}
+{% url 'profiles:my-invites-view' as path_to_my_invites %}
+{% url 'profiles:invite-profiles-view' as path_to_invites %}
+{% url 'profiles:all-profiles-view' as path_to_all_profiles %}
+
+
 <div class="ui inverted menu nav mb-7">
     <div class="ui container">
       <a href="{{path_to_home}}" class="{% if request.path == path_to_home %}active{% endif %} item">
@@ -38,7 +46,8 @@
               </div>
           
               <a href="{{path_to_my_profile}}" class="{% if request.path == path_to_my_profile %}active{% endif %} item">
-                   {{ request.user }}
+                 <img src={{picture.url}} class='ui avatar image'>&nbsp;
+                {{ request.user }}
               </a>
   
               <a href="" class="ui item">
