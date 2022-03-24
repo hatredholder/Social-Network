@@ -4,7 +4,11 @@ A social network type of project. Made with Django 4.0, a little bit of JS and A
 
 # To do/to add:
 
-Add a welcome page for non-authorized users;
+Add a welcome page for non-authorized users;✓ Done (24.03.22)
+
+Update the send invites view;✓ Done (24.03.22)
+
+Change user profile detail view so it shows posts in a better way;✓ Done (24.03.22)
 
 Add search bar functionality;
 
@@ -12,11 +16,7 @@ Add follow user functionality;
 
 Hide posts of people that user doesn't follow/didn't add as a friend;
 
-Change user profile detail view so it shows posts in a better way;
-
 Change user appearence in comments;
-
-Update the send invites view;
 
 # Preview:
 
