@@ -56,10 +56,11 @@
                 <span> {{ obj.num_comments }} comments</span>
             </div>
             <div class="extra content">
-                <div class="mb-5">
-                  
-                </div>
-                <button class="cmt_btn ui button mb-5">Show / Hide comments</button>
+                {% if obj.comment_set.all %}
+                    <button class="cmt_btn ui button mb-5">Show / Hide comments</button>
+                {% else %}
+                    <button style="display: none"class="cmt_btn ui button mb-5">Show / Hide comments</button>
+                {% endif %}
                 <div class="comment-box">
                 {% if obj.comment_set.all %}
                     {% for c in obj.comment_set.all %}

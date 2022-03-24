@@ -43,3 +43,11 @@ body {
     display: none;
 }
 
+.post-content{
+    margin-bottom: 25px;
+}
+
+.img-src {
+    height: 400px;
+    width: 550px;
+}

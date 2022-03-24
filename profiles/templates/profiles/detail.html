@@ -55,7 +55,15 @@ Profile Detail
                 {% if len_posts %}
                     {% for post in posts  %}
                         <div class='segment ui fluid'>
-                            {{post.content}}
+                            <div class="post-content">
+                                <h3>Post #{{forloop.revcounter}}</h3>
+                                <small><strong>Updated {{post.updated|timesince}} ago</strong></small>
+                                <hr>
+                                {{post.content}}
+                            </div>
+                            <div class="post-image">
+                                <img class="img-src" src="{{post.image.url}}">
+                            </div>
                         </div>
                     {% endfor %}
                 {% else %}
