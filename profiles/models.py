@@ -8,18 +8,17 @@ from django.db.models import Q
 class ProfileManager(models.Manager):
     
     def get_all_profiles_to_invite(self, sender):
-        profiles = Profile.objects.all().exclude(user=sender)
         profile = Profile.objects.get(user=sender)
         qs = Relationship.objects.filter(Q(sender=profile) | Q(receiver=profile))
 
         accepted = set([])
-        for rel in qs:
-            if rel.status == 'accepted':
-                accepted.add(rel.receiver)
-                accepted.add(rel.sender)
 
-        available = [profile for profile in profiles if profile not in accepted]
-        return available
+        for rel in qs:
+            if rel.receiver != profile or rel.sender != profile:
+                if rel.status == "sent" or rel.status == "received":
+                    accepted.add(rel.receiver)
+
+        return accepted
 
     def get_all_profiles(self, me):
         profiles = Profile.objects.all().exclude(user=me)

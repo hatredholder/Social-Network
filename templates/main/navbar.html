@@ -3,7 +3,7 @@
 {% url 'posts:main-post-view' as path_to_posts %}
 {% url 'profiles:my-profile-view' as path_to_my_profile %}
 {% url 'profiles:my-invites-view' as path_to_my_invites %}
-{% url 'profiles:invite-profiles-view' as path_to_invites %}
+{% url 'profiles:sent-invites-view' as path_to_invites %}
 {% url 'profiles:all-profiles-view' as path_to_all_profiles %}
 
 
@@ -28,7 +28,7 @@
                           All Profiles
                       </a>
                       <a href="{{path_to_invites}}" class="{% if request.path == path_to_invites %}active{% endif %} item">
-                          Send Invites
+                          Sent Invites
                       </a>
                       <a href="{{path_to_my_invites}}" class="{% if request.path == path_to_my_invites %}active{% endif %} item">
                           Received Invites &nbsp; <div class="ui purple horizontal label">{{invites_num}}</div>
