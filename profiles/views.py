@@ -49,7 +49,7 @@ def invite_profile_list_view(request):
         'qs':qs
     }
 
-    return render(request, 'profiles/to_invite_list.html', context)
+    return render(request, 'profiles/sent_invites_list.html', context)
 
 @login_required
 def accept_invitation(request):

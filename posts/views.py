@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 @login_required
 def post_comment_create_and_list_view(request):
-    qs = Post.objects.all()
+    qs = Post.objects.get_friends_posts(user=request.user)
     profile = Profile.objects.get(user=request.user)
 
     p_form = PostModelForm()

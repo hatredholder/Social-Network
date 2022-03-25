@@ -3,6 +3,32 @@ from django.core.validators import FileExtensionValidator
 from profiles.models import Profile
 
 
+class PostManager(models.Manager):
+
+    def get_friends_posts(self, user):
+        my_profile = Profile.objects.get(user=user)
+        qs = my_profile.friends.all()
+
+        profiles = set([])
+
+        result = []
+        result.append(my_profile.posts.all())
+
+        return_result = []
+
+        for user_ in qs:
+            profiles.add(Profile.objects.get(user=user_))
+
+        for profile in profiles:
+            result.append(profile.posts.all())
+        
+        for queryset in result:
+            for post in queryset:
+                return_result.append(post.pk)
+
+        final = Post.objects.filter(pk__in=return_result).order_by("-created")
+        return final
+
 class Post(models.Model):
     content = models.TextField()
     image = models.ImageField(upload_to='posts', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])], blank=True)
@@ -10,6 +36,8 @@ class Post(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="posts")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    objects = PostManager()
 
     def __str__(self):
         return str(self.content[:20])

@@ -14,9 +14,8 @@ class ProfileManager(models.Manager):
         accepted = set([])
 
         for rel in qs:
-            if rel.receiver != profile or rel.sender != profile:
-                if rel.status == "sent" or rel.status == "received":
-                    accepted.add(rel.receiver)
+            if rel.status == "sent" or rel.status == "received":
+                accepted.add(rel.receiver)
 
         return accepted
 

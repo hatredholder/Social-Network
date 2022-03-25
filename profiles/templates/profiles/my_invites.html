@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-My Invites
+Received Invites
 {% endblock title %}
 
 {% block content %}
+
     {% if is_empty %}
         <h1>No invitations here..</h1>
     {% endif %}
+
     {% for obj in qs %}
         <div class='ui segment'>
             <div class='ui grid'>

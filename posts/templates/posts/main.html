@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}main page{% endblock title %}
+{% block title %}
+Board
+{% endblock title %}
 
 {% block content %}
 <div class="ui grid">
     <div class="eleven wide column">
         {% for obj in qs %}
-
         <div class="ui fluid card">
             <div class="content">
                 <div class="right floated meta">
@@ -83,8 +84,6 @@
                 </form>
             </div>
         </div>
-
-
         {% endfor %}
     </div>
     <div class="five wide column">
