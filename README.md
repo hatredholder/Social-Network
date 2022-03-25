@@ -4,6 +4,12 @@ A social network type of project. Made with Django 4.0, a little bit of JS and A
 
 # To do/to add:
 
+Hide posts of people that user doesn't follow/didn't add as a friend;
+✓ Done (25.03.22)
+
+Change user appearence in comments;
+✓ Done (25.03.22)
+
 Add a welcome page for non-authorized users;
 ✓ Done (24.03.22)
 
@@ -16,10 +22,6 @@ Change user profile detail view so it shows posts in a better way;
 Add search bar functionality;
 
 Add follow user functionality;
-
-Hide posts of people that user doesn't follow/didn't add as a friend;
-
-Change user appearence in comments;
 
 # Preview:
 
