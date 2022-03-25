@@ -5,6 +5,13 @@ A social network type of project. Made with Django 4.0, a little bit of JS and A
 # To do/to add:
 
 Add a welcome page for non-authorized users;
+✓ Done (24.03.22)
+
+Update the send invites view;
+✓ Done (24.03.22)
+
+Change user profile detail view so it shows posts in a better way;
+✓ Done (24.03.22)
 
 Add search bar functionality;
 
@@ -12,16 +19,18 @@ Add follow user functionality;
 
 Hide posts of people that user doesn't follow/didn't add as a friend;
 
-Change user profile detail view so it shows posts in a better way;
-
 Change user appearence in comments;
-
-Update the send invites view;
 
 # Preview:
 
-![social_network_1](https://user-images.githubusercontent.com/86254474/158975596-cceaea2c-52e1-4a79-8902-8844216b3e21.png)
+![sn_1](https://user-images.githubusercontent.com/86254474/159959892-ee0156d4-2a27-4f24-9e4c-67289ec0e033.png)
 
-![social_network_2](https://user-images.githubusercontent.com/86254474/158975774-8e6b4a9a-2fa1-4abf-8d0a-e4c8eec86e08.png)
+![sn_2](https://user-images.githubusercontent.com/86254474/159959898-6376fd36-f86e-46ad-a478-3272f2a279d2.png)
 
-![social_network_3](https://user-images.githubusercontent.com/86254474/158975630-8c7d74f1-0d0b-4d94-81f9-0da4caa5fb14.png)
+![sn_3](https://user-images.githubusercontent.com/86254474/159959907-48101f45-c10e-4282-a5b4-701473e69e1c.png)
+
+![sn_4](https://user-images.githubusercontent.com/86254474/159959920-d28b734c-c8d0-42fb-8802-9597ef9f5719.png)
+
+![sn_5](https://user-images.githubusercontent.com/86254474/159959931-379a3c72-5005-4af8-9e37-e0a97ee4963d.png)
+
+![sn_6](https://user-images.githubusercontent.com/86254474/159959943-a8ece538-f68d-4f3f-89ec-2dda689d2d4c.png)
