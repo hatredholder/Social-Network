@@ -10,6 +10,9 @@ Update Post
         <form action="" method="POST" class="ui form" enctype="mutlipart/form-data">
             {% csrf_token %}
             {{form}}
+            <input class="ui button" 
+            type="button" value="Cancel" 
+            onclick="window.history.go(-1);"/>
             <button type="submit" class="ui button primary mt-5">Update</button>
         </form>
     </div>

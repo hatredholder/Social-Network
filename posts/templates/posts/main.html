@@ -36,13 +36,12 @@ Board
                         {% csrf_token %}
                         <input type="hidden" name="post_id" value={{obj.id}}>
                         
-                            <button type="submit" class="ui button positive  like-btn{{obj.id}}">
+                            
                                 {% if profile not in obj.liked.all %}
-                                    Like
+                                <button type="submit" class="ui button positive  like-btn{{obj.id}}">Like</button>
                                 {% else %}
-                                    Unlike
+                                <button type="submit" class="ui button negative  like-btn{{obj.id}}">Unlike</button>
                                 {% endif %}
-                            </button>
                             <div class="ui grid">
                                 <div class="column">
                                     <div class="like-count{{obj.id}}">{{obj.liked.all.count}} </div>
