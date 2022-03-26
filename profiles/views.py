@@ -109,14 +109,10 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        view_profile = self.get_object()
         user = User.objects.get(username__iexact=self.request.user)
         profile = Profile.objects.get(user=user)
 
-        if view_profile.user in profile.following.all():
-            follow = True
-        else:
-            follow = False
+        following = profile.following.all
 
         rel_r = Relationship.objects.filter(sender=profile)
         rel_s = Relationship.objects.filter(receiver=profile)
@@ -130,7 +126,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context['rel_sender'] = rel_sender
         context['posts'] = self.get_object().get_all_authors_posts()
         context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
-        context['follow'] = follow
+        context['following'] = following
         return context  
 
 class ProfileListView(LoginRequiredMixin, ListView):

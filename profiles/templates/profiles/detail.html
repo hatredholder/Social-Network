@@ -49,7 +49,7 @@
                     </form>
                 {% endif %}
                 
-                {% if follow %}
+                {% if object.user in following %}
                     <form action='{% url "profiles:follow-unfollow-view" %}' method='POST'>
                         {% csrf_token %}
                         <input type='hidden' name='profile_pk' value='{{object.pk}}'>
