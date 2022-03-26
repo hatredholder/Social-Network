@@ -51,6 +51,19 @@ def invite_profile_list_view(request):
 
     return render(request, 'profiles/sent_invites_list.html', context)
 
+def follow_unfollow_user(request):
+    if request.method == 'POST':
+        my_profile = Profile.objects.get(user=request.user)
+        pk = request.POST.get('profile_pk')
+        obj = Profile.objects.get(pk=pk)
+
+        if obj.user in my_profile.following.all():
+            my_profile.following.remove(obj.user)
+        else:
+            my_profile.following.add(obj.user)
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('posts:main-post-view')
+
 @login_required
 def accept_invitation(request):
     if request.method == 'POST':
@@ -96,8 +109,14 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        view_profile = self.get_object()
         user = User.objects.get(username__iexact=self.request.user)
         profile = Profile.objects.get(user=user)
+
+        if view_profile.user in profile.following.all():
+            follow = True
+        else:
+            follow = False
 
         rel_r = Relationship.objects.filter(sender=profile)
         rel_s = Relationship.objects.filter(receiver=profile)
@@ -111,12 +130,14 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context['rel_sender'] = rel_sender
         context['posts'] = self.get_object().get_all_authors_posts()
         context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
+        context['follow'] = follow
         return context  
 
 class ProfileListView(LoginRequiredMixin, ListView):
     model = Profile
     template_name = 'profiles/profile_list.html'
     # context_object_name = 'qs'
+
 
     def get_queryset(self):
         qs = Profile.objects.get_all_profiles(self.request.user)
@@ -127,6 +148,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
         user = User.objects.get(username__iexact=self.request.user)
         profile = Profile.objects.get(user=user)
 
+        following = profile.following.all
         rel_r = Relationship.objects.filter(sender=profile)
         rel_s = Relationship.objects.filter(receiver=profile)
         rel_receiver = []
@@ -138,6 +160,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
         context['rel_receiver'] = rel_receiver
         context['rel_sender'] = rel_sender
         context['is_empty'] = False
+        context['following'] = following
         if len(self.get_queryset()) == 0:
             context['is_empty'] = True
 

@@ -6,6 +6,7 @@ from .views import (invites_received_view,
                     send_invitation,
                     accept_invitation,
                     reject_invitation,
+                    follow_unfollow_user,
                     ProfileListView,
                     ProfileDetailView)
 
@@ -17,6 +18,7 @@ urlpatterns = [
     path('myprofile/', my_profile_view, name='my-profile-view'),
     path('my_invites/', invites_received_view, name='my-invites-view'),
     path('sent_invites/', invite_profile_list_view, name='sent-invites-view'),
+    path('switch_follow/', follow_unfollow_user, name='follow-unfollow-view'),
     path('send-invite/', send_invitation, name='send-invite'),
     path('remove-friend', remove_from_friends, name='remove-friend'),
     path('my_invites/accept', accept_invitation, name='accept-invite'),

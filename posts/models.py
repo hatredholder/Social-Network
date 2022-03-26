@@ -7,7 +7,8 @@ class PostManager(models.Manager):
 
     def get_friends_posts(self, user):
         my_profile = Profile.objects.get(user=user)
-        qs = my_profile.friends.all()
+        friends = my_profile.friends.all()
+        following = my_profile.following.all()
 
         profiles = set([])
 
@@ -16,7 +17,10 @@ class PostManager(models.Manager):
 
         return_result = []
 
-        for user_ in qs:
+        for user_ in following:
+            profiles.add(Profile.objects.get(user=user_))
+
+        for user_ in friends:
             profiles.add(Profile.objects.get(user=user_))
 
         for profile in profiles:

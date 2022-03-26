@@ -34,22 +34,35 @@
                         {% csrf_token %}
                         <input type='hidden' name='profile_pk' value='{{object.pk}}'>
                         <button type='submit' class='ui positive basic button mb-5 w-big'><i class='plus square icon'></i>Add Friend</button>
-                    
                     </form>
-                    {% endif %}
+                {% endif %}
 
-                    {% if object.user in rel_receiver and request.user not in object.friends.all %}
-                        <button class='ui disabled button mb-5 w-big'><i class='user icon'></i>Waiting for approval</button>
-                    {% endif %}
-                    {% if request.user in object.friends.all %}
+                {% if object.user in rel_receiver and request.user not in object.friends.all %}
+                    <button class='ui disabled button mb-5 w-big'><i class='user icon'></i>Waiting for approval</button>
+                {% endif %}
+
+                {% if request.user in object.friends.all %}
                     <form action='{% url 'profiles:remove-friend' %}' method='POST'>
                         {% csrf_token %}
                         <input type='hidden' name='profile_pk' value='{{object.pk}}'>
                         <button type='submit' class='ui negative basic button mb-5 w-big'><i class='minus square icon'></i>Remove Friend</button>
                     </form>
                 {% endif %}
-
                 
+                {% if follow %}
+                    <form action='{% url "profiles:follow-unfollow-view" %}' method='POST'>
+                        {% csrf_token %}
+                        <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                        <button type='submit' class='ui negative basic button mb-5 w-big'>Unfollow</button>
+                    </form>
+                {% else %}
+                    <form action='{% url "profiles:follow-unfollow-view" %}' method='POST'>
+                        {% csrf_token %}
+                        <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                        <button type='submit' class='ui positive basic button mb-5 w-big'>Follow</button>
+                    </form>
+                {% endif %}
+
             </div>
             <div class='twelve wide column'>
                 {% if len_posts %}
@@ -61,9 +74,11 @@
                                 <hr>
                                 {{post.content}}
                             </div>
+                            {% if post.image %}
                             <div class="post-image">
                                 <img class="img-src" src="{{post.image.url}}">
                             </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 {% else %}

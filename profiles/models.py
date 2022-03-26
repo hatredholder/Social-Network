@@ -32,6 +32,7 @@ class Profile(models.Model):
     country = models.CharField(max_length=200, blank=True)
     avatar = models.ImageField(default='avatar.png', upload_to='avatars/')
     friends = models.ManyToManyField(User, blank=True, related_name='friends')
+    following = models.ManyToManyField(User, blank=True, related_name='following')
     slug = models.SlugField(unique=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
