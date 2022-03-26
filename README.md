@@ -4,6 +4,9 @@ A social network type of project. Made with Django 4.0, a little bit of JS and A
 
 # To do/to add:
 
+Add follow user functionality;
+✓ Done (26.03.22)
+
 Hide posts of people that user doesn't follow/didn't add as a friend;
 ✓ Done (25.03.22)
 
@@ -20,8 +23,6 @@ Change user profile detail view so it shows posts in a better way;
 ✓ Done (24.03.22)
 
 Add search bar functionality;
-
-Add follow user functionality;
 
 # Preview:
 
