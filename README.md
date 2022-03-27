@@ -4,6 +4,9 @@ A social network type of project. Made with Django 4.0, a little bit of JS and A
 
 # To do/to add:
 
+Add search bar functionality;
+✓ Done (27.03.22)
+
 Add follow user functionality;
 ✓ Done (26.03.22)
 
@@ -22,18 +25,18 @@ Update the send invites view;
 Change user profile detail view so it shows posts in a better way;
 ✓ Done (24.03.22)
 
-Add search bar functionality;
-
 # Preview:
 
-![sn_1](https://user-images.githubusercontent.com/86254474/159959892-ee0156d4-2a27-4f24-9e4c-67289ec0e033.png)
+![sn_1](https://user-images.githubusercontent.com/86254474/160279062-78d2e0bd-5fe8-477f-a38d-b383467c6f2b.png)
 
-![sn_2](https://user-images.githubusercontent.com/86254474/159959898-6376fd36-f86e-46ad-a478-3272f2a279d2.png)
+![sn_2](https://user-images.githubusercontent.com/86254474/160279063-7a22f8b7-5839-48cf-8f47-a2eec225c189.png)
 
-![sn_3](https://user-images.githubusercontent.com/86254474/159959907-48101f45-c10e-4282-a5b4-701473e69e1c.png)
+![sn_3](https://user-images.githubusercontent.com/86254474/160279064-9b6923d4-fc6c-4111-a3b4-3570a597eed3.png)
 
-![sn_4](https://user-images.githubusercontent.com/86254474/159959920-d28b734c-c8d0-42fb-8802-9597ef9f5719.png)
+![sn_4](https://user-images.githubusercontent.com/86254474/160279065-e3821c9e-b077-4eb6-bf6b-46d39423a6b2.png)
 
-![sn_5](https://user-images.githubusercontent.com/86254474/159959931-379a3c72-5005-4af8-9e37-e0a97ee4963d.png)
+![sn_5](https://user-images.githubusercontent.com/86254474/160279067-ece9e1b2-c7e4-4d5e-9bec-f29f47bc7510.png)
 
-![sn_6](https://user-images.githubusercontent.com/86254474/159959943-a8ece538-f68d-4f3f-89ec-2dda689d2d4c.png)
+![sn_6](https://user-images.githubusercontent.com/86254474/160279068-4c0957c9-a7bb-4276-aef9-9f7850c34a1c.png)
+
+![sn_7](https://user-images.githubusercontent.com/86254474/160279071-c454da77-3e21-410b-8227-142ab236f43c.png)
