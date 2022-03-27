@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile, Relationship
@@ -97,6 +98,14 @@ def profile_list_view(request):
 
     return render(request, 'profiles/profile_list.html', context)
 
+@login_required
+def search_profiles(request):
+    if request.method == 'POST':
+        search = request.POST['search']
+        profiles = Profile.objects.filter(user__username__contains=search)
+        if search:
+            return render(request, 'profiles/search_profiles.html', {'search':search, 'profiles':profiles})
+    return render(request, 'profiles/search_profiles.html')
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
