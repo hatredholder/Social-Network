@@ -1,6 +1,8 @@
 # Social-Network
 
-A social network type of project. Made with Django 4.0, a little bit of JS and AJAX.
+A social network type of project. 
+
+Made with Django 4.0, a little bit of JS and AJAX.
 
 # To do/to add:
 
