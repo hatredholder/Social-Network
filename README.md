@@ -2,7 +2,9 @@
 
 A social network type of project. 
 
-Made with Django 4.0, a little bit of JS and AJAX.
+Frontend: CSS, Semantic UI 2.4.
+
+Backend: Django 4.0, JS and AJAX.
 
 # To do/to add:
 
