@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block title %}
@@ -31,69 +32,57 @@ My Profile
         </form>
     </div>
   </div>
-    
-<div class="ui segment">
-    {% if confirm %}
-        <div class="ui green message">Updated Successfully!</div>
-    {% endif %}
-    <h3>My Profile: {{request.user}}</h3>
-    <div class="ui grid">
-        <div class="row">
-            <div class="six wide column">
-                <img class="ui medium rounded image" src="{{profile.avatar.url}}">
-                <div class="row mt-5">
-                    <button class='ui secondary button' id='modal-btn'>Update your Profile</button>
+
+{% if confirm %}
+    <div class="ui green message">Updated Successfully!</div>
+{% endif %}
+
+    <div class='ui grid'>
+        <br>
+        <div class='row'>
+            <div class='four wide column'>
+                <img class='ui medium rounded image' src='{{profile.avatar.url}}'>
+                <h1>{{request.user}}</h1>
+                <div class='ui vertical fluid menu'>
+                    <div class='item'>
+                        Posts
+                        <div class='ui label'>{{profile.get_posts_no}}</div>
+                    </div>
+                    <div class='item'>
+                        Likes Given
+                        <div class='ui label'>{{profile.get_likes_given_no}}</div>
+                    </div>
+                    <div class='item'>
+                        Likes Received
+                        <div class='ui label'>{{profile.get_likes_received_no}}</div>
+                    </div><div class='item'>
+                        Friends
+                        <div class='ui label'>{{profile.friends.all.count}}</div>
+                    </div>
                 </div>
+                <button class='ui secondary button' id='modal-btn'>Update your Profile</button>
             </div>
-            <div class="ten wide column">
-                <table class="ui table">
-                    <tbody>
-                        <tr>
-                            <td>Username</td>
-                            <td>{{profile.user}}</td>
-                        </tr>
-                        <tr>
-                            <td>First Name</td>
-                            <td>{{profile.first_name}}</td>
-                        </tr>
-                        <tr>
-                            <td>Last Name</td>
-                            <td>{{profile.last_name}}</td>
-                        </tr>
-                        <tr>
-                            <td>Bio</td>
-                            <td>{{profile.bio}}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Friends</td>
-                            <td>{{profile.friends.all.count}}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Posts</td>
-                            <td>{{profile.get_posts_no}}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Likes Given</td>
-                            <td>{{profile.get_likes_given_no}}</td>
-                        </tr>
-                        <tr>
-                            <td>Number of Likes Received</td>
-                            <td>{{profile.get_likes_received_no}}</td>
-                        </tr>
-                        <tr>
-                            <td>Friend List</td>
-                            <td>
-                                <ul>
-                                    {% for friend in profile.friends.all %}
-                                        <li>{{friend}}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class='twelve wide column'>
+                {% if len_posts %}
+                    {% for post in posts  %}
+                        <div class='segment ui fluid'>
+                            <div class="post-content">
+                                <h3>Post #{{forloop.revcounter}}</h3>
+                                <small><strong>Updated {{post.updated|timesince}} ago</strong></small>
+                                <hr>
+                                {{post.content}}
+                            </div>
+                            {% if post.image %}
+                            <div class="post-image">
+                                <img class="img-src" src="{{post.image.url}}">
+                            </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h1>You havent made any posts yet..</h1>
+                {% endif %}
             </div>
         </div>
     </div>
-</div>
 {% endblock content %}
