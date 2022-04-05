@@ -22,7 +22,11 @@ Board
                     
                 </div>
                 <img class="ui avatar image" src={{obj.author.avatar.url}}> 
-                {{ obj.author.user }} - {{ obj.created|timesince}} ago
+                {% if request.user != obj.author.user %}
+                <a style="color:black" href="{{obj.author.get_absolute_url}}">{{ obj.author.user }}</a> - {{ obj.created|timesince}} ago
+                {% else %}
+                <a style="color:black" href="{% url 'profiles:my-profile-view' %}">{{ obj.author.user }}</a> - {{ obj.created|timesince}} ago
+                {% endif %}
             </div>
             <div class="ui fluid image">
                 {% if obj.image %}
