@@ -122,8 +122,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = User.objects.get(username__iexact=self.request.user)
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=self.request.user)
 
         following = profile.following.all
 
@@ -154,8 +153,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = User.objects.get(username__iexact=self.request.user)
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=self.request.user)
 
         following = profile.following.all
         rel_r = Relationship.objects.filter(sender=profile)

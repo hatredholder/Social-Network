@@ -103,8 +103,12 @@ WSGI_APPLICATION = 'pybook.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'gmmbpseb',
+        'USER':'gmmbpseb',
+        'PASSWORD':'u6hRaSgxkqUeyM8en_Y2-Wsdp0Yblj9t',
+        'HOST':'hattie.db.elephantsql.com',
+        'PORT':'5432',
     }
 }
 
