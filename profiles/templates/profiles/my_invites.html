@@ -21,12 +21,12 @@ Received Invites
                         <h3>{{obj.user}}</h3>
                         <p>{{obj.bio}}</p><br>
                         <a href=''>
-                            <button class="ui primary button w-big mb-5">See Profile</button>
+                            <button style="margin-top:10px; width:200px;" class="ui primary button w-big mb-5">See Profile</button>
                         </a>
                         <form action='{% url 'profiles:accept-invite' %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
-                            <button type='submit' class='ui positive basic button w-big mb-5'>
+                            <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button w-big mb-5'>
                                 <i class='check icon'></i>
                                 Accept Invite
                             </button>   
@@ -34,7 +34,7 @@ Received Invites
                         <form action='{% url 'profiles:reject-invite' %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
-                            <button type='submit' class='ui negative basic button w-big mb-5'>
+                            <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button w-big mb-5'>
                                 <i class='close icon'></i>
                                 Reject Invite
                             </button>

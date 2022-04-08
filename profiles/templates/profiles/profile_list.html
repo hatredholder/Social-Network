@@ -20,25 +20,29 @@ All Profiles
                     <div class='thirteen wide column'>
                         <h3>{{obj.user}}</h3>
                         <p>{{obj.bio}}</p>
-                        <a href='{{obj.get_absolute_url}}'><button class='ui primary button mb-5 w-big'>See Profile</button></a>
                         
+                        
+                    <div>
+                        <a href='{{obj.get_absolute_url}}'><button style="margin-top:10px; width:200px;" class='ui primary button mb-5 w-big'>See Profile</button></a>
                         {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
                         <form action='{% url "profiles:send-invite" %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
-                            <button type='submit' class='ui positive basic button mb-5 w-big'><i class='plus square icon'></i>Add Friend</button>
+                            <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'><i class='plus square icon'></i>Add Friend</button>
                         </form>
                         {% endif %}
 
                         {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
-                                <button class='ui disabled button mb-5 w-big'><i class='user icon'></i>Waiting for approval</button>
+                            <div>
+                                <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5'><i class='user icon'></i>Waiting for approval</button>
+                            </div>
                         {% endif %}
 
                         {% if request.user in obj.friends.all %}
                         <form action='{% url "profiles:remove-friend" %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
-                            <button type='submit' class='ui negative basic button mb-5 w-big'><i class='minus square icon'></i>Remove Friend</button>
+                            <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'><i class='minus square icon'></i>Remove Friend</button>
                         </form>
                         {% endif %}
 
@@ -46,16 +50,16 @@ All Profiles
                             <form action='{% url "profiles:follow-unfollow-view" %}' method='POST'>
                                 {% csrf_token %}
                                 <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
-                                <button type='submit' class='ui negative basic button mb-5 w-big'>Unfollow</button>
+                                <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>Unfollow</button>
                             </form>
                         {% else %}
                             <form action='{% url "profiles:follow-unfollow-view" %}' method='POST'>
                                 {% csrf_token %}
                                 <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
-                                <button type='submit' class='ui positive basic button mb-5 w-big'>Follow</button>
+                                <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>Follow</button>
                             </form>
                         {% endif %}
-
+                    </div>
                     </div>
                 </div>
             </div>
