@@ -47,9 +47,9 @@ def invites_received_view(request):
     return render(request, 'profiles/my_invites.html', context)
 
 @login_required
-def invite_profile_list_view(request):
+def sent_invites_view(request):
     user = request.user
-    qs = Profile.objects.get_all_profiles_to_invite(user)
+    qs = Profile.objects.get_all_sent_invites(user)
     context = {
         'qs':qs
     }

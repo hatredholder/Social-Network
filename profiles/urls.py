@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (invites_received_view, 
                     my_profile_view,  
-                    invite_profile_list_view, 
+                    sent_invites_view, 
                     remove_from_friends,
                     send_invitation,
                     accept_invitation,
@@ -19,7 +19,7 @@ urlpatterns = [
     path('myprofile/', my_profile_view, name='my-profile-view'),
     path('search/', search_profiles, name='search-profiles-view'),
     path('my_invites/', invites_received_view, name='my-invites-view'),
-    path('sent_invites/', invite_profile_list_view, name='sent-invites-view'),
+    path('sent_invites/', sent_invites_view, name='sent-invites-view'),
     path('switch_follow/', follow_unfollow_user, name='follow-unfollow-view'),
     path('send-invite/', send_invitation, name='send-invite'),
     path('remove-friend', remove_from_friends, name='remove-friend'),

@@ -3,13 +3,12 @@ from .utils import get_random_code
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-from django.db.models import Q
 
 class ProfileManager(models.Manager):
     
-    def get_all_profiles_to_invite(self, sender):
+    def get_all_sent_invites(self, sender):
         profile = Profile.objects.get(user=sender)
-        qs = Relationship.objects.filter(Q(sender=profile) | Q(receiver=profile))
+        qs = Relationship.objects.filter(sender=profile)
 
         accepted = set([])
 
