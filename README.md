@@ -6,6 +6,8 @@ Frontend: CSS, Semantic UI 2.4.
 
 Backend: Django 4.0, JS and AJAX.
 
+Database: PostgreSQL.
+
 # To do/to add:
 
 Add search bar functionality;
