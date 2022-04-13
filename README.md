@@ -8,7 +8,7 @@ Backend: Django 4.0, JS and AJAX.
 
 Database: PostgreSQL.
 
-# To Do/To add:
+# To Do/To Add:
 
 Add search bar functionality;
 ✓ Done (27.03.22)
