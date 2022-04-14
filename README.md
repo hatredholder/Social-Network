@@ -1,4 +1,4 @@
-# Social-Network
+# Social Network
 
 A social network type of project. 
 
