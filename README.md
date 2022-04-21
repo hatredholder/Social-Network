@@ -1,6 +1,6 @@
 # Social Network
 
-A social network type of project. 
+A Social Network type of project. 
 
 Frontend: CSS, Semantic UI 2.4.
 
