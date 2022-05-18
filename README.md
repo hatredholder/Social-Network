@@ -1,12 +1,14 @@
-# Social-Network
+# Social Network
 
-A social network type of project. 
+A Social Network type of project. 
 
 Frontend: CSS, Semantic UI 2.4.
 
 Backend: Django 4.0, JS and AJAX.
 
-# To do/to add:
+Database: PostgreSQL.
+
+# To Do/To Add:
 
 Add search bar functionality;
 ✓ Done (27.03.22)
