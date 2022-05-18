@@ -1,12 +1,14 @@
-from django.urls import reverse_lazy
-from .models import Post, Like
-from .forms import PostModelForm, CommentModelForm
-from django.shortcuts import redirect, render
-from profiles.models import Profile
-from django.views.generic import UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import DeleteView, UpdateView
+from profiles.models import Profile
+
+from .forms import CommentModelForm, PostModelForm
+from .models import Like, Post
+
 
 @login_required
 def post_comment_create_and_list_view(request):
@@ -38,6 +40,7 @@ def post_comment_create_and_list_view(request):
             instance.post = Post.objects.get(id=request.POST.get('post_id'))
             instance.save()
             c_form = CommentModelForm()
+
     context = {
         'qs':qs,
         'profile':profile,
@@ -45,6 +48,7 @@ def post_comment_create_and_list_view(request):
         'c_form':c_form,
         'post_added':post_added
     }
+    
     return render(request, 'posts/main.html', context)
 
 @login_required
