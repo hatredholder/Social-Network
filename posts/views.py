@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView
 from profiles.models import Profile
 
-from .forms import CommentModelForm, PostModelForm
+from .forms import CommentModelForm, PostModelForm, PostUpdateModelForm
 from .models import Like, Post
 
 
@@ -91,7 +91,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         return obj
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
-    form_class = PostModelForm
+    form_class = PostUpdateModelForm
     model = Post
     template_name = 'posts/update.html'
     success_url = reverse_lazy('posts:main-post-view')
