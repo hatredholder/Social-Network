@@ -1,8 +1,10 @@
-from django.shortcuts import reverse
-from .utils import get_random_code
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+from django.shortcuts import reverse
 from django.template.defaultfilters import slugify
+
+from .utils import get_random_code
+
 
 class ProfileManager(models.Manager):
     
@@ -110,3 +112,13 @@ class Relationship(models.Model):
 
     def __str__(self):
         return  f"{self.sender}-{self.receiver}-{self.status}"
+
+class Message(models.Model):
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    content = models.TextField(max_length=200)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return  str(self.content)

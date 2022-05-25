@@ -144,8 +144,6 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 class ProfileListView(LoginRequiredMixin, ListView):
     model = Profile
     template_name = 'profiles/profile_list.html'
-    # context_object_name = 'qs'
-
 
     def get_queryset(self):
         qs = Profile.objects.get_all_profiles(self.request.user)
@@ -168,6 +166,24 @@ class ProfileListView(LoginRequiredMixin, ListView):
         context['rel_sender'] = rel_sender
         context['is_empty'] = False
         context['following'] = following
+        if len(self.get_queryset()) == 0:
+            context['is_empty'] = True
+
+        return context
+
+class MessengerListView(LoginRequiredMixin, ListView):
+    model = Profile
+    template_name = 'profiles/messenger.html'
+
+    def get_queryset(self):
+        qs = Profile.objects.get(user=self.request.user)
+        print(qs.friends.all())
+        return qs.friends.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['is_empty'] = False
         if len(self.get_queryset()) == 0:
             context['is_empty'] = True
 
