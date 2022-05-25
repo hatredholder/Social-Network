@@ -11,7 +11,6 @@ Database: PostgreSQL.
 # To Do/To Add:
 
 Add delete comment functionality;
-✓ Done (27.03.22)
 
 Add search bar functionality;
 ✓ Done (27.03.22)
