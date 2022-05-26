@@ -10,6 +10,8 @@ Database: PostgreSQL.
 
 # To Do/To Add:
 
+Add messenger/chat functionality;
+
 Add delete comment functionality;
 
 Add a "my friends" button in navbar;
