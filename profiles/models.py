@@ -114,11 +114,11 @@ class Relationship(models.Model):
         return  f"{self.sender}-{self.receiver}-{self.status}"
 
 class Message(models.Model):
-    sender = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='message_sender')
+    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='message_receiver')
     content = models.TextField(max_length=200)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return  str(self.content)
+        return  str(self.content) + f" - {self.sender}"

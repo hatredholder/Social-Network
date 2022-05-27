@@ -5,6 +5,7 @@
 {% url 'profiles:my-invites-view' as path_to_my_invites %}
 {% url 'profiles:sent-invites-view' as path_to_invites %}
 {% url 'profiles:all-profiles-view' as path_to_all_profiles %}
+{% url 'profiles:messenger-list-view' as path_to_messenger %}
 
 
 <div class="ui inverted menu nav mb-7">
@@ -15,6 +16,12 @@
       {% if request.user.is_authenticated %}
       <a href="{{path_to_posts}}" class="{% if request.path == path_to_posts %}active{% endif %} item">
           Board
+      </a>
+      {% endif %}
+
+      {% if request.user.is_authenticated %}
+      <a href="{{path_to_messenger}}" class="{% if request.path == path_to_messenger %}active{% endif %} item">
+          Messenger
       </a>
       {% endif %}
   

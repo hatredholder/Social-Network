@@ -177,7 +177,6 @@ class MessengerListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = Profile.objects.get(user=self.request.user)
-        print(qs.friends.all())
         return qs.friends.all()
 
     def get_context_data(self, **kwargs):
