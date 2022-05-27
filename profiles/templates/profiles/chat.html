@@ -5,7 +5,7 @@
 {% endblock title %}
 
 {% block content %}
-    {% for message in qs %}
-        {{message}} ,
+    {% for key,message in qs.items %}
+        {{ message }}
     {% endfor %}
 {% endblock content %}

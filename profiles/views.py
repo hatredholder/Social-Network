@@ -191,10 +191,18 @@ class ChatMessageView(LoginRequiredMixin, ListView):
     model = Message
     template_name = 'profiles/chat.html'
 
+    def get_object(self):
+        pk = self.kwargs.get("pk")
+        profile = Profile.objects.get(pk=pk)
+        return profile
+
+
     def get_queryset(self):
-        qs = Message.objects.filter(sender=Profile.objects.get(user=self.request.user))
-        print(qs)
-        return qs
+        sent = list(Message.objects.filter(sender=Profile.objects.get(user=self.request.user)).values_list('content', flat=True))
+        received = list(Message.objects.filter(sender=self.get_object()).values_list('content', flat=True))
+
+        print({'sent':sent , 'received':received})
+        return {'sent':sent , 'received':received}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
