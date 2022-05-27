@@ -121,4 +121,4 @@ class Message(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return  str(self.content) + f" - {self.sender}"
+        return  str(self.content)

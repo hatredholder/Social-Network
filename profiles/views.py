@@ -1,11 +1,10 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView
-from django.contrib.auth.models import User
 from django.db.models import Q
-from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Profile, Relationship
+
+from .models import Message, Profile, Relationship
 from .forms import ProfileModelForm
 
 
@@ -183,6 +182,25 @@ class MessengerListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         context['is_empty'] = False
+        if len(self.get_queryset()) == 0:
+            context['is_empty'] = True
+
+        return context
+
+class ChatMessageView(LoginRequiredMixin, ListView):
+    model = Message
+    template_name = 'profiles/chat.html'
+
+    def get_queryset(self):
+        qs = Message.objects.filter(sender=Profile.objects.get(user=self.request.user))
+        print(qs)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['is_empty'] = False
+        context['qs'] = self.get_queryset()
         if len(self.get_queryset()) == 0:
             context['is_empty'] = True
 
