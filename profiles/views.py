@@ -203,10 +203,8 @@ class ChatMessageView(LoginRequiredMixin, ListView):
         sent = Message.objects.filter(sender=Profile.objects.get(user=self.request.user), receiver=self.get_object())
         received = Message.objects.filter(sender=self.get_object(), receiver=Profile.objects.get(user=self.request.user))
         messages = sent | received
-        ordered_messages = list(messages.order_by('created').values_list('content', flat=True))
+        ordered_messages = list(messages.order_by('-created').values_list('content', flat=True))
 
-        print(ordered_messages)
-        # return {'sent':sent, 'received':received}
         return(ordered_messages)
 
     def get_context_data(self, **kwargs):

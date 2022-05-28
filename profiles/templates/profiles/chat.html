@@ -7,9 +7,23 @@
 {% block content %}
     {% for message in qs %}
         {% if message in received %}
-            <h6>RECEIVED: {{message}}</h6>
+            <div class='ui grid'>
+                <br>
+                <div class='row'>
+                    <div class='left floated four wide column'>
+                        <div class="ui blue large message">{{message}}</div>
+                    </div>
+                </div>
+            </div>
         {% else %}
-            <h1>SENT: {{message}}</h1>
+            <div class='ui grid'>
+                <br>
+                <div class='row'>
+                    <div class='right floated  four wide column'>
+                        <div class="ui left floated red large message">{{message}}</div>
+                    </div>
+                </div>
+            </div>
         {% endif%}
     {% endfor %}
 {% endblock content %}
