@@ -10,7 +10,7 @@ Database: PostgreSQL.
 
 # To Do/To Add:
 
-* Add messenger/chat functionality; *
+!! Add messenger/chat functionality; !!
 
 Add delete comment functionality;
 
