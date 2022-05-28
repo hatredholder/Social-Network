@@ -5,7 +5,11 @@
 {% endblock title %}
 
 {% block content %}
-    {% for key,message in qs.items %}
-        {{ message }}
+    {% for message in qs %}
+        {% if message in received %}
+            <h6>RECEIVED: {{message}}</h6>
+        {% else %}
+            <h1>SENT: {{message}}</h1>
+        {% endif%}
     {% endfor %}
 {% endblock content %}

@@ -1,3 +1,5 @@
+from email import message
+from django.dispatch import receiver
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
@@ -198,17 +200,21 @@ class ChatMessageView(LoginRequiredMixin, ListView):
 
 
     def get_queryset(self):
-        sent = list(Message.objects.filter(sender=Profile.objects.get(user=self.request.user)).values_list('content', flat=True))
-        received = list(Message.objects.filter(sender=self.get_object()).values_list('content', flat=True))
+        sent = Message.objects.filter(sender=Profile.objects.get(user=self.request.user), receiver=self.get_object())
+        received = Message.objects.filter(sender=self.get_object(), receiver=Profile.objects.get(user=self.request.user))
+        messages = sent | received
+        ordered_messages = list(messages.order_by('created').values_list('content', flat=True))
 
-        print({'sent':sent , 'received':received})
-        return {'sent':sent , 'received':received}
+        print(ordered_messages)
+        # return {'sent':sent, 'received':received}
+        return(ordered_messages)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         context['is_empty'] = False
         context['qs'] = self.get_queryset()
+        context['received'] = list(Message.objects.filter(sender=self.get_object(), receiver=Profile.objects.get(user=self.request.user)).values_list('content', flat=True))
         if len(self.get_queryset()) == 0:
             context['is_empty'] = True
 
