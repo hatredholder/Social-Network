@@ -16,8 +16,6 @@ Add delete comment functionality;
 
 Add a "my friends" button in navbar;
 
-Add a "send message" button in all profiles page;
-
 Add search bar functionality;
 ✓ Done (27.03.22)
 
