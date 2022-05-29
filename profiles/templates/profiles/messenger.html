@@ -5,18 +5,17 @@
 {% endblock title %}
 
 {% block content %}
-
+    <h1 style="text-align:center">All your friends will show up here</h1>
     {% if is_empty  %}
         <h1>You have not yet added any friends</h1>
     {% endif %}
-
     {% for obj in object_list %}
         <div class='ui segment'>
             <div class='ui grid'>
                 <div class='row'>
                     <div class='four wide column'>
                         <h3>{{obj}}</h3> 
-                        <a href='{{obj.get_absolute_url}}'><button style="margin-top:10px; width:200px;" class='ui teal button mb-5 w-big'>Open Chat</button></a>   
+                        <a href='chat/{{obj.pk}}'><button style="margin-top:10px; width:200px;" class='ui teal button mb-5 w-big'>Open Chat</button></a>   
                     </div>
                     </div>
                 </div>
