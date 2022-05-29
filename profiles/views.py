@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Message, Profile, Relationship
-from .forms import ProfileModelForm
+from .forms import MessageModelForm, ProfileModelForm
 
 
 @login_required
@@ -192,6 +192,18 @@ class MessengerListView(LoginRequiredMixin, ListView):
 class ChatMessageView(LoginRequiredMixin, ListView):
     model = Message
     template_name = 'profiles/chat.html'
+    form_class = MessageModelForm
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.sender = Profile.objects.get(user=self.request.user)
+            instance.receiver = self.get_object()
+            instance.save()
+            return redirect(f"http://127.0.0.1:8000/profiles/chat/{self.kwargs.get('pk')}/")
+        else:
+            return redirect(f"http://127.0.0.1:8000/profiles/chat/{self.kwargs.get('pk')}/")
 
     def get_object(self):
         pk = self.kwargs.get("pk")
@@ -210,6 +222,8 @@ class ChatMessageView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context['profile'] = self.get_object()
+        context['form'] = self.form_class
         context['is_empty'] = False
         context['qs'] = self.get_queryset()
         context['received'] = list(Message.objects.filter(sender=self.get_object(), receiver=Profile.objects.get(user=self.request.user)).values_list('content', flat=True))

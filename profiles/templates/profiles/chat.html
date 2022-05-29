@@ -5,6 +5,14 @@
 {% endblock title %}
 
 {% block content %}
+    <h3 style="text-align: center">Chat with {{profile}}</h3>
+    <form action="" method="POST"class='ui fluid form'>
+        {% csrf_token %}
+        <input type="hidden" name="post_id" value={{obj.id}}>
+        {{ form }}
+        <button type="submit" name="submit_c_form" class="ui primary button mt-5 w-full">Send</button>
+    </form>
+    <br>
     {% for message in qs %}
         {% if message in received %}
             <div class='ui grid'>
@@ -24,6 +32,6 @@
                     </div>
                 </div>
             </div>
-        {% endif%}
+        {% endif %}
     {% endfor %}
 {% endblock content %}
