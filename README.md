@@ -11,6 +11,7 @@ Database: PostgreSQL.
 # To Do/To Add:
 
 !! Add messenger/chat functionality; !!
+✓ Done (29.05.22)
 
 Add delete comment functionality;
 
