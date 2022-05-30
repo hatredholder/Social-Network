@@ -16,6 +16,7 @@ Database: PostgreSQL.
 Add delete comment functionality;
 
 Add a "my friends" button in navbar;
+✓ Done (30.05.22)
 
 Add search bar functionality;
 ✓ Done (27.03.22)
