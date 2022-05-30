@@ -104,6 +104,19 @@ def profile_list_view(request):
     return render(request, 'profiles/profile_list.html', context)
 
 @login_required
+def my_friends_view(request):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    qs = Profile.objects.get_my_friends_profiles(user)
+    
+    context = {
+        'qs':qs,
+        'following':profile.following.all()
+    }
+
+    return render(request, 'profiles/my_friends.html', context)
+
+@login_required
 def search_profiles(request):
     if request.method == 'POST':
         search = request.POST['search']

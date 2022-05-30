@@ -24,6 +24,16 @@ class ProfileManager(models.Manager):
         profiles = Profile.objects.all().exclude(user=me)
         return profiles
 
+    def get_my_friends_profiles(self, me):
+        users = Profile.objects.get(user=me).friends.all()
+
+        result = []
+
+        for friend in users:
+            result.append(Profile.objects.get(user=friend))
+
+        return result
+
 class Profile(models.Model):
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)

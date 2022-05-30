@@ -3,6 +3,7 @@
 {% url 'posts:main-post-view' as path_to_posts %}
 {% url 'profiles:my-profile-view' as path_to_my_profile %}
 {% url 'profiles:my-invites-view' as path_to_my_invites %}
+{% url 'profiles:my-friends-view' as path_to_my_friends %}
 {% url 'profiles:sent-invites-view' as path_to_invites %}
 {% url 'profiles:all-profiles-view' as path_to_all_profiles %}
 {% url 'profiles:messenger-list-view' as path_to_messenger %}
@@ -34,11 +35,11 @@
                       <a href="{{path_to_all_profiles}}" class="{% if request.path == path_to_all_profiles %}active{% endif %} item">
                           All Profiles
                       </a>
-                      <a href="{{path_to_invites}}" class="{% if request.path == path_to_invites %}active{% endif %} item">
-                          Sent Invites
-                      </a>
+                      <a href="{{path_to_my_friends}}" class="{% if request.path == path_to_my_friends %}active{% endif %} item">
+                        My Friends
+                    </a>
                       <a href="{{path_to_my_invites}}" class="{% if request.path == path_to_my_invites %}active{% endif %} item">
-                          Received Invites &nbsp; <div class="ui purple horizontal label">{{invites_num}}</div>
+                          Invites &nbsp; <div class="ui purple horizontal label">{{invites_num}}</div>
                       </a>
                   </div>
                </div>
