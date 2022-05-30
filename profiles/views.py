@@ -116,6 +116,13 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'profiles/detail.html'
     
+    def get(self, request, *args, **kwargs):
+        if Profile.objects.get(user=self.request.user) == self.get_object():
+            return redirect("profiles:my-profile-view")
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+    
     def get_object(self):
         slug = self.kwargs.get('slug')
         profile = Profile.objects.get(slug=slug)
