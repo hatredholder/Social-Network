@@ -62,9 +62,10 @@
                         <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>Follow</button>
                     </form>
                 {% endif %}
-
-                <button style="margin-top:10px; width:200px;" type='submit' class='ui info teal basic button mb-5 w-big'>Send a Message</button>
-
+                
+                {% if request.user in object.friends.all %}
+                    <a href="http://127.0.0.1:8000/profiles/chat/{{object.pk}}/"><button style="margin-top:10px; width:200px;" type='submit' class='ui info teal basic button mb-5 w-big'>Send a Message</button></a>
+                {% endif %}
             </div>
             <div class='twelve wide column'>
                 {% if len_posts %}
