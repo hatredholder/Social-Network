@@ -71,7 +71,7 @@
                     
                         <div class="ui segment mb-5">
                             <img class="ui avatar image" src={{c.user.avatar.url}}>
-                            <span>{{ c.user }} - {{c.created|timesince}} ago</span>
+                            <span><a href="{{c.user.get_absolute_url}}">{{ c.user }}</a> - {{c.created|timesince}} ago</span>
                             <div class='mt-5'>{{ c.body }}</div>
                         </div>
                     
