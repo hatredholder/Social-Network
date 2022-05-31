@@ -60,7 +60,7 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.body)
 
 LIKE_CHOICES = (
     ('Like', 'Like'),

@@ -1,3 +1,4 @@
+from xml.etree.ElementTree import Comment
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,7 +8,7 @@ from django.views.generic import DeleteView, UpdateView
 from profiles.models import Profile
 
 from .forms import CommentModelForm, PostModelForm, PostUpdateModelForm
-from .models import Like, Post
+from .models import Like, Post, Comment
 
 
 @login_required
@@ -88,6 +89,18 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         obj = Post.objects.get(pk=pk)
         if not obj.author.user == self.request.user:
             messages.warning(self.request, 'You need to be the author of the post to be able to delete it')
+        return obj
+
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    template_name = 'posts/confirm_delete.html'
+    success_url = reverse_lazy('posts:main-post-view')
+
+    def get_object(self, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        obj = Comment.objects.get(pk=pk)
+        if not obj.user.user == self.request.user:
+            messages.warning(self.request, 'You need to be the author of the comment to be able to delete it')
         return obj
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):

@@ -67,8 +67,11 @@
                     
                         <div class="ui segment mb-5">
                             <img class="ui avatar image" src={{c.user.avatar.url}}>
-                            <span><a href="{{c.user.get_absolute_url}}">{{ c.user }}</a> - {{c.created|timesince}} ago</span>
-                            <div class='mt-5'>{{ c.body }}</div>
+                            <span style="color:black"><a style="color:black" href="{{c.user.get_absolute_url}}">{{ c.user }}</a> - {{c.created|timesince}} ago</span>
+                            <div style="color:black" class='mt-5'>{{ c.body }}</div>
+                            {% if c.user.user == request.user %}
+                                <a href="{% url 'posts:comment-delete' c.pk %}"><p style="text-align:right; color:red">Delete</p></a>
+                            {% endif %}
                         </div>
                     
                     {% endfor %}
