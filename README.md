@@ -13,7 +13,8 @@ Database: PostgreSQL.
 !! Add messenger/chat functionality; !!
 ✓ Done (29.05.22)
 
-Add delete comment functionality; ✓ Done (30.05.22)
+Add delete comment functionality; 
+✓ Done (30.05.22)
 
 Add a "my friends" button in navbar;
 ✓ Done (30.05.22)
