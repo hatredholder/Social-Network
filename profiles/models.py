@@ -12,7 +12,7 @@ class ProfileManager(models.Manager):
         profile = Profile.objects.get(user=sender)
         qs = Relationship.objects.filter(sender=profile)
 
-        accepted = set([])
+        accepted = set()
 
         for rel in qs:
             if rel.status == "sent" or rel.status == "received":
