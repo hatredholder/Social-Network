@@ -1,5 +1,3 @@
-from email import message
-from django.dispatch import receiver
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
