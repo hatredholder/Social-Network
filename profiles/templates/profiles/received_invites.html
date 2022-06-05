@@ -6,6 +6,11 @@
 
 {% block content %}
 
+    <div class="ui two top attached buttons">
+        <div class="ui button active">Received Invites</div>
+        <div class="ui button">Sent Invites</div>
+    </div>
+
     {% if is_empty %}
         <h1>No invitations here..</h1>
     {% endif %}

@@ -32,7 +32,7 @@ def my_profile_view(request):
     return render(request, 'profiles/my_profile.html', context)
 
 @login_required
-def invites_received_view(request):
+def received_invites_view(request):
     profile = Profile.objects.get(user=request.user)
     qs = Relationship.objects.invitations_received(profile)
     results = list(map(lambda x: x.sender, qs))
@@ -43,7 +43,7 @@ def invites_received_view(request):
         'qs':results,
         'is_empty':is_empty,
     }
-    return render(request, 'profiles/my_invites.html', context)
+    return render(request, 'profiles/received_invites.html', context)
 
 @login_required
 def sent_invites_view(request):
