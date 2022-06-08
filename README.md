@@ -1,6 +1,6 @@
 # Social Network
 
-A Social Network type of project written in Django.
+A Social Network type of project called Pybook written in Django.
 
 Frontend: CSS, Semantic UI 2.4.
 
