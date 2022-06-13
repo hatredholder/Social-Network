@@ -66,6 +66,7 @@ def follow_unfollow_user(request):
         else:
             my_profile.following.add(obj.user)
         return redirect(request.META.get('HTTP_REFERER'))
+
     return redirect('posts:main-post-view')
 
 @login_required
