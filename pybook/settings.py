@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-m7-h$^4_$+e5%8=*nc#1j^i_y&$k^kinrn=#w8xb5p!tzwhi!2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://hatredholder-social-network.herokuapp.com/', 'localhost']
 
 
 # Application definition
