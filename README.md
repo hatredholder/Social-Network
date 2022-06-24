@@ -35,6 +35,8 @@ Database: PostgreSQL.
 
 # To Do/To Add
 
+- [ ]  Make navbar sticky;
+
 - [x]  Add delete comment functionality; 
 
 - [x]  Add a "my friends" button in navbar;
