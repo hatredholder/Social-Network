@@ -12,7 +12,7 @@ A Social Network type of project called Pybook written in Django.
 - Adding as a Friend
 - Like and Comment on Posts
 - Messaging between Users
-- Notifications on Friend requests
+- Notifications on Friend Requests
 - Search Users
 
 ## Preview
