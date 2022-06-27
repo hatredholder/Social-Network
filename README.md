@@ -39,8 +39,6 @@ Database: PostgreSQL.
 
 - [x]  Add delete comment functionality; 
 
-- [x]  Add a "my friends" button in navbar;
-
 - [x]  Add messenger/chat functionality;
 
 - [x]  Add search bar functionality;
@@ -52,7 +50,5 @@ Database: PostgreSQL.
 - [x]  Change user appearence in comments;
 
 - [x]  Add a welcome page for non-authorized users;
-
-- [x]  Update the send invites view;
 
 - [x]  Change user profile detail view so it shows posts in a better way;
