@@ -1,11 +1,11 @@
-from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import ListView, DetailView
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import DetailView, ListView
 
-from .models import Message, Profile, Relationship
 from .forms import MessageModelForm, ProfileModelForm
+from .models import Message, Profile, Relationship
 
 
 @login_required

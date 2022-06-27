@@ -7,7 +7,7 @@ from django.views.generic import DeleteView, UpdateView
 from profiles.models import Profile
 
 from .forms import CommentModelForm, PostModelForm, PostUpdateModelForm
-from .models import Like, Post, Comment
+from .models import Comment, Like, Post
 
 
 @login_required
