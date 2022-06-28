@@ -23,7 +23,7 @@ A Social Network type of project called Pybook written in Django.
 
 1. Clone this repository
 2. Start a new Virtualenv, activate it, type in console `pip install -r requirements.txt`
-3. Run the Django server by typing in console `py manage.py runserver`
+3. Run the Django Server by typing in console `py manage.py runserver`
 
 ## Technologies
 
