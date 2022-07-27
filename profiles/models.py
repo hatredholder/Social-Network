@@ -7,7 +7,6 @@ from .utils import get_random_code
 
 
 class ProfileManager(models.Manager):
-    
     def get_all_sent_invites(self, sender):
         profile = Profile.objects.get(user=sender)
         qs = Relationship.objects.filter(sender=profile)
