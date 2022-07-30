@@ -1,3 +1,4 @@
+// Open / hide post comment
 $(document).ready(function(){
     $('#modal-btn').click(function(){
         $('.ui.modal')
