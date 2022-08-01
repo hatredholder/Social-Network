@@ -1,18 +1,10 @@
 from django.urls import path
-from .views import (received_invites_view, 
-                    my_profile_view,  
-                    sent_invites_view, 
-                    remove_from_friends,
-                    send_invitation,
-                    accept_invitation,
-                    reject_invitation,
-                    follow_unfollow_user,
-                    search_profiles,
-                    my_friends_view,
-                    ProfileListView,
-                    ProfileDetailView,
-                    MessengerListView,
-                    ChatMessageView,)
+
+from .views import (ChatMessageView, MessengerListView, ProfileDetailView,
+                    ProfileListView, accept_invitation, follow_unfollow_user,
+                    my_friends_view, my_profile_view, received_invites_view,
+                    reject_invitation, remove_from_friends, search_profiles,
+                    send_invitation, sent_invites_view)
 
 app_name = 'profiles'
 
