@@ -7,9 +7,9 @@ A Social Network type of project called Pybook written in Django.
 ## Features
 
 - Authentication
+- Adding as a Friend
 - Post feed
 - Profile Pages
-- Adding as a Friend
 - Like and Comment on Posts
 - Messaging between Users
 - Notifications on Friend Requests
