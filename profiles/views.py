@@ -6,11 +6,12 @@ from django.views.generic import DetailView, ListView
 
 from .forms import MessageModelForm, ProfileModelForm
 from .models import Message, Profile, Relationship
+from .views_utils import get_request_user_profile
 
 
 @login_required
 def my_profile_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = get_request_user_profile(request.user)
     form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
     confirm = False
     posts = profile.get_all_authors_posts()
@@ -33,7 +34,7 @@ def my_profile_view(request):
 
 @login_required
 def received_invites_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = get_request_user_profile(request.user)
     qs = Relationship.objects.invitations_received(profile)
     results = list(map(lambda x: x.sender, qs))
     is_empty = False
@@ -57,7 +58,7 @@ def sent_invites_view(request):
 
 def follow_unfollow_user(request):
     if request.method == 'POST':
-        my_profile = Profile.objects.get(user=request.user)
+        my_profile = get_request_user_profile(request.user)
         pk = request.POST.get('profile_pk')
         obj = Profile.objects.get(pk=pk)
 
@@ -74,7 +75,7 @@ def accept_invitation(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
         sender = Profile.objects.get(pk=pk)
-        receiver = Profile.objects.get(user=request.user)
+        receiver = get_request_user_profile(request.user)
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         if rel.status == 'sent':
             rel.status = 'accepted'
@@ -86,7 +87,7 @@ def reject_invitation(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
         sender = Profile.objects.get(pk=pk)
-        receiver = Profile.objects.get(user=request.user)
+        receiver = get_request_user_profile(request.user)
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         rel.delete()
     return redirect('profiles:my-invites-view')
