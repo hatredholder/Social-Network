@@ -43,13 +43,17 @@ def received_invites_view(request):
     profile = get_request_user_profile(request.user)
     qs = Relationship.objects.invitations_received(profile)
     results = list(map(lambda x: x.sender, qs))
+    
     is_empty = False
+
     if len(results) == 0:
         is_empty = True
+
     context = {
         'qs':results,
         'is_empty':is_empty,
     }
+
     return render(request, 'profiles/received_invites.html', context)
 
 @login_required
