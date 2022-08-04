@@ -11,11 +11,17 @@ from .views_utils import get_request_user_profile
 
 @login_required
 def my_profile_view(request):
+    """
+    Shows request's user profile.
+    View url: /profiles/myprofile
+    """
     profile = get_request_user_profile(request.user)
     form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
-    confirm = False
+    
     posts = profile.get_all_authors_posts()
     len_posts = True if len(profile.get_all_authors_posts()) > 0 else False
+
+    confirm = False
 
     if request.method == 'POST':
         if form.is_valid():
@@ -25,9 +31,9 @@ def my_profile_view(request):
     context = {
         'profile':profile,
         'form':form,
-        'confirm':confirm,
         'posts':posts,
         'len_posts':len_posts,
+        'confirm':confirm,
     }
 
     return render(request, 'profiles/my_profile.html', context)
