@@ -9,3 +9,8 @@ def get_received_invites(profile):
     qs = Relationship.objects.invitations_received(profile)
     results = list(map(lambda x: x.sender, qs))
     return results
+
+def get_sent_invites(profile):
+    qs = Relationship.objects.invitations_sent(profile)
+    results = list(map(lambda x: x.receiver, qs))
+    return results

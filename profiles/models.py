@@ -110,6 +110,10 @@ class RelationshipManager(models.Manager):
         qs = Relationship.objects.filter(receiver=receiver, status='sent')
         return qs
 
+    def invitations_sent(self, sender):
+        qs = Relationship.objects.filter(sender=sender, status='sent')
+        return qs
+
 class Relationship(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')

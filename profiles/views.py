@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView
 
 from .forms import MessageModelForm, ProfileModelForm
 from .models import Message, Profile, Relationship
-from .views_utils import get_request_user_profile, get_received_invites
+from .views_utils import get_received_invites, get_request_user_profile, get_sent_invites
 
 
 @login_required
@@ -61,13 +61,24 @@ def received_invites_view(request):
 
 @login_required
 def sent_invites_view(request):
-    user = request.user
-    qs = Profile.objects.get_all_sent_invites(user)
+    """
+    Shows request's user sent invites.
+    View url: /profiles/sent_invites
+    """
+    profile = get_request_user_profile(request.user)
+    qs = get_sent_invites(profile)
+
+    is_empty = False
+
+    if len(qs) == 0:
+        is_empty = True
+
     context = {
-        'qs':qs
+        'qs':qs,
+        'is_empty':is_empty,
     }
 
-    return render(request, 'profiles/sent_invites_list.html', context)
+    return render(request, 'profiles/sent_invites.html', context)
 
 def follow_unfollow_user(request):
     if request.method == 'POST':
