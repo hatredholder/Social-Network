@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView
 
 from .forms import MessageModelForm, ProfileModelForm
 from .models import Message, Profile, Relationship
-from .views_utils import get_request_user_profile
+from .views_utils import get_request_user_profile, get_received_invites
 
 
 @login_required
@@ -40,17 +40,20 @@ def my_profile_view(request):
 
 @login_required
 def received_invites_view(request):
+    """
+    Shows request's user received invites.
+    View url: /profiles/received_invites
+    """
     profile = get_request_user_profile(request.user)
-    qs = Relationship.objects.invitations_received(profile)
-    results = list(map(lambda x: x.sender, qs))
+    qs = get_received_invites(profile)
     
     is_empty = False
 
-    if len(results) == 0:
+    if len(qs) == 0:
         is_empty = True
 
     context = {
-        'qs':results,
+        'qs':qs,
         'is_empty':is_empty,
     }
 

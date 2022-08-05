@@ -1,9 +1,11 @@
-from .models import Profile
+from .models import Profile, Relationship
 
 
 def get_request_user_profile(request_user):
-    """
-    Gets Profile model with request.user
-    """
     user = Profile.objects.get(user=request_user)
     return user
+
+def get_received_invites(profile):
+    qs = Relationship.objects.invitations_received(profile)
+    results = list(map(lambda x: x.sender, qs))
+    return results
