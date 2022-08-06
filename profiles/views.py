@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView
 
 from .forms import MessageModelForm, ProfileModelForm
 from .models import Message, Profile, Relationship
-from .views_utils import get_received_invites, get_request_user_profile, get_sent_invites, get_profile_by_pk
+from .views_utils import get_received_invites, get_request_user_profile, get_sent_invites, get_profile_by_pk, follow_unfollow
 
 
 @login_required
@@ -81,19 +81,14 @@ def sent_invites_view(request):
     return render(request, 'profiles/sent_invites.html', context)
 
 @login_required
-def follow_unfollow_user(request):
+def switch_follow_user(request):
     if request.method == 'POST':
         my_profile = get_request_user_profile(request.user)
         profile = get_profile_by_pk(request)
 
-        if profile.user in my_profile.following.all():
-            my_profile.following.remove(profile.user)
-        else:
-            my_profile.following.add(profile.user)
+        follow_unfollow(my_profile, profile)
 
         return redirect(request.META.get('HTTP_REFERER'))
-
-    return redirect('posts:main-post-view')
 
 @login_required
 def accept_invitation(request):

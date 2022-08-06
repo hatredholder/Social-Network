@@ -19,3 +19,9 @@ def get_sent_invites(profile):
     qs = Relationship.objects.invitations_sent(profile)
     results = list(map(lambda x: x.receiver, qs))
     return results
+
+def follow_unfollow(my_profile, profile):
+    if profile.user in my_profile.following.all():
+        my_profile.following.remove(profile.user)
+    else:
+        my_profile.following.add(profile.user)

@@ -1,10 +1,10 @@
 from django.urls import path
 
 from .views import (ChatMessageView, MessengerListView, ProfileDetailView,
-                    ProfileListView, accept_invitation, follow_unfollow_user,
-                    my_friends_view, my_profile_view, received_invites_view,
-                    reject_invitation, remove_from_friends, search_profiles,
-                    send_invitation, sent_invites_view)
+                    ProfileListView, accept_invitation, my_friends_view,
+                    my_profile_view, received_invites_view, reject_invitation,
+                    remove_from_friends, search_profiles, send_invitation,
+                    sent_invites_view, switch_follow_user)
 
 app_name = 'profiles'
 
@@ -18,7 +18,7 @@ urlpatterns = [
     path('my_friends/', my_friends_view, name='my-friends-view'),
     path('received_invites/', received_invites_view, name='received-invites-view'),
     path('sent_invites/', sent_invites_view, name='sent-invites-view'),
-    path('switch_follow/', follow_unfollow_user, name='follow-unfollow-view'),
+    path('switch_follow/', switch_follow_user, name='follow-unfollow-view'),
     path('send-invite/', send_invitation, name='send-invite'),
     path('remove-friend', remove_from_friends, name='remove-friend'),
     path('my_invites/accept', accept_invitation, name='accept-invite'),
