@@ -8,7 +8,7 @@ from .forms import MessageModelForm, ProfileModelForm
 from .models import Message, Profile, Relationship
 from .views_utils import (follow_unfollow, get_profile_by_pk,
                           get_received_invites, get_request_user_profile,
-                          get_sent_invites)
+                          get_sent_invites, redirect_back)
 
 
 @login_required
@@ -94,7 +94,7 @@ def switch_follow_user(request):
 
         follow_unfollow(my_profile, profile)
 
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect_back(request)
 
 @login_required
 def accept_invitation(request):
@@ -156,7 +156,7 @@ def send_invitation(request):
 
         rel = Relationship.objects.create(sender=sender, receiver=receiver, status='sent')
 
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect_back(request)
     return redirect('profiles:my-profile-view')
 
 @login_required
@@ -169,7 +169,7 @@ def remove_from_friends(request):
             (Q(sender=sender) & Q(receiver=receiver)) or (Q(sender=receiver) & Q(receiver=sender))
         )
         rel.delete()
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect_back(request)
     return redirect('profiles:my-profile-view')
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):

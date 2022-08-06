@@ -1,3 +1,5 @@
+from django.shortcuts import redirect
+
 from .models import Profile, Relationship
 
 
@@ -30,3 +32,6 @@ def follow_unfollow(my_profile, profile):
         my_profile.following.remove(profile.user)
     else:
         my_profile.following.add(profile.user)
+
+def redirect_back(request):
+    return redirect(request.META.get('HTTP_REFERER'))
