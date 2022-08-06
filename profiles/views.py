@@ -6,7 +6,9 @@ from django.views.generic import DetailView, ListView
 
 from .forms import MessageModelForm, ProfileModelForm
 from .models import Message, Profile, Relationship
-from .views_utils import get_received_invites, get_request_user_profile, get_sent_invites, get_profile_by_pk, follow_unfollow
+from .views_utils import (follow_unfollow, get_profile_by_pk,
+                          get_received_invites, get_request_user_profile,
+                          get_sent_invites)
 
 
 @login_required
