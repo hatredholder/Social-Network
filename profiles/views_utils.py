@@ -21,6 +21,11 @@ def get_sent_invites(profile):
     return results
 
 def follow_unfollow(my_profile, profile):
+    """
+    Checks if profile in my_profile's followers,
+    if so - removes profile from my_profile's followers, 
+    else - adds profile to my_profile's followers
+    """
     if profile.user in my_profile.following.all():
         my_profile.following.remove(profile.user)
     else:

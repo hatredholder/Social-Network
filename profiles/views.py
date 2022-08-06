@@ -82,6 +82,10 @@ def sent_invites_view(request):
 
 @login_required
 def switch_follow_user(request):
+    """
+    Follows/unfollows user by pk.
+    View url: /profiles/switch_follow
+    """
     if request.method == 'POST':
         my_profile = get_request_user_profile(request.user)
         profile = get_profile_by_pk(request)
