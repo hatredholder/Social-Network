@@ -19,7 +19,7 @@ def my_profile_view(request):
     form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
     
     posts = profile.get_all_authors_posts()
-    len_posts = True if len(profile.get_all_authors_posts()) else False
+    len_posts = len(profile.get_all_authors_posts())
 
     confirm = False
 
