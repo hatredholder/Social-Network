@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView
 
 from .forms import MessageModelForm, ProfileModelForm
 from .models import Message, Profile, Relationship
-from .views_utils import get_received_invites, get_request_user_profile, get_sent_invites
+from .views_utils import get_received_invites, get_request_user_profile, get_sent_invites, get_profile_by_pk
 
 
 @login_required
@@ -80,16 +80,17 @@ def sent_invites_view(request):
 
     return render(request, 'profiles/sent_invites.html', context)
 
+@login_required
 def follow_unfollow_user(request):
     if request.method == 'POST':
         my_profile = get_request_user_profile(request.user)
-        pk = request.POST.get('profile_pk')
-        obj = Profile.objects.get(pk=pk)
+        profile = get_profile_by_pk(request)
 
-        if obj.user in my_profile.following.all():
-            my_profile.following.remove(obj.user)
+        if profile.user in my_profile.following.all():
+            my_profile.following.remove(profile.user)
         else:
-            my_profile.following.add(obj.user)
+            my_profile.following.add(profile.user)
+
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect('posts:main-post-view')
@@ -97,8 +98,7 @@ def follow_unfollow_user(request):
 @login_required
 def accept_invitation(request):
     if request.method == 'POST':
-        pk = request.POST.get('profile_pk')
-        sender = Profile.objects.get(pk=pk)
+        sender = get_profile_by_pk(request)
         receiver = get_request_user_profile(request.user)
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         if rel.status == 'sent':
@@ -109,8 +109,7 @@ def accept_invitation(request):
 @login_required
 def reject_invitation(request):
     if request.method == 'POST':
-        pk = request.POST.get('profile_pk')
-        sender = Profile.objects.get(pk=pk)
+        sender = get_profile_by_pk(request)
         receiver = get_request_user_profile(request.user)
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         rel.delete()
@@ -129,9 +128,8 @@ def profile_list_view(request):
 
 @login_required
 def my_friends_view(request):
-    user = request.user
-    profile = Profile.objects.get(user=user)
-    qs = Profile.objects.get_my_friends_profiles(user)
+    profile = get_request_user_profile(request.user)
+    qs = Profile.objects.get_my_friends_profiles(request.user)
     
     context = {
         'qs':qs,
@@ -148,6 +146,30 @@ def search_profiles(request):
         if search:
             return render(request, 'profiles/search_profiles.html', {'search':search, 'profiles':profiles})
     return render(request, 'profiles/search_profiles.html')
+
+@login_required
+def send_invitation(request):
+    if request.method == 'POST':
+        sender = get_request_user_profile(request.user)
+        receiver = get_profile_by_pk(request)
+
+        rel = Relationship.objects.create(sender=sender, receiver=receiver, status='sent')
+
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('profiles:my-profile-view')
+
+@login_required
+def remove_from_friends(request):
+    if request.method == 'POST':
+        sender = get_request_user_profile(request.user)
+        receiver = get_profile_by_pk(request)
+
+        rel = Relationship.objects.get(
+            (Q(sender=sender) & Q(receiver=receiver)) or (Q(sender=receiver) & Q(receiver=sender))
+        )
+        rel.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('profiles:my-profile-view')
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
@@ -275,30 +297,3 @@ class ChatMessageView(LoginRequiredMixin, ListView):
             context['is_empty'] = True
 
         return context
-
-def send_invitation(request):
-    if request.method == 'POST':
-        pk = request.POST.get('profile_pk')
-        user = request.user
-        sender = Profile.objects.get(user=user)
-        receiver = Profile.objects.get(pk=pk)
-
-        rel = Relationship.objects.create(sender=sender, receiver=receiver, status='sent')
-
-        return redirect(request.META.get('HTTP_REFERER'))
-    return redirect('profiles:my-profile-view')
-
-@login_required
-def remove_from_friends(request):
-    if request.method == 'POST':
-        pk = request.POST.get('profile_pk')
-        user = request.user
-        sender = Profile.objects.get(user=user)
-        receiver = Profile.objects.get(pk=pk)
-
-        rel = Relationship.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver)) or (Q(sender=receiver) & Q(receiver=sender))
-        )
-        rel.delete()
-        return redirect(request.META.get('HTTP_REFERER'))
-    return redirect('profiles:my-profile-view')
