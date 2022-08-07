@@ -132,17 +132,6 @@ def reject_invitation(request):
     return redirect_back(request)
 
 @login_required
-def profile_list_view(request):
-    user = request.user
-    qs = Profile.objects.get_all_profiles(user)
-
-    context = {
-        'qs':qs
-    }
-
-    return render(request, 'profiles/profile_list.html', context)
-
-@login_required
 def my_friends_view(request):
     profile = get_request_user_profile(request.user)
     qs = Profile.objects.get_my_friends_profiles(request.user)
