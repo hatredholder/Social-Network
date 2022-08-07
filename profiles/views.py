@@ -116,12 +116,20 @@ def accept_invitation(request):
 
 @login_required
 def reject_invitation(request):
+    """
+    Rejects (deletes) invitation from user by pk.
+    View url: /received_invites/reject
+    """
     if request.method == 'POST':
         sender = get_profile_by_pk(request)
         receiver = get_request_user_profile(request.user)
+
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
-        rel.delete()
-    return redirect('profiles:my-invites-view')
+
+        if rel.status == 'sent':
+            rel.delete()
+
+    return redirect_back(request)
 
 @login_required
 def profile_list_view(request):
