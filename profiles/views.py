@@ -94,18 +94,25 @@ def switch_follow_user(request):
 
         follow_unfollow(my_profile, profile)
 
-        return redirect_back(request)
+    return redirect_back(request)
 
 @login_required
 def accept_invitation(request):
+    """
+    Accepts invitation from user by pk.
+    View url: /received_invites/accept
+    """
     if request.method == 'POST':
         sender = get_profile_by_pk(request)
         receiver = get_request_user_profile(request.user)
+
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+
         if rel.status == 'sent':
             rel.status = 'accepted'
             rel.save()
-    return redirect('profiles:my-invites-view')
+            
+    return redirect_back(request)
 
 @login_required
 def reject_invitation(request):

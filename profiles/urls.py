@@ -21,6 +21,6 @@ urlpatterns = [
     path('switch_follow/', switch_follow_user, name='follow-unfollow-view'),
     path('send-invite/', send_invitation, name='send-invite'),
     path('remove-friend', remove_from_friends, name='remove-friend'),
-    path('my_invites/accept', accept_invitation, name='accept-invite'),
-    path('my_invites/reject', reject_invitation, name='reject-invite'),
+    path('received_invites/accept', accept_invitation, name='accept-invite'),
+    path('received_invites/reject', reject_invitation, name='reject-invite'),
 ]
