@@ -181,7 +181,7 @@ def remove_from_friends(request):
         receiver = get_profile_by_pk(request)
 
         rel = Relationship.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver)) or (Q(sender=receiver) & Q(receiver=sender))
+            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender))
         )
         rel.delete()
         return redirect_back(request)
