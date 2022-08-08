@@ -50,13 +50,13 @@
                 {% endif %}
                 
                 {% if object.user in following %}
-                    <form action='{% url "profiles:follow-unfollow-view" %}' method='POST'>
+                    <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                         {% csrf_token %}
                         <input type='hidden' name='profile_pk' value='{{object.pk}}'>
                         <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>Unfollow</button>
                     </form>
                 {% else %}
-                    <form action='{% url "profiles:follow-unfollow-view" %}' method='POST'>
+                    <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                         {% csrf_token %}
                         <input type='hidden' name='profile_pk' value='{{object.pk}}'>
                         <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>Follow</button>

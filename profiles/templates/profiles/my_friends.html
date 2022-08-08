@@ -23,36 +23,21 @@
                         <a href='{{obj.get_absolute_url}}'>
                             <button style="margin-top:10px; width:200px;" class="ui primary button w-big mb-5">See Profile</button>
                         </a>
-                        {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
-                        <form action='{% url "profiles:send-invite" %}' method='POST'>
-                            {% csrf_token %}
-                            <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
-                            <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'><i class='plus square icon'></i>Add Friend</button>
-                        </form>
-                        {% endif %}
 
-                        {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
-                            <div>
-                                <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5'><i class='user icon'></i>Waiting for approval</button>
-                            </div>
-                        {% endif %}
-
-                        {% if request.user in obj.friends.all %}
                         <form action='{% url "profiles:remove-friend" %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'><i class='minus square icon'></i>Remove Friend</button>
                         </form>
-                        {% endif %}
 
                         {% if obj.user in following %}
-                            <form action='{% url "profiles:follow-unfollow-view" %}' method='POST'>
+                            <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                                 {% csrf_token %}
                                 <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
                                 <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>Unfollow</button>
                             </form>
                         {% else %}
-                            <form action='{% url "profiles:follow-unfollow-view" %}' method='POST'>
+                            <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                                 {% csrf_token %}
                                 <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
                                 <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>Follow</button>

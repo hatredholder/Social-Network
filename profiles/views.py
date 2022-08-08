@@ -133,12 +133,18 @@ def reject_invitation(request):
 
 @login_required
 def my_friends_view(request):
+    """
+    Shows request's user friends.
+    View url: /profiles/my_friends
+    """
     profile = get_request_user_profile(request.user)
+    following = profile.following.all()
+
     qs = Profile.objects.get_my_friends_profiles(request.user)
     
     context = {
+        'following':following,
         'qs':qs,
-        'following':profile.following.all()
     }
 
     return render(request, 'profiles/my_friends.html', context)
