@@ -154,8 +154,15 @@ def search_profiles(request):
     if request.method == 'POST':
         search = request.POST['search']
         profiles = Profile.objects.filter(user__username__contains=search)
+
+        context = {
+            'search':search,
+            'profiles':profiles,
+        }
+
         if search:
-            return render(request, 'profiles/search_profiles.html', {'search':search, 'profiles':profiles})
+            return render(request, 'profiles/search_profiles.html', context)
+
     return render(request, 'profiles/search_profiles.html')
 
 @login_required
