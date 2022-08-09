@@ -15,7 +15,7 @@ from .views_utils import (follow_unfollow, get_profile_by_pk,
 def my_profile_view(request):
     """
     Shows request's user profile.
-    View url: /profiles/myprofile
+    View url: /profiles/myprofile/
     """
     profile = get_request_user_profile(request.user)
     form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
@@ -44,7 +44,7 @@ def my_profile_view(request):
 def received_invites_view(request):
     """
     Shows request's user received invites.
-    View url: /profiles/received_invites
+    View url: /profiles/received_invites/
     """
     profile = get_request_user_profile(request.user)
     qs = get_received_invites(profile)
@@ -65,7 +65,7 @@ def received_invites_view(request):
 def sent_invites_view(request):
     """
     Shows request's user sent invites.
-    View url: /profiles/sent_invites
+    View url: /profiles/sent_invites/
     """
     profile = get_request_user_profile(request.user)
     qs = get_sent_invites(profile)
@@ -86,7 +86,7 @@ def sent_invites_view(request):
 def switch_follow_user(request):
     """
     Follows/unfollows user by pk.
-    View url: /profiles/switch_follow
+    View url: /profiles/switch_follow/
     """
     if request.method == 'POST':
         my_profile = get_request_user_profile(request.user)
@@ -100,7 +100,7 @@ def switch_follow_user(request):
 def accept_invitation(request):
     """
     Accepts invitation from user by pk.
-    View url: profiles/received_invites/accept
+    View url: profiles/received_invites/accept/
     """
     if request.method == 'POST':
         sender = get_profile_by_pk(request)
@@ -118,7 +118,7 @@ def accept_invitation(request):
 def reject_invitation(request):
     """
     Rejects (deletes) invitation from user by pk.
-    View url: profiles/received_invites/reject
+    View url: profiles/received_invites/reject/
     """
     if request.method == 'POST':
         sender = get_profile_by_pk(request)
@@ -135,7 +135,7 @@ def reject_invitation(request):
 def my_friends_view(request):
     """
     Shows request's user friends.
-    View url: /profiles/my_friends
+    View url: /profiles/my_friends/
     """
     profile = get_request_user_profile(request.user)
     following = profile.following.all()
@@ -153,7 +153,7 @@ def my_friends_view(request):
 def search_profiles(request):
     """
     Searches for profiles by their username.
-    View url: /profiles/search
+    View url: /profiles/search/
     """
     if request.method == 'POST':
         search = request.POST['search']
@@ -177,14 +177,17 @@ def search_profiles(request):
 
 @login_required
 def send_invitation(request):
+    """
+    Creates a "sent" relationship between request's profile and pk profile.
+    View url: /profiles/send-invite/
+    """
     if request.method == 'POST':
         sender = get_request_user_profile(request.user)
         receiver = get_profile_by_pk(request)
 
         rel = Relationship.objects.create(sender=sender, receiver=receiver, status='sent')
 
-        return redirect_back(request)
-    return redirect('profiles:my-profile-view')
+    return redirect_back(request)
 
 @login_required
 def remove_from_friends(request):
