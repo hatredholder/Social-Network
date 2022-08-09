@@ -151,13 +151,23 @@ def my_friends_view(request):
 
 @login_required
 def search_profiles(request):
+    """
+    Searches for profiles by their username.
+    View url: /profiles/search
+    """
     if request.method == 'POST':
         search = request.POST['search']
         profiles = Profile.objects.filter(user__username__contains=search)
 
+        is_empty = False
+
+        if not profiles:
+            is_empty = True
+
         context = {
             'search':search,
             'profiles':profiles,
+            'is_empty':is_empty,
         }
 
         if search:

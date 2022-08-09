@@ -6,27 +6,30 @@
 
 {% block content %}
     {% if search %}
-        <h1>Showing profiles for result "{{search}}"</h1>
-        <br>
-        {% for obj in profiles %}
-        <div class='ui segment'>
-            <div class='ui grid'>
-                <div class='row'>
-                    <div class='three wide column'>
-                        <img class='ui small circular image' src='{{obj.avatar.url}}'>
-                    </div>
-                    <div class='thirteen wide column'>
-                        <h3>{{obj.user}}</h3>
-                        <p>{{obj.bio}}</p>
-                        <a href='{{obj.get_absolute_url}}'><button style="margin-top:10px; width:200px;" class='ui primary button mb-5 w-big'>See Profile</button></a>
+        {% if not is_empty%}
+            <h1>Showing profiles for result "{{search}}"</h1>
+            <br>
+            {% for obj in profiles %}
+                <div class='ui segment'>
+                    <div class='ui grid'>
+                        <div class='row'>
+                            <div class='three wide column'>
+                                <img class='ui small circular image' src='{{obj.avatar.url}}'>
+                            </div>
+                            <div class='thirteen wide column'>
+                                <h3>{{obj.user}}</h3>
+                                <p>{{obj.bio}}</p>
+                                <a href='{{obj.get_absolute_url}}'><button style="margin-top:10px; width:200px;" class='ui primary button mb-5 w-big'>See Profile</button></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        {% endfor%}
+            {% endfor%}
+        {% else %}
+            <h1>No Profiles found.</h1>
+        {% endif %}
     {% else %}
-        <h1>To use search type text into the search bar..</h1>
+        <h1>To use Search type text into the Search bar</h1>
     {% endif %}
-
 {% endblock content %}
 
