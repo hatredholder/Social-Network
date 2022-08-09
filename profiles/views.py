@@ -190,17 +190,25 @@ def send_invitation(request):
     return redirect_back(request)
 
 @login_required
-def remove_from_friends(request):
+def remove_friend(request):
+    """
+    Deletes relationship between request's profile and pk profile.
+    View url: /profiles/remove-friend/
+    """
     if request.method == 'POST':
         sender = get_request_user_profile(request.user)
         receiver = get_profile_by_pk(request)
 
+        # Find relationship 
+        # where sender is request's profile and receiver is pk profile
+        # or where sender is pk profile and receiver is request's profile,
+        # then delete it
         rel = Relationship.objects.get(
             (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender))
         )
         rel.delete()
-        return redirect_back(request)
-    return redirect('profiles:my-profile-view')
+        
+    return redirect_back(request)
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
