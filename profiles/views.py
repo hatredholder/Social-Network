@@ -51,7 +51,7 @@ def received_invites_view(request):
     
     is_empty = False
 
-    if not len(qs):
+    if not qs:
         is_empty = True
 
     context = {
@@ -72,7 +72,7 @@ def sent_invites_view(request):
 
     is_empty = False
 
-    if not len(qs):
+    if not qs:
         is_empty = True
 
     context = {
