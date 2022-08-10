@@ -10,6 +10,7 @@ from .views_utils import (follow_unfollow, get_profile_by_pk,
                           get_received_invites, get_request_user_profile,
                           get_sent_invites, redirect_back)
 
+# Function-based views
 
 @login_required
 def my_profile_view(request):
@@ -210,13 +211,19 @@ def remove_friend(request):
         
     return redirect_back(request)
 
+# Class-based views
+
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'profiles/detail.html'
     
     def get(self, request, *args, **kwargs):
+        
+        # Redirect to profiles/myprofile/ 
+        # if request's user == pk's user  
         if Profile.objects.get(user=self.request.user) == self.get_object():
             return redirect("profiles:my-profile-view")
+
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
@@ -228,8 +235,8 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = Profile.objects.get(user=self.request.user)
 
+        profile = Profile.objects.get(user=self.request.user)
         following = profile.following.all
 
         rel_r = Relationship.objects.filter(sender=profile)
@@ -240,6 +247,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
             rel_receiver.append(item.receiver.user)
         for item in rel_s:
             rel_sender.append(item.receiver.user)
+
         context['rel_receiver'] = rel_receiver
         context['rel_sender'] = rel_sender
         context['posts'] = self.get_object().get_all_authors_posts()
