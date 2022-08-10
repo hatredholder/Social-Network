@@ -241,8 +241,10 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
         rel_r = Relationship.objects.filter(sender=profile)
         rel_s = Relationship.objects.filter(receiver=profile)
+
         rel_receiver = []
         rel_sender = []
+        
         for item in rel_r:
             rel_receiver.append(item.receiver.user)
         for item in rel_s:
