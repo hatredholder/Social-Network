@@ -246,7 +246,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         # Users who request's user sent friendship request to
         rel_receiver = [i.receiver.user for i in relship_sent]
         # Users who sent friendship request to request's user
-        rel_sender = [i.sender.user for i in relship_received]
+        rel_sender = [i.sender.usser for i in relship_received]
 
         context['rel_receiver'] = rel_receiver
         context['rel_sender'] = rel_sender
