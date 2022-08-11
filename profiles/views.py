@@ -224,6 +224,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         if Profile.objects.get(user=self.request.user) == self.get_object():
             return redirect("profiles:my-profile-view")
 
+        # Default BaseDetailView get parameters
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
@@ -236,19 +237,16 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        profile = Profile.objects.get(user=self.request.user)
+        profile = get_request_user_profile(self.request.user)
         following = profile.following.all
 
-        rel_r = Relationship.objects.filter(sender=profile)
-        rel_s = Relationship.objects.filter(receiver=profile)
-
-        rel_receiver = []
-        rel_sender = []
+        relship_sent = Relationship.objects.filter(sender=profile)
+        relship_received = Relationship.objects.filter(receiver=profile)
         
-        for item in rel_r:
-            rel_receiver.append(item.receiver.user)
-        for item in rel_s:
-            rel_sender.append(item.receiver.user)
+        # Users who request's user sent friendship request to
+        rel_receiver = [i.receiver.user for i in relship_sent]
+        # Users who sent friendship request to request's user
+        rel_sender = [i.sender.user for i in relship_received]
 
         context['rel_receiver'] = rel_receiver
         context['rel_sender'] = rel_sender
