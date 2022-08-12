@@ -35,3 +35,14 @@ def follow_unfollow(my_profile, profile):
 
 def redirect_back(request):
     return redirect(request.META.get('HTTP_REFERER'))
+
+def get_relationship_users(profile):
+    relship_sent = Relationship.objects.filter(sender=profile, status='sent')
+    relship_received = Relationship.objects.filter(receiver=profile, status='sent')
+
+    # Users that request's user sent friendship invite to
+    invited_users = [i.receiver.user for i in relship_sent]
+    # Users who sent friendship invite to request's user
+    incoming_invite_users = [i.sender.user for i in relship_received]
+
+    return invited_users, incoming_invite_users

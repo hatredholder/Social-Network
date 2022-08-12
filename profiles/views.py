@@ -7,8 +7,9 @@ from django.views.generic import DetailView, ListView
 from .forms import MessageModelForm, ProfileModelForm
 from .models import Message, Profile, Relationship
 from .views_utils import (follow_unfollow, get_profile_by_pk,
-                          get_received_invites, get_request_user_profile,
-                          get_sent_invites, redirect_back)
+                          get_received_invites, get_relationship_users,
+                          get_request_user_profile, get_sent_invites,
+                          redirect_back)
 
 # Function-based views
 
@@ -240,13 +241,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         profile = get_request_user_profile(self.request.user)
         following = profile.following.all
 
-        relship_sent = Relationship.objects.filter(sender=profile, status='sent')
-        relship_received = Relationship.objects.filter(receiver=profile, status='sent')
-
-        # Users that request's user sent friendship invite to
-        invited_users = [i.receiver.user for i in relship_sent]
-        # Users who sent friendship invite to request's user
-        incoming_invite_users = [i.sender.user for i in relship_received]
+        invited_users, incoming_invite_users = get_relationship_users(profile)
 
         context['invited_users'] = invited_users
         context['incoming_invite_users'] = incoming_invite_users
@@ -265,16 +260,11 @@ class ProfileListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         profile = Profile.objects.get(user=self.request.user)
-
         following = profile.following.all
-        relship_sent = Relationship.objects.filter(sender=profile, status='sent')
-        relship_received = Relationship.objects.filter(receiver=profile, status='sent')
-
-        # Users that request's user sent friendship invite to
-        invited_users = [i.receiver.user for i in relship_sent]
-        # Users who sent friendship invite to request's user
-        incoming_invite_users = [i.sender.user for i in relship_received]
+        
+        invited_users, incoming_invite_users = get_relationship_users(profile)
 
         context['invited_users'] = invited_users
         context['incoming_invite_users'] = incoming_invite_users
