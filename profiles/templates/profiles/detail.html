@@ -32,7 +32,7 @@
                 <!-- Add Friend -->
 
                     <!-- If request user didn't send invite and pk user didn't send invite and request's user not in pk's user friends -->
-                    {% if object.user not in rel_receiver and object.user not in rel_sender and request.user not in object.friends.all %}
+                    {% if object.user not in invited_users and object.user not in incoming_invite_users and request.user not in object.friends.all %}
                         <form action='{% url 'profiles:send-invite' %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='profile_pk' value='{{object.pk}}'>
@@ -46,17 +46,19 @@
                 <!-- Waiting for approval -->
 
                     <!-- If request user sent invite -->
-                    {% if object.user in rel_receiver %}
-                        <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5 w-big'>
-                            <i class='user icon'></i>
-                            Waiting for approval
-                        </button>
+                    {% if object.user in invited_users %}
+                        <div>
+                            <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5 w-big'>
+                                <i class='user icon'></i>
+                                Waiting for approval
+                            </button>
+                        </div>
                     {% endif %}
                 
                 <!-- Accept Invite -->
 
                     <!-- If pk's user sent invite to request.user and request's user didn't send invite -->
-                    {% if object.user in rel_sender and object.user not in rel_receiver %}
+                    {% if object.user in incoming_invite_users and object.user not in invited_users %}
                         <form action='{% url 'profiles:accept-invite' %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='profile_pk' value='{{object.pk}}'>

@@ -244,12 +244,12 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         relship_received = Relationship.objects.filter(receiver=profile, status='sent')
 
         # Users that request's user sent friendship invite to
-        rel_receiver = [i.receiver.user for i in relship_sent]
+        invited_users = [i.receiver.user for i in relship_sent]
         # Users who sent friendship invite to request's user
-        rel_sender = [i.sender.user for i in relship_received]
+        incoming_invite_users = [i.sender.user for i in relship_received]
 
-        context['rel_receiver'] = rel_receiver
-        context['rel_sender'] = rel_sender
+        context['invited_users'] = invited_users
+        context['incoming_invite_users'] = incoming_invite_users
         context['posts'] = self.get_object().get_all_authors_posts()
         context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
         context['following'] = following
@@ -268,20 +268,17 @@ class ProfileListView(LoginRequiredMixin, ListView):
         profile = Profile.objects.get(user=self.request.user)
 
         following = profile.following.all
-        rel_r = Relationship.objects.filter(sender=profile)
-        rel_s = Relationship.objects.filter(receiver=profile)
-        rel_receiver = []
-        rel_sender = []
-        for item in rel_r:
-            rel_receiver.append(item.receiver.user)
-        for item in rel_s:
-            rel_sender.append(item.receiver.user)
-        context['rel_receiver'] = rel_receiver
-        context['rel_sender'] = rel_sender
-        context['is_empty'] = False
+        relship_sent = Relationship.objects.filter(sender=profile, status='sent')
+        relship_received = Relationship.objects.filter(receiver=profile, status='sent')
+
+        # Users that request's user sent friendship invite to
+        invited_users = [i.receiver.user for i in relship_sent]
+        # Users who sent friendship invite to request's user
+        incoming_invite_users = [i.sender.user for i in relship_received]
+
+        context['invited_users'] = invited_users
+        context['incoming_invite_users'] = incoming_invite_users
         context['following'] = following
-        if len(self.get_queryset()) == 0:
-            context['is_empty'] = True
 
         return context
 
