@@ -245,9 +245,10 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
         context['invited_users'] = invited_users
         context['incoming_invite_users'] = incoming_invite_users
-        context['posts'] = self.get_object().get_all_authors_posts()
-        context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
         context['following'] = following
+
+        context['posts'] = self.get_object().get_all_authors_posts()
+        context['len_posts'] = bool(self.get_object().get_all_authors_posts())
         return context  
 
 class ProfileListView(LoginRequiredMixin, ListView):
