@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <!-- Add Friend -->>
+                <!-- Add Friend -->
                 {% if object.user not in rel_receiver and object.user not in rel_sender %}
                     <form action='{% url 'profiles:send-invite' %}' method='POST'>
                         {% csrf_token %}
@@ -38,12 +38,12 @@
                     </form>
                 {% endif %}
                  
-                <!-- Waiting for approval -->>
+                <!-- Waiting for approval -->
                 {% if object.user in rel_receiver and request.user not in object.friends.all %}
                     <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5 w-big'><i class='user icon'></i>Waiting for approval</button>
                 {% endif %}
                 
-                <!-- Remove Friend -->>
+                <!-- Remove Friend -->
                 {% if request.user in object.friends.all %}
                     <form action='{% url 'profiles:remove-friend' %}' method='POST'>
                         {% csrf_token %}
@@ -52,7 +52,7 @@
                     </form>
                 {% endif %}
                 
-                <!-- Follow -->>
+                <!-- Follow -->
                 {% if object.user in following %}
                     <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                         {% csrf_token %}
@@ -60,7 +60,7 @@
                         <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>Unfollow</button>
                     </form>
                     
-                <!-- Unfollow -->>
+                <!-- Unfollow -->
                 {% else %}
                     <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                         {% csrf_token %}
@@ -69,7 +69,7 @@
                     </form>
                 {% endif %}
 
-                <!-- Send a message -->>
+                <!-- Send a message -->
                 {% if request.user in object.friends.all %}
                     <a href="http://127.0.0.1:8000/profiles/chat/{{object.pk}}/"><button style="margin-top:10px; width:200px;" type='submit' class='ui info teal basic button mb-5 w-big'>Send a Message</button></a>
                 {% endif %}

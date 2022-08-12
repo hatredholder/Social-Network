@@ -243,10 +243,10 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         relship_sent = Relationship.objects.filter(sender=profile)
         relship_received = Relationship.objects.filter(receiver=profile)
         
-        # Users who request's user sent friendship request to
+        # Users that request's user sent friendship invite to
         rel_receiver = [i.receiver.user for i in relship_sent]
-        # Users who sent friendship request to request's user
-        rel_sender = [i.sender.usser for i in relship_received]
+        # Users who sent friendship invite to request's user
+        rel_sender = [i.sender.user for i in relship_received]
 
         context['rel_receiver'] = rel_receiver
         context['rel_sender'] = rel_sender
