@@ -30,34 +30,65 @@
                 </div>
 
                 <!-- Add Friend -->
-                {% if object.user not in rel_receiver and object.user not in rel_sender %}
-                    <form action='{% url 'profiles:send-invite' %}' method='POST'>
-                        {% csrf_token %}
-                        <input type='hidden' name='profile_pk' value='{{object.pk}}'>
-                        <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'><i class='plus square icon'></i>Add Friend</button>
-                    </form>
-                {% endif %}
+
+                    <!-- If request user didn't send invite and pk user didn't send invite and request's user not in pk's user friends -->
+                    {% if object.user not in rel_receiver and object.user not in rel_sender and request.user not in object.friends.all %}
+                        <form action='{% url 'profiles:send-invite' %}' method='POST'>
+                            {% csrf_token %}
+                            <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                            <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
+                                <i class='plus square icon'></i>
+                                Add Friend
+                            </button>
+                        </form>
+                    {% endif %}
                  
                 <!-- Waiting for approval -->
-                {% if object.user in rel_receiver and request.user not in object.friends.all %}
-                    <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5 w-big'><i class='user icon'></i>Waiting for approval</button>
-                {% endif %}
+
+                    <!-- If request user sent invite -->
+                    {% if object.user in rel_receiver %}
+                        <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5 w-big'>
+                            <i class='user icon'></i>
+                            Waiting for approval
+                        </button>
+                    {% endif %}
                 
+                <!-- Accept Invite -->
+
+                    <!-- If pk's user sent invite to request.user and request's user didn't send invite -->
+                    {% if object.user in rel_sender and object.user not in rel_receiver %}
+                        <form action='{% url 'profiles:accept-invite' %}' method='POST'>
+                            {% csrf_token %}
+                            <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                            <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
+                                <i class='plus square icon'></i>
+                                Accept Invite
+                            </button>
+                        </form>
+                    {% endif %}
+
                 <!-- Remove Friend -->
-                {% if request.user in object.friends.all %}
-                    <form action='{% url 'profiles:remove-friend' %}' method='POST'>
-                        {% csrf_token %}
-                        <input type='hidden' name='profile_pk' value='{{object.pk}}'>
-                        <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'><i class='minus square icon'></i>Remove Friend</button>
-                    </form>
-                {% endif %}
+
+                    <!-- If request user in pk's user friends -->
+                    {% if request.user in object.friends.all %}
+                        <form action='{% url 'profiles:remove-friend' %}' method='POST'>
+                            {% csrf_token %}
+                            <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                            <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
+                                <i class='minus square icon'></i>
+                                Remove Friend
+                            </button>
+                        </form>
+                    {% endif %}
                 
                 <!-- Follow -->
-                {% if object.user in following %}
+                {% if object.user not in following %}
                     <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                         {% csrf_token %}
                         <input type='hidden' name='profile_pk' value='{{object.pk}}'>
-                        <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>Unfollow</button>
+                        <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
+                            Follow
+                        </button>
                     </form>
                     
                 <!-- Unfollow -->
@@ -65,13 +96,19 @@
                     <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                         {% csrf_token %}
                         <input type='hidden' name='profile_pk' value='{{object.pk}}'>
-                        <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>Follow</button>
+                        <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
+                            Unfollow
+                        </button>
                     </form>
                 {% endif %}
 
                 <!-- Send a message -->
                 {% if request.user in object.friends.all %}
-                    <a href="http://127.0.0.1:8000/profiles/chat/{{object.pk}}/"><button style="margin-top:10px; width:200px;" type='submit' class='ui info teal basic button mb-5 w-big'>Send a Message</button></a>
+                    <a href="http://127.0.0.1:8000/profiles/chat/{{object.pk}}/">
+                        <button style="margin-top:10px; width:200px;" type='submit' class='ui info teal basic button mb-5 w-big'>
+                            Send a Message
+                        </button>
+                    </a>
                 {% endif %}
 
             </div>

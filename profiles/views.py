@@ -240,9 +240,9 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         profile = get_request_user_profile(self.request.user)
         following = profile.following.all
 
-        relship_sent = Relationship.objects.filter(sender=profile)
-        relship_received = Relationship.objects.filter(receiver=profile)
-        
+        relship_sent = Relationship.objects.filter(sender=profile, status='sent')
+        relship_received = Relationship.objects.filter(receiver=profile, status='sent')
+
         # Users that request's user sent friendship invite to
         rel_receiver = [i.receiver.user for i in relship_sent]
         # Users who sent friendship invite to request's user
