@@ -30,7 +30,7 @@
                         </a>
                         <form action='{% url 'profiles:accept-invite' %}' method='POST'>
                             {% csrf_token %}
-                            <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
+                            <input type='hidden' name='pk' value='{{obj.pk}}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button w-big mb-5'>
                                 <i class='check icon'></i>
                                 Accept Invite
@@ -38,7 +38,7 @@
                         </form>
                         <form action='{% url 'profiles:reject-invite' %}' method='POST'>
                             {% csrf_token %}
-                            <input type='hidden' name='profile_pk' value='{{obj.pk}}'>
+                            <input type='hidden' name='pk' value='{{obj.pk}}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button w-big mb-5'>
                                 <i class='close icon'></i>
                                 Reject Invite

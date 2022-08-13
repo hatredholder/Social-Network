@@ -31,7 +31,7 @@
                             {% if object.user not in invited_users and object.user not in incoming_invite_users and request.user not in object.friends.all %}
                                 <form action='{% url 'profiles:send-invite' %}' method='POST'>
                                     {% csrf_token %}
-                                    <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                                    <input type='hidden' name='pk' value='{{object.pk}}'>
                                     <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                         <i class='plus square icon'></i>
                                         Add Friend
@@ -57,7 +57,7 @@
                             {% if object.user in incoming_invite_users and object.user not in invited_users %}
                                 <form action='{% url 'profiles:accept-invite' %}' method='POST'>
                                     {% csrf_token %}
-                                    <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                                    <input type='hidden' name='pk' value='{{object.pk}}'>
                                     <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                         <i class='plus square icon'></i>
                                         Accept Invite
@@ -71,7 +71,7 @@
                             {% if request.user in object.friends.all %}
                                 <form action='{% url 'profiles:remove-friend' %}' method='POST'>
                                     {% csrf_token %}
-                                    <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                                    <input type='hidden' name='pk' value='{{object.pk}}'>
                                     <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
                                         <i class='minus square icon'></i>
                                         Remove Friend
@@ -83,7 +83,7 @@
                             {% if object.user not in following %}
                             <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                                 {% csrf_token %}
-                                <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                                <input type='hidden' name='pk' value='{{object.pk}}'>
                                 <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                     Follow
                                 </button>
@@ -93,13 +93,13 @@
                         {% else %}
                             <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                                 {% csrf_token %}
-                                <input type='hidden' name='profile_pk' value='{{object.pk}}'>
+                                <input type='hidden' name='pk' value='{{object.pk}}'>
                                 <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
                                     Unfollow
                                 </button>
                             </form>
                         {% endif %}
-                        
+
                     </div>
                     </div>
                 </div>

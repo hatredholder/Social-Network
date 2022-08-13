@@ -7,9 +7,9 @@ from django.views.generic import DetailView, ListView
 from .forms import MessageModelForm, ProfileModelForm
 from .models import Message, Profile, Relationship
 from .views_utils import (follow_unfollow, get_profile_by_pk,
-                          get_received_invites, get_relationship_users,
-                          get_request_user_profile, get_sent_invites,
-                          redirect_back)
+                          get_received_invites, get_received_messages,
+                          get_relationship_users, get_request_user_profile,
+                          get_sent_invites, redirect_back)
 
 # Function-based views
 
@@ -299,38 +299,43 @@ class ChatMessageView(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        
         if form.is_valid():
             instance = form.save(commit=False)
             instance.sender = Profile.objects.get(user=self.request.user)
             instance.receiver = self.get_object()
             instance.save()
-            return redirect(f"http://127.0.0.1:8000/profiles/chat/{self.kwargs.get('pk')}/")
-        else:
-            return redirect(f"http://127.0.0.1:8000/profiles/chat/{self.kwargs.get('pk')}/")
+        
+        return redirect_back(self.request)
 
     def get_object(self):
         pk = self.kwargs.get("pk")
         profile = Profile.objects.get(pk=pk)
         return profile
 
-
     def get_queryset(self):
-        sent = Message.objects.filter(sender=Profile.objects.get(user=self.request.user), receiver=self.get_object())
-        received = Message.objects.filter(sender=self.get_object(), receiver=Profile.objects.get(user=self.request.user))
+        profile = Profile.objects.get(user=self.request.user)
+
+        sent = Message.objects.filter(sender=profile, receiver=self.get_object())
+        received = Message.objects.filter(sender=self.get_object(), receiver=profile)
+
         messages = sent | received
         ordered_messages = list(messages.order_by('-created').values_list('content', flat=True))
 
-        return(ordered_messages)
+        return ordered_messages
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        # Used to check which messages are received and which are sent in template
+        context['received'] = get_received_messages(self.get_object(), Profile.objects.get(user=self.request.user))
+
         context['profile'] = self.get_object()
         context['form'] = self.form_class
-        context['is_empty'] = False
         context['qs'] = self.get_queryset()
-        context['received'] = list(Message.objects.filter(sender=self.get_object(), receiver=Profile.objects.get(user=self.request.user)).values_list('content', flat=True))
-        if len(self.get_queryset()) == 0:
+
+        context['is_empty'] = False
+        if not self.get_queryset():
             context['is_empty'] = True
 
         return context

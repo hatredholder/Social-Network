@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 
-from .models import Profile, Relationship
+from .models import Message, Profile, Relationship
 
 
 def get_request_user_profile(request_user):
@@ -8,7 +8,7 @@ def get_request_user_profile(request_user):
     return user
 
 def get_profile_by_pk(request):
-    pk = request.POST.get('profile_pk')
+    pk = request.POST.get('pk')
     profile = Profile.objects.get(pk=pk)
     return profile
 
@@ -46,3 +46,7 @@ def get_relationship_users(profile):
     incoming_invite_users = [i.sender.user for i in relship_received]
 
     return invited_users, incoming_invite_users
+
+def get_received_messages(sender, receiver):
+    messages = Message.objects.filter(sender=sender, receiver=receiver)
+    return messages.values_list('content', flat=True)
