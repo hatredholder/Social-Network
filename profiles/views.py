@@ -216,7 +216,7 @@ def remove_friend(request):
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
-    template_name = 'profiles/detail.html'
+    template_name = 'profiles/profile_detail.html'
     
     def get(self, request, *args, **kwargs):
         
