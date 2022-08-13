@@ -221,7 +221,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     def get(self, request, *args, **kwargs):
         
         # Redirect to profiles/myprofile/ 
-        # if request's user == pk's user  
+        # if request's user == target user  
         if Profile.objects.get(user=self.request.user) == self.get_object():
             return redirect("profiles:my-profile-view")
 
