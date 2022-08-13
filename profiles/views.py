@@ -249,6 +249,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
         context['posts'] = self.get_object().get_all_authors_posts()
         context['len_posts'] = bool(self.get_object().get_all_authors_posts())
+
         return context  
 
 class ProfileListView(LoginRequiredMixin, ListView):
@@ -256,6 +257,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
     template_name = 'profiles/profile_list.html'
 
     def get_queryset(self):
+        # Get all profiles except request's user
         qs = Profile.objects.get_all_profiles(self.request.user)
         return qs
 
@@ -285,7 +287,7 @@ class MessengerListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         context['is_empty'] = False
-        if len(self.get_queryset()) == 0:
+        if not self.get_queryset():
             context['is_empty'] = True
 
         return context
