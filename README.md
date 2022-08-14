@@ -35,6 +35,8 @@ Database: PostgreSQL.
 
 # To Do/To Add
 
+- [ ]  Refactor all code;
+
 - [ ]  Make navbar sticky;
 
 - [x]  Add delete comment functionality; 
