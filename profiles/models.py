@@ -7,30 +7,13 @@ from .models_utils import get_random_code
 
 
 class ProfileManager(models.Manager):
-    def get_all_sent_invites(self, sender):
-        profile = Profile.objects.get(user=sender)
-        qs = Relationship.objects.filter(sender=profile)
-
-        accepted = set()
-
-        for rel in qs:
-            if rel.status == "sent" or rel.status == "received":
-                accepted.add(rel.receiver)
-
-        return accepted
-
     def get_all_profiles(self, me):
         profiles = Profile.objects.all().exclude(user=me)
         return profiles
 
     def get_my_friends_profiles(self, me):
         users = Profile.objects.get(user=me).friends.all()
-
-        result = []
-
-        for friend in users:
-            result.append(Profile.objects.get(user=friend))
-
+        result = [Profile.objects.get(user=friend) for friend in users]
         return result
 
 class Profile(models.Model):
@@ -54,7 +37,6 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         return reverse("profiles:profile-detail-view", kwargs={"slug": self.slug})
-    
     
     def get_posts_no(self):
         return self.posts.all().count()
