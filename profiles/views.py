@@ -180,7 +180,7 @@ def search_profiles(request):
 @login_required
 def send_invitation(request):
     """
-    Creates a "sent" relationship between request's profile and pk profile.
+    Creates a "sent" relationship between request's profile and target's profile.
     View url: /profiles/send-invite/
     """
     if request.method == 'POST':
@@ -194,7 +194,7 @@ def send_invitation(request):
 @login_required
 def remove_friend(request):
     """
-    Deletes relationship between request's profile and pk profile.
+    Deletes relationship between request's profile and target profile.
     View url: /profiles/remove-friend/
     """
     if request.method == 'POST':
@@ -202,8 +202,8 @@ def remove_friend(request):
         receiver = get_profile_by_pk(request)
 
         # Find relationship 
-        # where sender is request's profile and receiver is pk profile
-        # or where sender is pk profile and receiver is request's profile,
+        # where sender is request's profile and receiver is target profile
+        # or where sender is target profile and receiver is request's profile,
         # then delete it
         rel = Relationship.objects.get(
             (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender))
@@ -215,6 +215,10 @@ def remove_friend(request):
 # Class-based views
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
+    """
+    Shows target's profile and it's details.
+    View url: /profiles/users/<slug>/
+    """
     model = Profile
     template_name = 'profiles/profile_detail.html'
     
@@ -253,6 +257,10 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         return context  
 
 class ProfileListView(LoginRequiredMixin, ListView):
+    """
+    Shows list of all profiles except request's user.
+    View url: /profiles/
+    """
     model = Profile
     template_name = 'profiles/profile_list.html'
 
@@ -276,6 +284,10 @@ class ProfileListView(LoginRequiredMixin, ListView):
         return context
 
 class MessengerListView(LoginRequiredMixin, ListView):
+    """
+    Shows list of all profiles except request's user.
+    View url: /profiles/messenger/
+    """
     model = Profile
     template_name = 'profiles/messenger.html'
 
@@ -293,6 +305,10 @@ class MessengerListView(LoginRequiredMixin, ListView):
         return context
 
 class ChatMessageView(LoginRequiredMixin, ListView):
+    """
+    Shows messages between request's user and target user.
+    View url: /profiles/chat/<pk>/
+    """
     model = Message
     template_name = 'profiles/chat.html'
     form_class = MessageModelForm

@@ -5,9 +5,8 @@
 {% endblock title %}
 
 {% block content %}
-    <h1 style="text-align:center">All your friends will show here</h1>
-    {% if is_empty  %}
-        <h1>You have not yet added any friends.</h1>
+    {% if is_empty  %}    
+        <h1 style="text-align:center">All your friends will show here</h1>
     {% endif %}
     {% for object in object_list %}
         <div class='ui segment'>
