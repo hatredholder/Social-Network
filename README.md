@@ -29,7 +29,7 @@ A Social Network type of project called Pybook written in Django.
 
 Frontend: CSS, Semantic UI 2.4.
 
-Backend: Django 4.0, JS and AJAX.
+Backend: Django 4.0, JavaScript and AJAX.
 
 Database: PostgreSQL.
 
