@@ -7,12 +7,13 @@ from .models_utils import get_random_code
 
 
 class ProfileManager(models.Manager):
-    def get_all_profiles(self, me):
-        profiles = Profile.objects.all().exclude(user=me)
+    def get_all_profiles(self, user):
+        # All profiles except request's user
+        profiles = Profile.objects.all().exclude(user=user)
         return profiles
 
-    def get_my_friends_profiles(self, me):
-        users = Profile.objects.get(user=me).friends.all()
+    def get_my_friends_profiles(self, user):
+        users = Profile.objects.get(user=user).friends.all()
         result = [Profile.objects.get(user=friend) for friend in users]
         return result
 
@@ -27,6 +28,7 @@ class Profile(models.Model):
     friends = models.ManyToManyField(User, blank=True, related_name='friends')
     following = models.ManyToManyField(User, blank=True, related_name='following')
     slug = models.SlugField(unique=True, blank=True)
+    
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -108,6 +110,7 @@ class Relationship(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
+    
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
