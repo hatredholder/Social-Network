@@ -37,28 +37,36 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         return reverse("profiles:profile-detail-view", kwargs={"slug": self.slug})
-    
-    def get_posts_no(self):
-        return self.posts.all().count()
+
+    # Methods for profile details #
 
     def get_all_authors_posts(self):
-        return self.posts.all()
+        return self.posts.all()    
 
-    def get_likes_given_no(self):
+    def get_posts_count(self):
+        return self.posts.all().count()
+
+    def get_likes_given_count(self):
         likes = self.like_set.all()
+
         total_liked = 0
         for item in likes:
-            if item.value=='Like':
+            if item.value == 'Like':
                 total_liked += 1
+        
         return total_liked
 
-    def get_likes_received_no(self):
+    def get_likes_received_count(self):
         posts = self.posts.all()
         total_liked = 0
-        for item in posts:
-            total_liked += item.liked.all().count()
+        
+        for post in posts:
+            total_liked += post.liked.all().count()
+        
         return total_liked
-
+        
+    ###############################
+    
     __initial_first_name = None
     __initial_last_name = None
 
