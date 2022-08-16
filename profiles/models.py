@@ -78,18 +78,7 @@ class Profile(models.Model):
         self.__initial_last_name = self.last_name
 
     def save(self, *args, **kwargs):
-        ex = False
-        to_slug = self.slug
-        if self.first_name != self.__initial_first_name or self.last_name != self.__initial_last_name or self.slug == '':
-            if self.first_name and self.last_name:
-                to_slug = slugify(str(self.first_name) + ' ' + str(self.last_name))
-                ex = Profile.objects.filter(slug=to_slug).exists()
-                while ex:
-                    to_slug = slugify(to_slug + " " + str(get_random_code()))
-                    ex = Profile.objects.filter(slug=to_slug).exists()
-            else:
-                to_slug = str(self.user)
-        self.slug = to_slug
+        self.slug = str(self.user)
         super().save(*args, **kwargs)
 
 STATUS_CHOICES = (
@@ -123,6 +112,7 @@ class Message(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='message_sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='message_receiver')
     content = models.TextField(max_length=200)
+    
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
