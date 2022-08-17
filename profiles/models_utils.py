@@ -1,6 +1,8 @@
-import uuid
+def find_likes_received_count(posts):
+    # Get all Profile's posts, find users who liked it,
+    # count users
+    total_liked = 0        
+    for post in posts:
+        total_liked += post.liked.all().count()
 
-
-def get_random_code():
-    code = str(uuid.uuid4())[:8].replace('-', '').lower()
-    return code
+    return total_liked

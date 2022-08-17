@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
 
+from .models_utils import find_likes_received_count
+
 # Profile Model
 
 class ProfileManager(models.Manager):
@@ -47,21 +49,18 @@ class Profile(models.Model):
         return self.posts.all().count()
 
     def get_likes_given_count(self):
+        # Like model is connected to Profile model via a foreign key,
+        # likes given are stored in that Profile model
         likes = self.like_set.all()
 
-        total_liked = 0
-        for item in likes:
-            if item.value == 'Like':
-                total_liked += 1
+        total_liked = likes.count()
         
         return total_liked
 
     def get_likes_received_count(self):
         posts = self.posts.all()
-        total_liked = 0
-        
-        for post in posts:
-            total_liked += post.liked.all().count()
+
+        total_liked = find_likes_received_count(posts)
         
         return total_liked
         
