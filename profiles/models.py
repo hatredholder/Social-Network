@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
 
-from .models_utils import find_likes_received_count
+from .models_utils import get_likes_received_count, get_list_of_profiles_by_user
 
 # Profile Model
 
@@ -14,8 +14,8 @@ class ProfileManager(models.Manager):
 
     def get_my_friends_profiles(self, user):
         users = Profile.objects.get(user=user).friends.all()
-        result = [Profile.objects.get(user=friend) for friend in users]
-        return result
+        profiles = get_list_of_profiles_by_user(users)
+        return profiles
 
 class Profile(models.Model):
     first_name = models.CharField(max_length=200, blank=True)
@@ -60,7 +60,7 @@ class Profile(models.Model):
     def get_likes_received_count(self):
         posts = self.posts.all()
 
-        total_liked = find_likes_received_count(posts)
+        total_liked = get_likes_received_count(posts)
         
         return total_liked
         
