@@ -68,23 +68,11 @@ class Profile(models.Model):
         return total_liked
         
     ###############################
-    
-    __initial_first_name = None
-    __initial_last_name = None
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__initial_first_name = self.first_name
-        self.__initial_last_name = self.last_name
 
     def save(self, *args, **kwargs):
         self.slug = str(self.user)
         super().save(*args, **kwargs)
 
-STATUS_CHOICES = (
-    ('sent', 'sent'),
-    ('accepted', 'accepted')
-)
 
 class RelationshipManager(models.Manager):
     def invitations_received(self, receiver):
@@ -94,6 +82,11 @@ class RelationshipManager(models.Manager):
     def invitations_sent(self, sender):
         qs = Relationship.objects.filter(sender=sender, status='sent')
         return qs
+
+STATUS_CHOICES = (
+    ('sent', 'sent'),
+    ('accepted', 'accepted')
+)
 
 class Relationship(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
@@ -118,4 +111,3 @@ class Message(models.Model):
 
     def __str__(self):
         return  str(self.content)
-
