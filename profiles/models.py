@@ -88,6 +88,9 @@ STATUS_CHOICES = (
 )
 
 class Relationship(models.Model):
+    """
+    This model is used to send/receive friend requests
+    """
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
