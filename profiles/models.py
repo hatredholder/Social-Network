@@ -1,10 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
-from django.template.defaultfilters import slugify
 
-from .models_utils import get_random_code
-
+# Profile Model
 
 class ProfileManager(models.Manager):
     def get_all_profiles(self, user):
@@ -73,6 +71,7 @@ class Profile(models.Model):
         self.slug = str(self.user)
         super().save(*args, **kwargs)
 
+# Relationship Model
 
 class RelationshipManager(models.Manager):
     def invitations_received(self, receiver):
@@ -99,7 +98,9 @@ class Relationship(models.Model):
     objects = RelationshipManager()
 
     def __str__(self):
-        return  f"{self.sender}-{self.receiver}-{self.status}"
+        return f"{self.sender} - {self.receiver} - {self.status}"
+
+# Message Model
 
 class Message(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='message_sender')
@@ -110,4 +111,7 @@ class Message(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return  str(self.content)
+        if len(str(self.content)) > 50:
+            return f"{self.sender} - {str(self.content)[:50].strip()}.."
+        return f"{self.sender} - {str(self.content)}"
+        
