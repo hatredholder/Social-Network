@@ -49,15 +49,15 @@ def received_invites_view(request):
     View url: /profiles/received_invites/
     """
     profile = get_request_user_profile(request.user)
-    qs = get_received_invites(profile)
+    profiles = get_received_invites(profile)
     
     is_empty = False
 
-    if not qs:
+    if not profiles:
         is_empty = True
 
     context = {
-        'qs':qs,
+        'profiles':profiles,
         'is_empty':is_empty,
     }
 
@@ -70,15 +70,15 @@ def sent_invites_view(request):
     View url: /profiles/sent_invites/
     """
     profile = get_request_user_profile(request.user)
-    qs = get_sent_invites(profile)
+    profiles = get_sent_invites(profile)
 
     is_empty = False
 
-    if not qs:
+    if not profiles:
         is_empty = True
 
     context = {
-        'qs':qs,
+        'profiles':profiles,
         'is_empty':is_empty,
     }
 
@@ -142,11 +142,11 @@ def my_friends_view(request):
     profile = get_request_user_profile(request.user)
     following = profile.following.all()
 
-    qs = Profile.objects.get_my_friends_profiles(request.user)
+    profiles = Profile.objects.get_my_friends_profiles(request.user)
     
     context = {
         'following':following,
-        'qs':qs,
+        'profiles':profiles,
     }
 
     return render(request, 'profiles/my_friends.html', context)
@@ -168,8 +168,8 @@ def search_profiles(request):
 
         context = {
             'search':search,
-            'profiles':profiles,
             'is_empty':is_empty,
+            'profiles':profiles,
         }
 
         if search:
@@ -250,6 +250,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context['invited_users'] = invited_users
         context['incoming_invite_users'] = incoming_invite_users
         context['following'] = following
+        context['profile'] = self.get_object()
 
         context['posts'] = self.get_object().posts.all()
         context['len_posts'] = bool(self.get_object().posts.all())
@@ -280,6 +281,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
         context['invited_users'] = invited_users
         context['incoming_invite_users'] = incoming_invite_users
         context['following'] = following
+        context['profiles'] = self.get_queryset()
 
         return context
 
@@ -298,6 +300,7 @@ class MessengerListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context['profiles'] = self.get_queryset()
         context['is_empty'] = False
         if not self.get_queryset():
             context['is_empty'] = True

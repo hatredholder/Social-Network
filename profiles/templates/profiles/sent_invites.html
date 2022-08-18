@@ -15,17 +15,17 @@
         <h1>You haven't sent any invites yet.</h1>
     {% endif %}
 
-    {% for obj in qs %}
+    {% for profile in profiles %}
         <div class='ui segment'>
             <div class='ui grid'>
                 <div class='row'>
                     <div class='three wide column'>
-                        <img class='ui small circular image' src='{{obj.avatar.url}}'>
+                        <img class='ui small circular image' src='{{profile.avatar.url}}'>
                     </div>
                     <div class='thirteen wide column'>
-                        <h3>{{obj.user}}</h3>
-                        <p>{{obj.bio}}</p>
-                        <a href='{{obj.get_absolute_url}}'><button style="margin-top:10px; width:200px;" class='ui primary button mb-5 w-big'>See Profile</button></a>
+                        <h3>{{profile.user}}</h3>
+                        <p>{{profile.bio}}</p>
+                        <a href='{{profile.get_absolute_url}}'><button style="margin-top:10px; width:200px;" class='ui primary button mb-5 w-big'>See Profile</button></a>
                     </div>
                 </div>
             </div>

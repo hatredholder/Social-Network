@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {{object.user}}
+    {{profile.user}}
 {% endblock title %}
 
 {% block content %}
@@ -9,23 +9,23 @@
         <br>
         <div class='row'>
             <div class='four wide column'>
-                <img class='ui medium rounded image' src='{{object.avatar.url}}'>
-                <h1>{{object.user}}</h1>
+                <img class='ui medium rounded image' src='{{profile.avatar.url}}'>
+                <h1>{{profile.user}}</h1>
                 <div class='ui vertical fluid menu'>
                     <div class='item'>
                         Posts
-                        <div class='ui label'>{{object.posts.all.count}}</div>
+                        <div class='ui label'>{{profile.posts.all.count}}</div>
                     </div>
                     <div class='item'>
                         Likes Given
-                        <div class='ui label'>{{object.get_likes_given_count}}</div>
+                        <div class='ui label'>{{profile.get_likes_given_count}}</div>
                     </div>
                     <div class='item'>
                         Likes Received
-                        <div class='ui label'>{{object.get_likes_received_count}}</div>
+                        <div class='ui label'>{{profile.get_likes_received_count}}</div>
                     </div><div class='item'>
                         Friends
-                        <div class='ui label'>{{object.friends.all.count}}</div>
+                        <div class='ui label'>{{profile.friends.all.count}}</div>
                     </div>
                 </div>
                 <div> <!-- Relationship Options (add friend, remove etc.)-->
@@ -33,10 +33,10 @@
                 <!-- Add Friend -->
 
                     <!-- If request user didn't send invite and pk user didn't send invite and request's user not in target user friends -->
-                    {% if object.user not in invited_users and object.user not in incoming_invite_users and request.user not in object.friends.all %}
+                    {% if profile.user not in invited_users and profile.user not in incoming_invite_users and request.user not in profile.friends.all %}
                         <form action='{% url 'profiles:send-invite' %}' method='POST'>
                             {% csrf_token %}
-                            <input type='hidden' name='pk' value='{{object.pk}}'>
+                            <input type='hidden' name='pk' value='{{profile.pk}}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                 <i class='plus square icon'></i>
                                 Add Friend
@@ -47,7 +47,7 @@
                 <!-- Waiting for approval -->
 
                     <!-- If request user sent invite -->
-                    {% if object.user in invited_users %}
+                    {% if profile.user in invited_users %}
                         <div>
                             <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5 w-big'>
                                 <i class='user icon'></i>
@@ -59,10 +59,10 @@
                 <!-- Accept Invite -->
 
                     <!-- If target user sent invite to request.user and request's user didn't send invite -->
-                    {% if object.user in incoming_invite_users and object.user not in invited_users %}
+                    {% if profile.user in incoming_invite_users and profile.user not in invited_users %}
                         <form action='{% url 'profiles:accept-invite' %}' method='POST'>
                             {% csrf_token %}
-                            <input type='hidden' name='pk' value='{{object.pk}}'>
+                            <input type='hidden' name='pk' value='{{profile.pk}}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                 <i class='plus square icon'></i>
                                 Accept Invite
@@ -73,10 +73,10 @@
                 <!-- Remove Friend -->
 
                     <!-- If request user in target user friends -->
-                    {% if request.user in object.friends.all %}
+                    {% if request.user in profile.friends.all %}
                         <form action='{% url 'profiles:remove-friend' %}' method='POST'>
                             {% csrf_token %}
-                            <input type='hidden' name='pk' value='{{object.pk}}'>
+                            <input type='hidden' name='pk' value='{{profile.pk}}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
                                 <i class='minus square icon'></i>
                                 Remove Friend
@@ -85,10 +85,10 @@
                     {% endif %}
                 
                 <!-- Follow -->
-                {% if object.user not in following %}
+                {% if profile.user not in following %}
                     <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                         {% csrf_token %}
-                        <input type='hidden' name='pk' value='{{object.pk}}'>
+                        <input type='hidden' name='pk' value='{{profile.pk}}'>
                         <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                             Follow
                         </button>
@@ -98,7 +98,7 @@
                 {% else %}
                     <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                         {% csrf_token %}
-                        <input type='hidden' name='pk' value='{{object.pk}}'>
+                        <input type='hidden' name='pk' value='{{profile.pk}}'>
                         <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
                             Unfollow
                         </button>
@@ -106,8 +106,8 @@
                 {% endif %}
 
                 <!-- Send a message -->
-                {% if request.user in object.friends.all %}
-                    <a href="{% url "profiles:chat-message-view" object.pk %}">
+                {% if request.user in profile.friends.all %}
+                    <a href="{% url "profiles:chat-message-view" profile.pk %}">
                         <button style="margin-top:10px; width:200px;" type='submit' class='ui info teal basic button mb-5 w-big'>
                             Send a Message
                         </button>

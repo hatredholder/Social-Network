@@ -8,13 +8,13 @@
     {% if is_empty  %}    
         <h1 style="text-align:center">All your friends will show here</h1>
     {% endif %}
-    {% for object in object_list %}
+    {% for profile in profiles %}
         <div class='ui segment'>
             <div class='ui grid'>
                 <div class='row'>
                     <div class='four wide column'>
-                        <h3>{{object}}</h3> 
-                        <a href={% url "profiles:chat-message-view" object.pk %}>
+                        <h3>{{profile}}</h3> 
+                        <a href={% url "profiles:chat-message-view" profile.pk %}>
                             <button 
                                 style="margin-top:10px; width:200px;" 
                                 class='ui teal button mb-5 w-big'>

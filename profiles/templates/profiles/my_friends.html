@@ -10,17 +10,17 @@
         <h1>You haven't added any friends yet</h1>
     {% endif %}
 
-    {% for object in qs %}
+    {% for profile in profiles %}
         <div class='ui segment'>
             <div class='ui grid'>
                 <div class='row'>
                     <div class='three wide column'>
-                        <img class='ui small circular image' src='{{object.avatar.url}}'>
+                        <img class='ui small circular image' src='{{profile.avatar.url}}'>
                     </div>
                     <div class='thirteen wide column'>
-                        <h3>{{object.user}}</h3>
-                        <p>{{object.bio}}</p><br>
-                        <a href='{{object.get_absolute_url}}'>
+                        <h3>{{profile.user}}</h3>
+                        <p>{{profile.bio}}</p><br>
+                        <a href='{{profile.get_absolute_url}}'>
                             <button 
                                 style="margin-top:10px; width:200px;" 
                                 class="ui primary button w-big mb-5">
@@ -33,10 +33,10 @@
                             <!-- Add Friend -->
             
                                 <!-- If request user didn't send invite and pk user didn't send invite and request's user not in target user friends -->
-                                {% if object.user not in invited_users and object.user not in incoming_invite_users and request.user not in object.friends.all %}
+                                {% if profile.user not in invited_users and profile.user not in incoming_invite_users and request.user not in profile.friends.all %}
                                     <form action='{% url 'profiles:send-invite' %}' method='POST'>
                                         {% csrf_token %}
-                                        <input type='hidden' name='pk' value='{{object.pk}}'>
+                                        <input type='hidden' name='pk' value='{{profile.pk}}'>
                                         <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                             <i class='plus square icon'></i>
                                             Add Friend
@@ -47,7 +47,7 @@
                             <!-- Waiting for approval -->
             
                                 <!-- If request user sent invite -->
-                                {% if object.user in invited_users %}
+                                {% if profile.user in invited_users %}
                                     <div>
                                         <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5 w-big'>
                                             <i class='user icon'></i>
@@ -59,10 +59,10 @@
                             <!-- Accept Invite -->
             
                                 <!-- If target user sent invite to request.user and request's user didn't send invite -->
-                                {% if object.user in incoming_invite_users and object.user not in invited_users %}
+                                {% if profile.user in incoming_invite_users and profile.user not in invited_users %}
                                     <form action='{% url 'profiles:accept-invite' %}' method='POST'>
                                         {% csrf_token %}
-                                        <input type='hidden' name='pk' value='{{object.pk}}'>
+                                        <input type='hidden' name='pk' value='{{profile.pk}}'>
                                         <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                             <i class='plus square icon'></i>
                                             Accept Invite
@@ -73,10 +73,10 @@
                             <!-- Remove Friend -->
             
                                 <!-- If request user in target user friends -->
-                                {% if request.user in object.friends.all %}
+                                {% if request.user in profile.friends.all %}
                                     <form action='{% url 'profiles:remove-friend' %}' method='POST'>
                                         {% csrf_token %}
-                                        <input type='hidden' name='pk' value='{{object.pk}}'>
+                                        <input type='hidden' name='pk' value='{{profile.pk}}'>
                                         <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
                                             <i class='minus square icon'></i>
                                             Remove Friend
@@ -85,10 +85,10 @@
                                 {% endif %}
                             
                             <!-- Follow -->
-                            {% if object.user not in following %}
+                            {% if profile.user not in following %}
                                 <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                                     {% csrf_token %}
-                                    <input type='hidden' name='pk' value='{{object.pk}}'>
+                                    <input type='hidden' name='pk' value='{{profile.pk}}'>
                                     <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                         Follow
                                     </button>
@@ -98,7 +98,7 @@
                             {% else %}
                                 <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                                     {% csrf_token %}
-                                    <input type='hidden' name='pk' value='{{object.pk}}'>
+                                    <input type='hidden' name='pk' value='{{profile.pk}}'>
                                     <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
                                         Unfollow
                                     </button>
