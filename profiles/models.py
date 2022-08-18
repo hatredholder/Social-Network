@@ -42,12 +42,6 @@ class Profile(models.Model):
 
     # Methods for profile details #
 
-    def get_all_authors_posts(self):
-        return self.posts.all()    
-
-    def get_posts_count(self):
-        return self.posts.all().count()
-
     def get_likes_given_count(self):
         # Like model is connected to Profile model via a foreign key,
         # likes given are stored in that Profile model

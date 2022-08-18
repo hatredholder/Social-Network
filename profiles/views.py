@@ -22,8 +22,8 @@ def my_profile_view(request):
     profile = get_request_user_profile(request.user)
     form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
     
-    posts = profile.get_all_authors_posts()
-    len_posts = len(profile.get_all_authors_posts())
+    posts = profile.posts.all()
+    len_posts = len(profile.posts.all())
 
     confirm = False
 
@@ -251,8 +251,8 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context['incoming_invite_users'] = incoming_invite_users
         context['following'] = following
 
-        context['posts'] = self.get_object().get_all_authors_posts()
-        context['len_posts'] = bool(self.get_object().get_all_authors_posts())
+        context['posts'] = self.get_object().posts.all()
+        context['len_posts'] = bool(self.get_object().posts.all())
 
         return context  
 
