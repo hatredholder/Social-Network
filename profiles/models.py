@@ -18,6 +18,10 @@ class ProfileManager(models.Manager):
         return profiles
 
 class Profile(models.Model):
+    """
+    Profile model, gets created automatically everytime
+    a new user sign ups
+    """
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -99,6 +103,9 @@ class Relationship(models.Model):
 # Message Model
 
 class Message(models.Model):
+    """
+    This model is used in chat for messages (obviously)
+    """
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='message_sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='message_receiver')
     content = models.TextField(max_length=200)
