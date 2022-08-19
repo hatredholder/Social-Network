@@ -19,13 +19,14 @@ def post_save_add_to_friends(sender, instance, created, **kwargs):
     Add profiles to each other's friend list
     when Relationship with status "accepted" is created
     """
-    relship_sender = instance.sender
-    relship_receiver = instance.receiver
+    relship_sender_profile = instance.sender
+    relship_receiver_profile = instance.receiver
     if instance.status == "accepted":
-        relship_sender.friends.add(relship_receiver.user)
-        relship_receiver.friends.add(relship_sender.user)
-        relship_sender.save()
-        relship_receiver.save()
+        relship_sender_profile.friends.add(relship_receiver_profile.user)
+        relship_receiver_profile.friends.add(relship_sender_profile.user)
+
+        relship_sender_profile.save()
+        relship_receiver_profile.save()
 
 @receiver(pre_delete, sender=Relationship)
 def pre_delete_remove_from_friends(sender, instance, **kwargs):
@@ -33,10 +34,11 @@ def pre_delete_remove_from_friends(sender, instance, **kwargs):
     Delete profiles from each other's friend list 
     when Relationship is deleted 
     """
-    relship_sender = instance.sender
-    relship_receiver = instance.receiver
+    relship_sender_profile = instance.sender
+    relship_receiver_profile = instance.receiver
 
-    relship_sender.friends.remove(relship_receiver.user)
-    relship_receiver.friends.remove(relship_sender.user)
-    relship_sender.save()
-    relship_receiver.save()
+    relship_sender_profile.friends.remove(relship_receiver_profile.user)
+    relship_receiver_profile.friends.remove(relship_sender_profile.user)
+
+    relship_sender_profile.save()
+    relship_receiver_profile.save()
