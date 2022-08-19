@@ -7,24 +7,36 @@ from .models import Profile, Relationship
 
 @receiver(post_save, sender=User)
 def post_save_create_profile(sender, instance, created, **kwargs):
+    """
+    Create profile when user is created
+    """
     if created:
         Profile.objects.create(user=instance)
 
-@receiver(post_save,sender=Relationship)
+@receiver(post_save, sender=Relationship)
 def post_save_add_to_friends(sender, instance, created, **kwargs):
-    sender_ = instance.sender
-    receiver_ = instance.receiver
-    if instance.status == 'accepted':
-        sender_.friends.add(receiver_.user)
-        receiver_.friends.add(sender_.user)
-        sender_.save()
-        receiver_.save()
+    """
+    Add profiles to each other's friend list
+    when Relationship with status "accepted" is created
+    """
+    relship_sender = instance.sender
+    relship_receiver = instance.receiver
+    if instance.status == "accepted":
+        relship_sender.friends.add(relship_receiver.user)
+        relship_receiver.friends.add(relship_sender.user)
+        relship_sender.save()
+        relship_receiver.save()
 
 @receiver(pre_delete, sender=Relationship)
 def pre_delete_remove_from_friends(sender, instance, **kwargs):
-    sender = instance.sender
-    receiver = instance.receiver
-    sender.friends.remove(receiver.user)
-    receiver.friends.remove(sender.user)
-    sender.save()
-    receiver.save()
+    """
+    Delete profiles from each other's friend list 
+    when Relationship is deleted 
+    """
+    relship_sender = instance.sender
+    relship_receiver = instance.receiver
+
+    relship_sender.friends.remove(relship_receiver.user)
+    relship_receiver.friends.remove(relship_sender.user)
+    relship_sender.save()
+    relship_receiver.save()
