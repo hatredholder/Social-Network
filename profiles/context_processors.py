@@ -1,16 +1,21 @@
 from .models import Profile, Relationship
+from .views_utils import get_request_user_profile
 
 
 def profile_pic(request):
     if request.user.is_authenticated:
-        profile_obj = Profile.objects.get(user=request.user)
-        pic = profile_obj.avatar
-        return {'picture':pic}
+        profile = get_request_user_profile(request.user)
+
+        pic = profile.avatar
+
+        return {'profile_pic':pic}
     return {}
 
 def invitations_received_count(request):
     if request.user.is_authenticated:
-        profile_obj = Profile.objects.get(user=request.user)
-        qs_count = Relationship.objects.invitations_received(profile_obj).count()
-        return {'invitations_received_count':qs_count}
+        profile = get_request_user_profile(request.user)
+
+        result = Relationship.objects.invitations_received(profile).count()
+        
+        return {'invitations_received_count':result}
     return {}
