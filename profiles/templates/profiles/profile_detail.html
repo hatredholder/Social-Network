@@ -23,101 +23,104 @@
                     <div class='item'>
                         Likes Received
                         <div class='ui label'>{{profile.get_likes_received_count}}</div>
-                    </div><div class='item'>
+                    </div>
+                    <div class='item'>
                         Friends
                         <div class='ui label'>{{profile.friends.all.count}}</div>
                     </div>
                 </div>
                 <div> <!-- Relationship Options (add friend, remove etc.)-->
                     
-                <!-- Add Friend -->
+                    <!-- Add Friend -->
 
-                    <!-- If request user didn't send invite and pk user didn't send invite and request's user not in target user friends -->
-                    {% if profile.user not in invited_users and profile.user not in incoming_invite_users and request.user not in profile.friends.all %}
-                        <form action='{% url 'profiles:send-invite' %}' method='POST'>
+                        <!-- If request user didn't send invite and pk user didn't send invite and request's user not in target user friends -->
+                        {% if profile.user not in invited_users and profile.user not in incoming_invite_users and request.user not in profile.friends.all %}
+                            <form action='{% url 'profiles:send-invite' %}' method='POST'>
+                                {% csrf_token %}
+                                <input type='hidden' name='pk' value='{{profile.pk}}'>
+                                <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
+                                    <i class='plus square icon'></i>
+                                    Add Friend
+                                </button>
+                            </form>
+                        {% endif %}
+                    
+                    <!-- Waiting for approval -->
+
+                        <!-- If request user sent invite -->
+                        {% if profile.user in invited_users %}
+                            <div>
+                                <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5 w-big'>
+                                    <i class='user icon'></i>
+                                    Waiting for approval
+                                </button>
+                            </div>
+                        {% endif %}
+                    
+                    <!-- Accept Invite -->
+
+                        <!-- If target user sent invite to request.user and request's user didn't send invite -->
+                        {% if profile.user in incoming_invite_users and profile.user not in invited_users %}
+                            <form action='{% url 'profiles:accept-invite' %}' method='POST'>
+                                {% csrf_token %}
+                                <input type='hidden' name='pk' value='{{profile.pk}}'>
+                                <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
+                                    <i class='plus square icon'></i>
+                                    Accept Invite
+                                </button>
+                            </form>
+                        {% endif %}
+
+                    <!-- Remove Friend -->
+
+                        <!-- If request user in target user friends -->
+                        {% if request.user in profile.friends.all %}
+                            <form action='{% url 'profiles:remove-friend' %}' method='POST'>
+                                {% csrf_token %}
+                                <input type='hidden' name='pk' value='{{profile.pk}}'>
+                                <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
+                                    <i class='minus square icon'></i>
+                                    Remove Friend
+                                </button>
+                            </form>
+                        {% endif %}
+                    
+                    <!-- Follow -->
+                    {% if profile.user not in following %}
+                        <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='pk' value='{{profile.pk}}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
-                                <i class='plus square icon'></i>
-                                Add Friend
+                                Follow
                             </button>
                         </form>
-                    {% endif %}
-                 
-                <!-- Waiting for approval -->
-
-                    <!-- If request user sent invite -->
-                    {% if profile.user in invited_users %}
-                        <div>
-                            <button style="margin-top:10px; width:200px;" class='ui disabled button mb-5 w-big'>
-                                <i class='user icon'></i>
-                                Waiting for approval
-                            </button>
-                        </div>
-                    {% endif %}
-                
-                <!-- Accept Invite -->
-
-                    <!-- If target user sent invite to request.user and request's user didn't send invite -->
-                    {% if profile.user in incoming_invite_users and profile.user not in invited_users %}
-                        <form action='{% url 'profiles:accept-invite' %}' method='POST'>
-                            {% csrf_token %}
-                            <input type='hidden' name='pk' value='{{profile.pk}}'>
-                            <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
-                                <i class='plus square icon'></i>
-                                Accept Invite
-                            </button>
-                        </form>
-                    {% endif %}
-
-                <!-- Remove Friend -->
-
-                    <!-- If request user in target user friends -->
-                    {% if request.user in profile.friends.all %}
-                        <form action='{% url 'profiles:remove-friend' %}' method='POST'>
+                        
+                    <!-- Unfollow -->
+                    {% else %}
+                        <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='pk' value='{{profile.pk}}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
-                                <i class='minus square icon'></i>
-                                Remove Friend
+                                Unfollow
                             </button>
                         </form>
                     {% endif %}
-                
-                <!-- Follow -->
-                {% if profile.user not in following %}
-                    <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
-                        {% csrf_token %}
-                        <input type='hidden' name='pk' value='{{profile.pk}}'>
-                        <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
-                            Follow
-                        </button>
-                    </form>
-                    
-                <!-- Unfollow -->
-                {% else %}
-                    <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
-                        {% csrf_token %}
-                        <input type='hidden' name='pk' value='{{profile.pk}}'>
-                        <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
-                            Unfollow
-                        </button>
-                    </form>
-                {% endif %}
 
-                <!-- Send a message -->
-                {% if request.user in profile.friends.all %}
-                    <a href="{% url "profiles:chat-message-view" profile.pk %}">
-                        <button style="margin-top:10px; width:200px;" type='submit' class='ui info teal basic button mb-5 w-big'>
-                            Send a Message
-                        </button>
-                    </a>
-                {% endif %}
+                    <!-- Send a message -->
+                    {% if request.user in profile.friends.all %}
+                        <a href="{% url "profiles:chat-message-view" profile.pk %}">
+                            <button style="margin-top:10px; width:200px;" type='submit' class='ui info teal basic button mb-5 w-big'>
+                                Send a Message
+                            </button>
+                        </a>
+                    {% endif %}
 
-                </div>
+                </div> <!-- Relationship Options end -->
+
             </div>
+            
             <div class='twelve wide column'>
-                {% if len_posts %}
+                {% if posts %}
                     {% for post in posts  %}
                         <div class='segment ui fluid'>
                             <div class="post-content">

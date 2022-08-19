@@ -7,36 +7,35 @@
 
 {% block content %}
 
-<!-- Modal -->
-<div class="ui modal mymodal">
-    <i class="close icon"></i>
-    <div class="header">
-      Update your Profile
+    <!-- Modal -->
+    <div class="ui modal mymodal">
+        <i class="close icon"></i>
+        <div class="header">
+        Update your Profile
+        </div>
+        <div class="image content">
+        <div class="ui medium image">
+            <img src="{{profile.avatar.url}}">
+        </div>
+        <div class="description">
+            <div class="ui header">Provide new about you</div>
+            <form action="" method="POST" class="ui form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+        </div>
+        </div>
+        <div class="actions">
+        <button type="submit" class="ui positive right labeled icon button">
+            Update
+            <i class="checkmark icon"></i>
+        </button>
+            </form>
+        </div>
     </div>
-    <div class="image content">
-      <div class="ui medium image">
-        <img src="{{profile.avatar.url}}">
-      </div>
-      <div class="description">
-        <div class="ui header">Provide new about you</div>
-        <form action="" method="POST" class="ui form" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{form.as_p}}
-      </div>
-    </div>
-    <div class="actions">
-      <button type="submit" class="ui positive right labeled icon button">
-        Update
-        <i class="checkmark icon"></i>
-      </button>
-        </form>
-    </div>
-  </div>
 
-{% if confirm %}
-    <div class="ui green message">Updated Successfully!</div>
-{% endif %}
-
+    {% if confirm %}
+        <div class="ui green message">Updated Successfully!</div>
+    {% endif %}
     <div class='ui grid'>
         <br>
         <div class='row'>
@@ -63,7 +62,7 @@
                 <button style="margin-top:10px; width:200px;" class='ui secondary button' id='modal-btn'>Update your Profile</button>
             </div>
             <div class='twelve wide column'>
-                {% if len_posts %}
+                {% if posts %}
                     {% for post in posts  %}
                         <div class='segment ui fluid'>
                             <div class="post-content">

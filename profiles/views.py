@@ -23,7 +23,6 @@ def my_profile_view(request):
     form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
     
     posts = profile.posts.all()
-    len_posts = len(profile.posts.all())
 
     confirm = False
 
@@ -36,7 +35,6 @@ def my_profile_view(request):
         'profile':profile,
         'form':form,
         'posts':posts,
-        'len_posts':len_posts,
         'confirm':confirm,
     }
 
@@ -253,7 +251,6 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context['profile'] = self.get_object()
 
         context['posts'] = self.get_object().posts.all()
-        context['len_posts'] = bool(self.get_object().posts.all())
 
         return context  
 
