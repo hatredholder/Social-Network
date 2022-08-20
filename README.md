@@ -31,7 +31,7 @@ Frontend: CSS, Semantic UI 2.4.
 
 Backend: Django 4.0, JavaScript and AJAX.
 
-Database: PostgreSQL.
+Database: PostgreSQL (uses an online server called ElephantSQL).
 
 # To Do/To Add
 
