@@ -14,6 +14,10 @@ from .views_utils import add_comment_if_submitted, add_post_if_submitted
 
 @login_required
 def post_comment_create_and_list_view(request):
+    """
+    Shows request's user friends.
+    View url: /posts/
+    """
     qs = Post.objects.get_friends_posts(user=request.user)
     profile = get_request_user_profile(request.user)
 

@@ -1,4 +1,4 @@
-from .forms import PostModelForm, CommentModelForm
+from .forms import CommentModelForm, PostModelForm
 from .models import Post
 
 
