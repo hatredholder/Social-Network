@@ -5,48 +5,33 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView
 from profiles.models import Profile
+from profiles.views_utils import get_request_user_profile, redirect_back
 
 from .forms import CommentModelForm, PostModelForm, PostUpdateModelForm
 from .models import Comment, Like, Post
+from .views_utils import add_comment_if_submitted, add_post_if_submitted
 
 
 @login_required
 def post_comment_create_and_list_view(request):
     qs = Post.objects.get_friends_posts(user=request.user)
-    profile = Profile.objects.get(user=request.user)
+    profile = get_request_user_profile(request.user)
 
     p_form = PostModelForm()
     c_form = CommentModelForm()
-    post_added = False
 
-    profile = Profile.objects.get(user=request.user)
+    if add_post_if_submitted(request, profile):
+        return redirect_back(request)
 
-    if 'submit_p_form' in request.POST:
-
-        p_form = PostModelForm(request.POST or None, request.FILES)
-        if p_form.is_valid():
-            instance = p_form.save(commit=False)
-            instance.author = profile
-            instance.save()
-            p_form = PostModelForm()
-            post_added = True
-            return redirect('posts:main-post-view')
-
-    if 'submit_c_form' in request.POST:
-        c_form = CommentModelForm(request.POST)
-        if c_form.is_valid():
-            instance = c_form.save(commit=False)
-            instance.user = profile
-            instance.post = Post.objects.get(id=request.POST.get('post_id'))
-            instance.save()
-            c_form = CommentModelForm()
+    if add_comment_if_submitted(request, profile):
+        return redirect_back(request)
 
     context = {
         'qs':qs,
         'profile':profile,
+
         'p_form':p_form,
         'c_form':c_form,
-        'post_added':post_added
     }
     
     return render(request, 'posts/main.html', context)

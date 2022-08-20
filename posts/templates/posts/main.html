@@ -90,9 +90,6 @@
     </div>
     <div class="five wide column">
         <div class="ui segment">
-            {% if post_added %}
-                <div class="ui green message">Post added</div>
-            {% endif %}
             <form action="" method="POST" class='ui form' enctype="multipart/form-data">
                 {% csrf_token %}
                 {{p_form}}
