@@ -9,7 +9,7 @@ from .models import Message, Profile, Relationship
 from .views_utils import (follow_unfollow, get_profile_by_pk,
                           get_received_invites, get_received_messages,
                           get_relationship_users, get_request_user_profile,
-                          get_sent_invites, redirect_back)
+                          get_sent_invites, redirect_back, get_form_by_request_method)
 
 # Function-based views
 
@@ -20,7 +20,8 @@ def my_profile_view(request):
     View url: /profiles/myprofile/
     """
     profile = get_request_user_profile(request.user)
-    form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
+
+    form = get_form_by_request_method(request, profile)
     
     posts = profile.posts.all()
 

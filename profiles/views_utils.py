@@ -1,11 +1,18 @@
 from django.shortcuts import redirect
 
 from .models import Message, Profile, Relationship
-
+from .forms import ProfileModelForm
 
 def get_request_user_profile(request_user):
     user = Profile.objects.get(user=request_user)
     return user
+
+def get_form_by_request_method(request, profile):
+    if request.method == 'POST':
+        form = ProfileModelForm(request.POST, request.FILES, instance=profile)
+    else:
+        form = ProfileModelForm(instance=profile)
+    return form
 
 def get_profile_by_pk(request):
     pk = request.POST.get('pk')
