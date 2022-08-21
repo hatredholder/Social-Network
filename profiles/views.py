@@ -84,7 +84,7 @@ def sent_invites_view(request):
     return render(request, 'profiles/sent_invites.html', context)
 
 @login_required
-def switch_follow_user(request):
+def switch_follow(request):
     """
     Follows/unfollows user by pk.
     View url: /profiles/switch_follow/

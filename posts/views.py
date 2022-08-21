@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView
 from profiles.models import Profile
@@ -9,7 +9,8 @@ from profiles.views_utils import get_request_user_profile, redirect_back
 
 from .forms import CommentModelForm, PostModelForm, PostUpdateModelForm
 from .models import Comment, Like, Post
-from .views_utils import add_comment_if_submitted, add_post_if_submitted, get_post_id_and_post_obj, like_unlike_post
+from .views_utils import (add_comment_if_submitted, add_post_if_submitted,
+                          get_post_id_and_post_obj, like_unlike_post)
 
 
 @login_required
@@ -41,7 +42,7 @@ def post_comment_create_and_list_view(request):
     return render(request, 'posts/main.html', context)
 
 @login_required
-def add_remove_like(request):
+def switch_like(request):
     """
     Adds/removes like to a post.
     View url: /posts/like/
