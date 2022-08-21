@@ -9,7 +9,7 @@ from profiles.views_utils import get_request_user_profile, redirect_back
 
 from .forms import CommentModelForm, PostModelForm, PostUpdateModelForm
 from .models import Comment, Like, Post
-from .views_utils import add_comment_if_submitted, add_post_if_submitted
+from .views_utils import add_comment_if_submitted, add_post_if_submitted, get_post_id_and_post_obj, like_unlike_post
 
 
 @login_required
@@ -41,31 +41,18 @@ def post_comment_create_and_list_view(request):
     return render(request, 'posts/main.html', context)
 
 @login_required
-def like_unlike_post(request):
-    user = request.user
+def add_remove_like(request):
+    """
+    Adds/removes like to a post.
+    View url: /posts/like/
+    """
     if request.method == 'POST':
-        post_id = request.POST.get('post_id')
-        post_obj = Post.objects.get(id=post_id)
-        profile = Profile.objects.get(user=user)
+        post_id, post_obj = get_post_id_and_post_obj(request)
+        profile = get_request_user_profile(request.user)
 
-        if profile in post_obj.liked.all():
-            post_obj.liked.remove(profile)
-        else:
-            post_obj.liked.add(profile)
-        
-        like, created = Like.objects.get_or_create(user=profile, post_id=post_id)
+        like_unlike_post(profile, post_id, post_obj)
 
-        if not created:
-            if like.value=='Like':
-                Like.value='Unlike'
-            else:
-                like.value='Like'
-        else:
-            like.value = 'Like'
-            post_obj.save()
-            like.save()
-
-    return redirect('posts:main-post-view')
+    return redirect_back(request)
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post

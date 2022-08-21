@@ -1,5 +1,5 @@
 from .forms import CommentModelForm, PostModelForm
-from .models import Post
+from .models import Post, Like
 
 
 def add_post_if_submitted(request, profile):
@@ -30,3 +30,29 @@ def add_comment_if_submitted(request, profile):
             c_form = CommentModelForm()
 
             return True
+
+def get_post_id_and_post_obj(request):
+    post_id = request.POST.get('post_id')
+    post_obj = Post.objects.get(id=post_id)
+    return post_id, post_obj
+
+def like_unlike_post(profile, post_id, post_obj):
+
+    # Remove / add target profile 
+    # from liked field in post_obj
+    if profile in post_obj.liked.all():
+        post_obj.liked.remove(profile)
+    else:
+        post_obj.liked.add(profile)
+
+    # Get Like object if post already liked, create Like object if not    
+    like, created = Like.objects.get_or_create(user=profile, post_id=post_id)
+
+    # If Like object wasnt created - delete
+    if not created:
+        like.delete()
+    # Else - save Like object
+    else:
+        like.value = 'Like'
+        post_obj.save()
+        like.save()
