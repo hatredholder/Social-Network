@@ -35,6 +35,8 @@ Database: PostgreSQL (uses an online server called ElephantSQL).
 
 # To Do/To Add
 
+- [ ] Add followers count to profile detail;
+
 - [ ]  Refactor all code;
 
 - [ ]  Make navbar sticky;
