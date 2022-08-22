@@ -35,13 +35,13 @@ Database: PostgreSQL (uses an online server called ElephantSQL).
 
 # To Do/To Add
 
-- [ ] Move to a local database instead of a online server;
-
 - [ ] Add followers count to profile detail;
 
 - [ ] Refactor all code;
 
 - [ ] Make navbar sticky;
+
+- [ ] Move to a local database instead of a online server;
 
 - [x] Add delete comment functionality; 
 
