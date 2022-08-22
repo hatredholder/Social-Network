@@ -35,24 +35,26 @@ Database: PostgreSQL (uses an online server called ElephantSQL).
 
 # To Do/To Add
 
+- [ ] Move to a local database instead of a online server;
+
 - [ ] Add followers count to profile detail;
 
-- [ ]  Refactor all code;
+- [ ] Refactor all code;
 
-- [ ]  Make navbar sticky;
+- [ ] Make navbar sticky;
 
-- [x]  Add delete comment functionality; 
+- [x] Add delete comment functionality; 
 
-- [x]  Add messenger/chat functionality;
+- [x] Add messenger/chat functionality;
 
-- [x]  Add search bar functionality;
+- [x] Add search bar functionality;
 
-- [x]  Add follow user functionality;
+- [x] Add follow user functionality;
 
-- [x]  Hide posts of people that user doesn't follow/didn't add as a friend;
+- [x] Hide posts of people that user doesn't follow/didn't add as a friend;
 
-- [x]  Change user appearence in comments;
+- [x] Change user appearence in comments;
 
-- [x]  Add a welcome page for non-authorized users;
+- [x] Add a welcome page for non-authorized users;
 
-- [x]  Change user profile detail view so it shows posts in a better way;
+- [x] Change user profile detail view so it shows posts in a better way;
