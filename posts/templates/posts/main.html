@@ -5,8 +5,26 @@
 {% endblock title %}
 
 {% block content %}
+{% for message in messages %}
+    {% if message.tags == 'error' %}
+        <div class="ui red message">
+            <div class="header">
+                Error
+            </div>
+            <p>{{message}}</p>
+        </div>
+    {% else %}
+        <div class="ui green message">
+            <div class="header">
+                Success
+            </div>
+            <p>{{message}}</p>
+        </div>
+    {% endif %}
+{% endfor %}
 <div class="ui grid">
     <div class="eleven wide column">
+        
         {% for obj in qs %}
         <div class="ui fluid card">
             <div class="content">

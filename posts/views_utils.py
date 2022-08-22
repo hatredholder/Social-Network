@@ -56,3 +56,8 @@ def like_unlike_post(profile, post_id, post_obj):
     else:
         like.save()
         post_obj.save()
+
+def get_post_by_pk(self_kwargs):
+    pk = self_kwargs.get('pk')
+    post = Post.objects.get(pk=pk)
+    return post
