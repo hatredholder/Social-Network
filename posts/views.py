@@ -88,7 +88,7 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
     """
     Deletes a comment by pk.
     View url: /posts/comments/<pk>/delete/
-    (This view is almost indentical to PostDeleteView)
+    (This view is indentical to PostDeleteView)
     """
     model = Comment
     template_name = 'posts/confirm_delete.html'
