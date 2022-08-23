@@ -11,7 +11,7 @@ from profiles.views_utils import get_request_user_profile, redirect_back
 from .forms import CommentModelForm, PostModelForm, PostUpdateModelForm
 from .models import Comment, Post
 from .views_utils import (add_comment_if_submitted, add_post_if_submitted,
-                          get_post_id_and_post_obj, like_unlike_post, get_post_by_pk)
+                          get_post_id_and_post_obj, like_unlike_post,  get_model_object_by_pk)
 
 
 @login_required
@@ -66,12 +66,12 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('posts:main-post-view')
 
     def get_object(self, *args, **kwargs):
-        post = get_post_by_pk(self.kwargs)   
+        post = get_model_object_by_pk(self.kwargs, Post)   
         return post
 
     def form_valid(self, *args, **kwargs):
         success_url = self.get_success_url()
-        post = get_post_by_pk(self.kwargs)
+        post = get_model_object_by_pk(self.kwargs, Post)
         
         # If post's author doesnt equal request's user
         if post.author.user != self.request.user:
@@ -85,16 +85,30 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    """
+    Deletes a comment by pk.
+    View url: /posts/comments/<pk>/delete/
+    (This view is almost indentical to PostDeleteView)
+    """
     model = Comment
     template_name = 'posts/confirm_delete.html'
     success_url = reverse_lazy('posts:main-post-view')
 
     def get_object(self, *args, **kwargs):
-        pk = self.kwargs.get('pk')
-        obj = Comment.objects.get(pk=pk)
-        if not obj.user.user == self.request.user:
-            messages.warning(self.request, 'You need to be the author of the comment to be able to delete it')
-        return obj
+        comment = get_model_object_by_pk(self.kwargs, Comment)
+        return comment
+
+    def form_valid(self, *args, **kwargs):
+        success_url = self.get_success_url()
+        comment = get_model_object_by_pk(self.kwargs, Comment)
+        
+        if comment.profile.user != self.request.user:
+            messages.add_message(self.request, messages.ERROR, 'You aren\'t allowed to delete this comment')
+            return HttpResponseRedirect(success_url)
+        
+        self.object.delete()
+        messages.add_message(self.request, messages.SUCCESS, 'Comment deleted successfully!')
+        return HttpResponseRedirect(success_url)
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     form_class = PostUpdateModelForm

@@ -53,7 +53,7 @@ class Post(models.Model):
         ordering = ('-created', )
 
 class Comment(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     body = models.TextField(max_length=300)
     updated = models.DateTimeField(auto_now=True)
