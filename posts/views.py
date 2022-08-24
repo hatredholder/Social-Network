@@ -65,12 +65,8 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'posts/confirm_delete.html'
     success_url = reverse_lazy('posts:main-post-view')
 
-    def get_object(self, *args, **kwargs):
-        post = get_model_object_by_pk(self.kwargs, Post)   
-        return post
-
     def form_valid(self, *args, **kwargs):
-        post = get_model_object_by_pk(self.kwargs, Post)
+        post = self.get_object()
         
         # If post's author doesnt equal request's user
         if post.author.user != self.request.user:
@@ -93,12 +89,8 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'posts/confirm_delete.html'
     success_url = reverse_lazy('posts:main-post-view')
 
-    def get_object(self, *args, **kwargs):
-        comment = get_model_object_by_pk(self.kwargs, Comment)
-        return comment
-
     def form_valid(self, *args, **kwargs):
-        comment = get_model_object_by_pk(self.kwargs, Comment)
+        comment = self.get_object()
         
         if comment.profile.user != self.request.user:
             messages.add_message(self.request, messages.ERROR, 'You aren\'t allowed to delete this comment')
