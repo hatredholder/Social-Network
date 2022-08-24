@@ -228,7 +228,8 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         if Profile.objects.get(user=self.request.user) == self.get_object():
             return redirect("profiles:my-profile-view")
 
-        # Default BaseDetailView get parameters
+        # Default BaseDetailView.get parameters
+        # (this has to be here)
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
