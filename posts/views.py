@@ -70,19 +70,18 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         return post
 
     def form_valid(self, *args, **kwargs):
-        success_url = self.get_success_url()
         post = get_model_object_by_pk(self.kwargs, Post)
         
         # If post's author doesnt equal request's user
         if post.author.user != self.request.user:
             messages.add_message(self.request, messages.ERROR, 'You aren\'t allowed to delete this post')
-            return HttpResponseRedirect(success_url)
+            return HttpResponseRedirect(self.success_url)
         
         # Executes only if post's author user
         # and request's user are the same
         self.object.delete()
         messages.add_message(self.request, messages.SUCCESS, 'Post deleted successfully!')
-        return HttpResponseRedirect(success_url)
+        return HttpResponseRedirect(self.success_url)
 
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
     """
@@ -99,27 +98,34 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
         return comment
 
     def form_valid(self, *args, **kwargs):
-        success_url = self.get_success_url()
         comment = get_model_object_by_pk(self.kwargs, Comment)
         
         if comment.profile.user != self.request.user:
             messages.add_message(self.request, messages.ERROR, 'You aren\'t allowed to delete this comment')
-            return HttpResponseRedirect(success_url)
+            return HttpResponseRedirect(self.success_url)
         
         self.object.delete()
         messages.add_message(self.request, messages.SUCCESS, 'Comment deleted successfully!')
-        return HttpResponseRedirect(success_url)
+        return HttpResponseRedirect(self.success_url)
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
-    form_class = PostUpdateModelForm
+    """
+    Updates a post by pk.
+    View url: /posts/<pk>/update/
+    (This view is (again) indentical to PostDeleteView)
+    """
     model = Post
+    form_class = PostUpdateModelForm
     template_name = 'posts/update.html'
     success_url = reverse_lazy('posts:main-post-view')
 
     def form_valid(self, form):
-        profile = Profile.objects.get(user=self.request.user)
-        if form.instance.author == profile:
-            return super().form_valid(form)
-        else:
-            form.add_error(None, 'You need to be the author of the post to be able to delete it')
-            return super().form_invalid(form)
+        profile = get_request_user_profile(self.request.user)
+        
+        if form.instance.author != profile:
+            messages.add_message(self.request, messages.ERROR, 'You aren\'t allowed to update this post')
+            return HttpResponseRedirect(self.success_url)
+        
+        self.object = form.save()
+        messages.add_message(self.request, messages.SUCCESS, 'Post updated successfully!')
+        return HttpResponseRedirect(self.success_url)        
