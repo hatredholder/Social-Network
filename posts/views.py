@@ -5,13 +5,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import DeleteView, UpdateView
-from profiles.models import Profile
 from profiles.views_utils import get_request_user_profile, redirect_back
 
 from .forms import CommentModelForm, PostModelForm, PostUpdateModelForm
 from .models import Comment, Post
 from .views_utils import (add_comment_if_submitted, add_post_if_submitted,
-                          get_post_id_and_post_obj, like_unlike_post,  get_model_object_by_pk)
+                          get_post_id_and_post_obj, like_unlike_post)
 
 
 @login_required
