@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView
 from profiles.views_utils import get_request_user_profile, redirect_back
 
-from .forms import CommentModelForm, PostModelForm, PostUpdateModelForm
+from .forms import CommentCreateModelForm, PostCreateModelForm, PostUpdateModelForm
 from .models import Comment, Post
 from .views_utils import (add_comment_if_submitted, add_post_if_submitted,
                           get_post_id_and_post_obj, like_unlike_post)
@@ -22,8 +22,8 @@ def post_comment_create_and_list_view(request):
     qs = Post.objects.get_friends_posts(user=request.user)
     profile = get_request_user_profile(request.user)
 
-    p_form = PostModelForm()
-    c_form = CommentModelForm()
+    p_form = PostCreateModelForm()
+    c_form = CommentCreateModelForm()
 
     if add_post_if_submitted(request, profile):
         return redirect_back(request)
