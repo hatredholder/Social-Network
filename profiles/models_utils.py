@@ -2,7 +2,7 @@ def get_list_of_profiles_by_user(users):
     result = []
     
     for user in users:
-        # Import in fuction to avoid circular import
+        # Import inside fuction to avoid circular import
         from .models import Profile
         
         result.append(Profile.objects.get(user=user))

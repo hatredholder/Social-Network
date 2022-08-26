@@ -7,7 +7,6 @@ from .models_utils import get_profile_related_posts
 
 
 class PostManager(models.Manager):
-
     def get_friends_posts(self, user):
         profile = get_request_user_profile(user)
         friends = profile.friends.all()

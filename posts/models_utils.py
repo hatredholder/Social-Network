@@ -5,7 +5,7 @@ from profiles.models import Profile
 def get_profile_related_posts(profile, friends, following):
     """
     This function gets all profile's own posts, posts of users profile's friends,
-    posts of users profile follows. 
+    posts of users profile follows in a queryset. 
     
     Here's how it works:
 
@@ -13,7 +13,7 @@ def get_profile_related_posts(profile, friends, following):
     we put them in a set so we dont have any duplicates
 
     2) We get querysets of both his own posts and posts of profiles
-    we gathered in step 1
+    we gathered in step 1 in a list
 
     3) Then, we get primary keys of each post in both of these querysets
     and put them in a list
