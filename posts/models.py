@@ -1,37 +1,21 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from profiles.models import Profile
+from profiles.views_utils import get_request_user_profile
+
+from .models_utils import get_profile_related_posts
 
 
 class PostManager(models.Manager):
 
     def get_friends_posts(self, user):
-        my_profile = Profile.objects.get(user=user)
-        friends = my_profile.friends.all()
-        following = my_profile.following.all()
+        profile = get_request_user_profile(user)
+        friends = profile.friends.all()
+        following = profile.following.all()
 
-        profiles = set([])
+        related_posts = get_profile_related_posts(profile, friends, following)
 
-        result = []
-        result.append(my_profile.posts.all())
-
-        return_result = []
-
-        for user_ in following:
-            profiles.add(Profile.objects.get(user=user_))
-
-        for user_ in friends:
-            profiles.add(Profile.objects.get(user=user_))
-
-        for profile in profiles:
-            result.append(profile.posts.all())
-        
-        for queryset in result:
-            for post in queryset:
-                return_result.append(post.pk)
-
-        final = Post.objects.filter(pk__in=return_result).order_by("-created")
-        return final
+        return related_posts
 
 class Post(models.Model):
     content = models.TextField()
