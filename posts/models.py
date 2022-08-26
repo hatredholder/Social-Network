@@ -21,13 +21,16 @@ class Post(models.Model):
     image = models.ImageField(upload_to='posts', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])], blank=True)
     liked = models.ManyToManyField(Profile, blank=True, related_name='likes')
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="posts")
+
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     objects = PostManager()
 
     def __str__(self):
-        return str(self.content[:20])
+        if len(str(self.content)) > 50:
+            return f"{self.author} - {str(self.content)[:50].strip()}.."
+        return f"{self.author} - {str(self.content)}"
     
     def num_comments(self):
         return self.comment_set.all().count()
@@ -39,6 +42,7 @@ class Comment(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     body = models.TextField(max_length=300)
+
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -48,6 +52,7 @@ class Comment(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
