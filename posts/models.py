@@ -56,6 +56,9 @@ class Comment(models.Model):
         return f"{self.profile} - {self.body}"
 
 class Like(models.Model):
+    """
+    This model is used to leave likes on Posts
+    """
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
