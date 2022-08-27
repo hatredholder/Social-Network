@@ -1,9 +1,10 @@
-from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.shortcuts import reverse
 
-from .models_utils import get_likes_received_count, get_list_of_profiles_by_user
+from .models_utils import (get_likes_received_count,
+                           get_list_of_profiles_by_user)
 
 # Profile Model
 
