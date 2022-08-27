@@ -19,7 +19,7 @@ def post_comment_create_and_list_view(request):
     Shows request's user friends.
     View url: /posts/
     """
-    qs = Post.objects.get_friends_posts(user=request.user)
+    qs = Post.objects.get_related_posts(user=request.user)
     profile = get_request_user_profile(request.user)
 
     p_form = PostCreateModelForm()

@@ -2,7 +2,7 @@ from profiles.models import Profile
 
 
 
-def get_profile_related_posts(profile, friends, following):
+def get_related_posts_queryset(profile, friends, following):
     """
     This function gets all profile's own posts, posts of users profile's friends,
     posts of users profile follows in a queryset. 

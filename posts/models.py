@@ -3,16 +3,16 @@ from django.db import models
 from profiles.models import Profile
 from profiles.views_utils import get_request_user_profile
 
-from .models_utils import get_profile_related_posts
+from .models_utils import get_related_posts_queryset
 
 
 class PostManager(models.Manager):
-    def get_friends_posts(self, user):
+    def get_related_posts(self, user):
         profile = get_request_user_profile(user)
         friends = profile.friends.all()
         following = profile.following.all()
 
-        related_posts = get_profile_related_posts(profile, friends, following)
+        related_posts = get_related_posts_queryset(profile, friends, following)
 
         return related_posts
 
