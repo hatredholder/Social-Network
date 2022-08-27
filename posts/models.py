@@ -17,6 +17,9 @@ class PostManager(models.Manager):
         return related_posts
 
 class Post(models.Model):
+    """
+    This model is used to show results in main.html
+    """
     content = models.TextField()
     image = models.ImageField(blank=True, upload_to='posts', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
     liked = models.ManyToManyField(Profile, blank=True, related_name='likes')
@@ -39,6 +42,9 @@ class Post(models.Model):
         ordering = ('-created', )
 
 class Comment(models.Model):
+    """
+    This model is used in Posts for comments
+    """
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     body = models.TextField(max_length=300)
@@ -47,7 +53,7 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.body)
+        return f"{self.profile} - {self.body}"
 
 class Like(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
