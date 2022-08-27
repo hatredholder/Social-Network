@@ -1,3 +1,4 @@
+from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
@@ -28,7 +29,7 @@ class Profile(models.Model):
     bio = models.TextField(default='No Bio..', max_length=300, blank=True)
     email = models.EmailField(max_length=200, blank=True)
     country = models.CharField(max_length=200, blank=True)
-    avatar = models.ImageField(default='avatar.png', upload_to='avatars/')
+    avatar = models.ImageField(default='avatar.png', upload_to='avatars/', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
     friends = models.ManyToManyField(User, blank=True, related_name='friends')
     following = models.ManyToManyField(User, blank=True, related_name='following')
     slug = models.SlugField(unique=True, blank=True)

@@ -18,7 +18,7 @@ class PostManager(models.Manager):
 
 class Post(models.Model):
     content = models.TextField()
-    image = models.ImageField(upload_to='posts', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])], blank=True)
+    image = models.ImageField(blank=True, upload_to='posts', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
     liked = models.ManyToManyField(Profile, blank=True, related_name='likes')
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="posts")
 
