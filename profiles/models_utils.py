@@ -9,11 +9,12 @@ def get_list_of_profiles_by_user(users):
 
     return result
 
+
 def get_likes_received_count(posts):
-    # Get all Profile's posts, 
+    # Get all Profile's posts,
     # get users who liked it,
     # count users
-    total_liked = 0        
+    total_liked = 0
     for post in posts:
         total_liked += post.liked.all().count()
 

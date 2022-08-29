@@ -198,8 +198,8 @@ def send_invitation(request):
         receiver = get_profile_by_pk(request)
 
         Relationship.objects.create(
-            sender=sender, receiver=receiver, status='sent'
-            )
+            sender=sender, receiver=receiver, status='sent',
+        )
 
     return redirect_back(request)
 
@@ -219,8 +219,7 @@ def remove_friend(request):
         # or where sender is target profile and receiver is request's profile,
         # then delete it
         rel = Relationship.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver)) |
-            (Q(sender=receiver) & Q(receiver=sender))
+            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender)),
         )
         rel.delete()
 
@@ -355,16 +354,16 @@ class ChatMessageView(LoginRequiredMixin, ListView):
         profile = Profile.objects.get(user=self.request.user)
 
         sent = Message.objects.filter(
-            sender=profile, receiver=self.get_object()
-            )
+            sender=profile, receiver=self.get_object(),
+        )
         received = Message.objects.filter(
-            sender=self.get_object(), receiver=profile
-            )
+            sender=self.get_object(), receiver=profile,
+        )
 
         messages = sent | received
         ordered_messages = list(
-            messages.order_by('-created').values_list('content', flat=True)
-            )
+            messages.order_by('-created').values_list('content', flat=True),
+        )
 
         return ordered_messages
 
@@ -373,7 +372,7 @@ class ChatMessageView(LoginRequiredMixin, ListView):
 
         # Used to check which messages are received and which are sent
         context['received'] = get_received_messages(
-            self.get_object(), Profile.objects.get(user=self.request.user)
+            self.get_object(), Profile.objects.get(user=self.request.user),
         )
 
         context['profile'] = self.get_object()

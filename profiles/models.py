@@ -35,13 +35,13 @@ class Profile(models.Model):
     country = models.CharField(max_length=200, blank=True)
     avatar = models.ImageField(
         default='avatar.png', upload_to='avatars/',
-        validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])]
+        validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],
     )
     friends = models.ManyToManyField(User, blank=True, related_name='friends')
     following = models.ManyToManyField(
         User, blank=True,
-        related_name='following'
-        )
+        related_name='following',
+    )
     slug = models.SlugField(unique=True, blank=True)
 
     updated = models.DateTimeField(auto_now=True)
@@ -55,8 +55,8 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse(
             "profiles:profile-detail-view",
-            kwargs={"slug": self.slug}
-            )
+            kwargs={"slug": self.slug},
+        )
 
     # Methods for profile details #
 
@@ -97,7 +97,7 @@ class RelationshipManager(models.Manager):
 
 STATUS_CHOICES = (
     ('sent', 'sent'),
-    ('accepted', 'accepted')
+    ('accepted', 'accepted'),
 )
 
 
@@ -112,8 +112,8 @@ class Relationship(models.Model):
     receiver = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='receiver'
-        )
+        related_name='receiver',
+    )
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
 
     updated = models.DateTimeField(auto_now=True)
@@ -135,13 +135,13 @@ class Message(models.Model):
     sender = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='message_sender'
-        )
+        related_name='message_sender',
+    )
     receiver = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='message_receiver'
-        )
+        related_name='message_receiver',
+    )
     content = models.TextField(max_length=200)
 
     updated = models.DateTimeField(auto_now=True)

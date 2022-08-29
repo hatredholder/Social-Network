@@ -71,7 +71,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'profiles.context_processors.profile_pic',
-                'profiles.context_processors.invitations_received_count'
+                'profiles.context_processors.invitations_received_count',
             ],
         },
     },
@@ -96,7 +96,7 @@ DATABASES = {
         'PASSWORD': 'u6hRaSgxkqUeyM8en_Y2-Wsdp0Yblj9t',
         'HOST': 'hattie.db.elephantsql.com',
         'PORT': '5432',
-    }
+    },
 }
 
 
@@ -137,7 +137,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / STATIC_URL
+    BASE_DIR / STATIC_URL,
 ]
 
 STATIC_ROOT = BASE_DIR / 'static/' / 'static_root'

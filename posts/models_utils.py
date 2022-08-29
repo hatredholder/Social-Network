@@ -1,11 +1,10 @@
 from profiles.models import Profile
 
 
-
 def get_related_posts_queryset(profile, friends, following):
     """
     This function gets all profile's own posts, posts of users profile's friends,
-    posts of users profile follows in a queryset. 
+    posts of users profile follows in a queryset.
     
     Here's how it works:
 
@@ -18,7 +17,7 @@ def get_related_posts_queryset(profile, friends, following):
     3) Then, we get primary keys of each post in both of these querysets
     and put them in a list
 
-    4) Lastly, we create a single queryset object using QuerySet API 
+    4) Lastly, we create a single queryset object using QuerySet API
     with those primary keys we gathered in step 3 and we order it by
     creation date (new first, old last)
     """
@@ -51,4 +50,4 @@ def get_related_posts_queryset(profile, friends, following):
 
     # Finally, create one big queryset of all post's primary keys in post_pks
     result = Post.objects.filter(pk__in=post_pks).order_by("-created")
-    return result 
+    return result

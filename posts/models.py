@@ -1,5 +1,6 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
+
 from profiles.models import Profile
 from profiles.views_utils import get_request_user_profile
 
@@ -16,12 +17,17 @@ class PostManager(models.Manager):
 
         return related_posts
 
+
 class Post(models.Model):
     """
     This model is used to show results in main.html
     """
     content = models.TextField()
-    image = models.ImageField(blank=True, upload_to='posts', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
+    image = models.ImageField(
+        blank=True,
+        upload_to='posts',
+        validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],
+    )
     liked = models.ManyToManyField(Profile, blank=True, related_name='likes')
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="posts")
 
@@ -41,6 +47,7 @@ class Post(models.Model):
     class Meta:
         ordering = ('-created', )
 
+
 class Comment(models.Model):
     """
     This model is used in Posts for comments
@@ -54,6 +61,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.profile} - {self.body}"
+
 
 class Like(models.Model):
     """

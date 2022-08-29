@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 
-from .models import Message, Profile, Relationship
 from .forms import ProfileModelForm
+from .models import Message, Profile, Relationship
 
 
 def get_request_user_profile(request_user):
@@ -55,7 +55,7 @@ def get_relationship_users(profile):
     relship_sent = Relationship.objects.filter(sender=profile, status='sent')
     relship_received = Relationship.objects.filter(
         receiver=profile, status='sent',
-        )
+    )
 
     # Users that request's user sent friendship invite to
     invited_users = [i.receiver.user for i in relship_sent]

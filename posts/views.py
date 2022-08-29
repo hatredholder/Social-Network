@@ -5,9 +5,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView
+
 from profiles.views_utils import get_request_user_profile, redirect_back
 
-from .forms import CommentCreateModelForm, PostCreateModelForm, PostUpdateModelForm
+from .forms import (CommentCreateModelForm, PostCreateModelForm,
+                    PostUpdateModelForm)
 from .models import Comment, Post
 from .views_utils import (add_comment_if_submitted, add_post_if_submitted,
                           get_post_id_and_post_obj, like_unlike_post)
@@ -32,14 +34,15 @@ def post_comment_create_and_list_view(request):
         return redirect_back(request)
 
     context = {
-        'qs':qs,
-        'profile':profile,
+        'qs': qs,
+        'profile': profile,
 
-        'p_form':p_form,
-        'c_form':c_form,
+        'p_form': p_form,
+        'c_form': c_form,
     }
     
     return render(request, 'posts/main.html', context)
+
 
 @login_required
 def switch_like(request):
@@ -55,6 +58,7 @@ def switch_like(request):
 
     return redirect_back(request)
 
+
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     """
     Deletes a post by pk.
@@ -69,7 +73,11 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         
         # If post's author doesnt equal request's user
         if post.author.user != self.request.user:
-            messages.add_message(self.request, messages.ERROR, 'You aren\'t allowed to delete this post')
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'You aren\'t allowed to delete this post',
+            )
             return HttpResponseRedirect(self.success_url)
         
         # Executes only if post's author user
@@ -77,6 +85,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         self.object.delete()
         messages.add_message(self.request, messages.SUCCESS, 'Post deleted successfully!')
         return HttpResponseRedirect(self.success_url)
+
 
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
     """
@@ -92,12 +101,17 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
         comment = self.get_object()
         
         if comment.profile.user != self.request.user:
-            messages.add_message(self.request, messages.ERROR, 'You aren\'t allowed to delete this comment')
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'You aren\'t allowed to delete this comment',
+            )
             return HttpResponseRedirect(self.success_url)
         
         self.object.delete()
         messages.add_message(self.request, messages.SUCCESS, 'Comment deleted successfully!')
         return HttpResponseRedirect(self.success_url)
+
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     """
@@ -114,9 +128,13 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         profile = get_request_user_profile(self.request.user)
         
         if form.instance.author != profile:
-            messages.add_message(self.request, messages.ERROR, 'You aren\'t allowed to update this post')
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                'You aren\'t allowed to update this post',
+            )
             return HttpResponseRedirect(self.success_url)
         
         self.object = form.save()
         messages.add_message(self.request, messages.SUCCESS, 'Post updated successfully!')
-        return HttpResponseRedirect(self.success_url)        
+        return HttpResponseRedirect(self.success_url)
