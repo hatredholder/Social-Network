@@ -4,12 +4,14 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
 
-from .forms import MessageModelForm, ProfileModelForm
+from .forms import MessageModelForm
 from .models import Message, Profile, Relationship
-from .views_utils import (follow_unfollow, get_profile_by_pk,
-                          get_received_invites, get_received_messages,
-                          get_relationship_users, get_request_user_profile,
-                          get_sent_invites, redirect_back, get_form_by_request_method)
+from .views_utils import (follow_unfollow, get_form_by_request_method,
+                          get_profile_by_pk, get_received_invites,
+                          get_received_messages, get_relationship_users,
+                          get_request_user_profile, get_sent_invites,
+                          redirect_back)
+
 
 # Function-based views
 
@@ -22,7 +24,7 @@ def my_profile_view(request):
     profile = get_request_user_profile(request.user)
 
     form = get_form_by_request_method(request, profile)
-    
+
     posts = profile.posts.all()
 
     confirm = False
@@ -31,15 +33,16 @@ def my_profile_view(request):
         if form.is_valid():
             form.save()
             confirm = True
-            
+
     context = {
-        'profile':profile,
-        'form':form,
-        'posts':posts,
-        'confirm':confirm,
+        'profile': profile,
+        'form': form,
+        'posts': posts,
+        'confirm': confirm,
     }
 
     return render(request, 'profiles/my_profile.html', context)
+
 
 @login_required
 def received_invites_view(request):
@@ -49,18 +52,19 @@ def received_invites_view(request):
     """
     profile = get_request_user_profile(request.user)
     profiles = get_received_invites(profile)
-    
+
     is_empty = False
 
     if not profiles:
         is_empty = True
 
     context = {
-        'profiles':profiles,
-        'is_empty':is_empty,
+        'profiles': profiles,
+        'is_empty': is_empty,
     }
 
     return render(request, 'profiles/received_invites.html', context)
+
 
 @login_required
 def sent_invites_view(request):
@@ -77,11 +81,12 @@ def sent_invites_view(request):
         is_empty = True
 
     context = {
-        'profiles':profiles,
-        'is_empty':is_empty,
+        'profiles': profiles,
+        'is_empty': is_empty,
     }
 
     return render(request, 'profiles/sent_invites.html', context)
+
 
 @login_required
 def switch_follow(request):
@@ -96,6 +101,7 @@ def switch_follow(request):
         follow_unfollow(my_profile, profile)
 
     return redirect_back(request)
+
 
 @login_required
 def accept_invitation(request):
@@ -112,8 +118,9 @@ def accept_invitation(request):
         if rel.status == 'sent':
             rel.status = 'accepted'
             rel.save()
-            
+
     return redirect_back(request)
+
 
 @login_required
 def reject_invitation(request):
@@ -132,6 +139,7 @@ def reject_invitation(request):
 
     return redirect_back(request)
 
+
 @login_required
 def my_friends_view(request):
     """
@@ -142,13 +150,14 @@ def my_friends_view(request):
     following = profile.following.all()
 
     profiles = Profile.objects.get_my_friends_profiles(request.user)
-    
+
     context = {
-        'following':following,
-        'profiles':profiles,
+        'following': following,
+        'profiles': profiles,
     }
 
     return render(request, 'profiles/my_friends.html', context)
+
 
 @login_required
 def search_profiles(request):
@@ -166,9 +175,9 @@ def search_profiles(request):
             is_empty = True
 
         context = {
-            'search':search,
-            'is_empty':is_empty,
-            'profiles':profiles,
+            'search': search,
+            'is_empty': is_empty,
+            'profiles': profiles,
         }
 
         if search:
@@ -176,19 +185,24 @@ def search_profiles(request):
 
     return render(request, 'profiles/search_profiles.html')
 
+
 @login_required
 def send_invitation(request):
     """
-    Creates a "sent" relationship between request's profile and target's profile.
+    Creates a "sent" relationship between request's profile
+    and target's profile.
     View url: /profiles/send-invite/
     """
     if request.method == 'POST':
         sender = get_request_user_profile(request.user)
         receiver = get_profile_by_pk(request)
 
-        rel = Relationship.objects.create(sender=sender, receiver=receiver, status='sent')
+        Relationship.objects.create(
+            sender=sender, receiver=receiver, status='sent'
+            )
 
     return redirect_back(request)
+
 
 @login_required
 def remove_friend(request):
@@ -200,18 +214,21 @@ def remove_friend(request):
         sender = get_request_user_profile(request.user)
         receiver = get_profile_by_pk(request)
 
-        # Find relationship 
+        # Find relationship
         # where sender is request's profile and receiver is target profile
         # or where sender is target profile and receiver is request's profile,
         # then delete it
         rel = Relationship.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender))
+            (Q(sender=sender) & Q(receiver=receiver)) |
+            (Q(sender=receiver) & Q(receiver=sender))
         )
         rel.delete()
-        
+
     return redirect_back(request)
 
+
 # Class-based views
+
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     """
@@ -220,11 +237,11 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     """
     model = Profile
     template_name = 'profiles/profile_detail.html'
-    
+
     def get(self, request, *args, **kwargs):
-        
-        # Redirect to profiles/myprofile/ 
-        # if request's user == target user  
+
+        # Redirect to profiles/myprofile/
+        # if request's user == target user
         if Profile.objects.get(user=self.request.user) == self.get_object():
             return redirect("profiles:my-profile-view")
 
@@ -233,7 +250,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
-    
+
     def get_object(self):
         slug = self.kwargs.get('slug')
         profile = Profile.objects.get(slug=slug)
@@ -254,7 +271,8 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
         context['posts'] = self.get_object().posts.all()
 
-        return context  
+        return context
+
 
 class ProfileListView(LoginRequiredMixin, ListView):
     """
@@ -274,7 +292,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
 
         profile = Profile.objects.get(user=self.request.user)
         following = profile.following.all
-        
+
         invited_users, incoming_invite_users = get_relationship_users(profile)
 
         context['invited_users'] = invited_users
@@ -283,6 +301,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
         context['profiles'] = self.get_queryset()
 
         return context
+
 
 class MessengerListView(LoginRequiredMixin, ListView):
     """
@@ -306,6 +325,7 @@ class MessengerListView(LoginRequiredMixin, ListView):
 
         return context
 
+
 class ChatMessageView(LoginRequiredMixin, ListView):
     """
     Shows messages between request's user and target user.
@@ -317,13 +337,13 @@ class ChatMessageView(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        
+
         if form.is_valid():
             instance = form.save(commit=False)
             instance.sender = Profile.objects.get(user=self.request.user)
             instance.receiver = self.get_object()
             instance.save()
-        
+
         return redirect_back(self.request)
 
     def get_object(self):
@@ -334,19 +354,27 @@ class ChatMessageView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         profile = Profile.objects.get(user=self.request.user)
 
-        sent = Message.objects.filter(sender=profile, receiver=self.get_object())
-        received = Message.objects.filter(sender=self.get_object(), receiver=profile)
+        sent = Message.objects.filter(
+            sender=profile, receiver=self.get_object()
+            )
+        received = Message.objects.filter(
+            sender=self.get_object(), receiver=profile
+            )
 
         messages = sent | received
-        ordered_messages = list(messages.order_by('-created').values_list('content', flat=True))
+        ordered_messages = list(
+            messages.order_by('-created').values_list('content', flat=True)
+            )
 
         return ordered_messages
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Used to check which messages are received and which are sent in template
-        context['received'] = get_received_messages(self.get_object(), Profile.objects.get(user=self.request.user))
+        # Used to check which messages are received and which are sent
+        context['received'] = get_received_messages(
+            self.get_object(), Profile.objects.get(user=self.request.user)
+        )
 
         context['profile'] = self.get_object()
         context['form'] = self.form_class

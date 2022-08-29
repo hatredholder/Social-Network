@@ -6,7 +6,9 @@ from django.shortcuts import reverse
 from .models_utils import (get_likes_received_count,
                            get_list_of_profiles_by_user)
 
+
 # Profile Model
+
 
 class ProfileManager(models.Manager):
     def get_all_profiles(self, user):
@@ -19,6 +21,7 @@ class ProfileManager(models.Manager):
         profiles = get_list_of_profiles_by_user(users)
         return profiles
 
+
 class Profile(models.Model):
     """
     This model gets created automatically everytime
@@ -30,11 +33,17 @@ class Profile(models.Model):
     bio = models.TextField(default='No Bio..', max_length=300, blank=True)
     email = models.EmailField(max_length=200, blank=True)
     country = models.CharField(max_length=200, blank=True)
-    avatar = models.ImageField(default='avatar.png', upload_to='avatars/', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
+    avatar = models.ImageField(
+        default='avatar.png', upload_to='avatars/',
+        validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])]
+    )
     friends = models.ManyToManyField(User, blank=True, related_name='friends')
-    following = models.ManyToManyField(User, blank=True, related_name='following')
+    following = models.ManyToManyField(
+        User, blank=True,
+        related_name='following'
+        )
     slug = models.SlugField(unique=True, blank=True)
-    
+
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -44,7 +53,10 @@ class Profile(models.Model):
         return f"{self.user.username}"
 
     def get_absolute_url(self):
-        return reverse("profiles:profile-detail-view", kwargs={"slug": self.slug})
+        return reverse(
+            "profiles:profile-detail-view",
+            kwargs={"slug": self.slug}
+            )
 
     # Methods for profile details #
 
@@ -54,16 +66,16 @@ class Profile(models.Model):
         likes = self.like_set.all()
 
         total_liked = likes.count()
-        
+
         return total_liked
 
     def get_likes_received_count(self):
         posts = self.posts.all()
 
         total_liked = get_likes_received_count(posts)
-        
+
         return total_liked
-        
+
     ###############################
 
     def save(self, *args, **kwargs):
@@ -71,6 +83,7 @@ class Profile(models.Model):
         super().save(*args, **kwargs)
 
 # Relationship Model
+
 
 class RelationshipManager(models.Manager):
     def invitations_received(self, receiver):
@@ -81,19 +94,28 @@ class RelationshipManager(models.Manager):
         qs = Relationship.objects.filter(sender=sender, status='sent')
         return qs
 
+
 STATUS_CHOICES = (
     ('sent', 'sent'),
     ('accepted', 'accepted')
 )
 
+
 class Relationship(models.Model):
     """
     This model is used to send/receive friend requests
     """
-    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
-    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')
+    sender = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='sender')
+    receiver = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='receiver'
+        )
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
-    
+
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -102,16 +124,26 @@ class Relationship(models.Model):
     def __str__(self):
         return f"{self.sender} - {self.receiver} - {self.status}"
 
+
 # Message Model
+
 
 class Message(models.Model):
     """
     This model is used in chat for messages (obviously)
     """
-    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='message_sender')
-    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='message_receiver')
+    sender = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='message_sender'
+        )
+    receiver = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='message_receiver'
+        )
     content = models.TextField(max_length=200)
-    
+
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -119,4 +151,3 @@ class Message(models.Model):
         if len(str(self.content)) > 50:
             return f"{self.sender} - {str(self.content)[:50].strip()}.."
         return f"{self.sender} - {str(self.content)}"
-        

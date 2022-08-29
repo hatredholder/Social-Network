@@ -13,6 +13,7 @@ def post_save_create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
+
 @receiver(post_save, sender=Relationship)
 def post_save_add_to_friends(sender, instance, created, **kwargs):
     """
@@ -28,11 +29,12 @@ def post_save_add_to_friends(sender, instance, created, **kwargs):
         relship_sender_profile.save()
         relship_receiver_profile.save()
 
+
 @receiver(pre_delete, sender=Relationship)
 def pre_delete_remove_from_friends(sender, instance, **kwargs):
     """
-    Delete profiles from each other's friend list 
-    when Relationship is deleted 
+    Delete profiles from each other's friend list
+    when Relationship is deleted
     """
     relship_sender_profile = instance.sender
     relship_receiver_profile = instance.receiver
