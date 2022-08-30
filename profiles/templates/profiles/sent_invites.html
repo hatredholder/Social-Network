@@ -7,8 +7,12 @@
 {% block content %}
 
     <div class="ui two top attached buttons">
-        <a href="{% url 'profiles:received-invites-view' %}"><div class="ui button">Received Invites</div></a>
-        <a href="{% url 'profiles:sent-invites-view' %}"><div class="ui button active">Sent Invites</div></a>
+        <a href="{% url 'profiles:received-invites-view' %}">
+            <div class="ui button">Received Invites</div>
+        </a>
+        <a href="{% url 'profiles:sent-invites-view' %}">
+            <div class="ui button active">Sent Invites</div>
+        </a>
     </div>
 
     {% if is_empty  %}
@@ -20,12 +24,12 @@
             <div class='ui grid'>
                 <div class='row'>
                     <div class='three wide column'>
-                        <img class='ui small circular image' src='{{profile.avatar.url}}'>
+                        <img class='ui small circular image' src='{{ profile.avatar.url }}'>
                     </div>
                     <div class='thirteen wide column'>
-                        <h3>{{profile.user}}</h3>
-                        <p>{{profile.bio}}</p>
-                        <a href='{{profile.get_absolute_url}}'>
+                        <h3>{{ profile.user }}</h3>
+                        <p>{{ profile.bio }}</p>
+                        <a href='{{ profile.get_absolute_url }}'>
                             <button 
                                 style="margin-top:10px; width:200px;" 
                                 class='ui primary button mb-5 w-big'>

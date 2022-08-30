@@ -11,14 +11,14 @@
             <div class='ui grid'>
                 <div class='row'>
                     <div class='three wide column'>
-                        <img class='ui small circular image' src='{{profile.avatar.url}}'>
+                        <img class='ui small circular image' src='{{ profile.avatar.url }}'>
                     </div>
                     <div class='thirteen wide column'>
-                        <h3>{{profile.user}}</h3>
-                        <p>{{profile.bio}}</p>
+                        <h3>{{ profile.user }}</h3>
+                        <p>{{ profile.bio }}</p>
                          
                     <div> <!-- Relationship Options (add friend, remove etc.) -->
-                        <a href='{{profile.get_absolute_url}}'>
+                        <a href='{{ profile.get_absolute_url }}'>
                             <button style="margin-top:10px; width:200px;" class='ui primary button mb-5 w-big'>
                                 See Profile
                             </button>
@@ -30,7 +30,7 @@
                             {% if profile.user not in invited_users and profile.user not in incoming_invite_users and request.user not in profile.friends.all %}
                                 <form action='{% url 'profiles:send-invite' %}' method='POST'>
                                     {% csrf_token %}
-                                    <input type='hidden' name='pk' value='{{profile.pk}}'>
+                                    <input type='hidden' name='pk' value='{{ profile.pk }}'>
                                     <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                         <i class='plus square icon'></i>
                                         Add Friend
@@ -56,7 +56,7 @@
                             {% if profile.user in incoming_invite_users and profile.user not in invited_users %}
                                 <form action='{% url 'profiles:accept-invite' %}' method='POST'>
                                     {% csrf_token %}
-                                    <input type='hidden' name='pk' value='{{profile.pk}}'>
+                                    <input type='hidden' name='pk' value='{{ profile.pk }}'>
                                     <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                         <i class='plus square icon'></i>
                                         Accept Invite
@@ -70,7 +70,7 @@
                             {% if request.user in profile.friends.all %}
                                 <form action='{% url 'profiles:remove-friend' %}' method='POST'>
                                     {% csrf_token %}
-                                    <input type='hidden' name='pk' value='{{profile.pk}}'>
+                                    <input type='hidden' name='pk' value='{{ profile.pk }}'>
                                     <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
                                         <i class='minus square icon'></i>
                                         Remove Friend
@@ -82,7 +82,7 @@
                             {% if profile.user not in following %}
                             <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                                 {% csrf_token %}
-                                <input type='hidden' name='pk' value='{{profile.pk}}'>
+                                <input type='hidden' name='pk' value='{{ profile.pk }}'>
                                 <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
                                     Follow
                                 </button>
@@ -92,7 +92,7 @@
                         {% else %}
                             <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
                                 {% csrf_token %}
-                                <input type='hidden' name='pk' value='{{profile.pk}}'>
+                                <input type='hidden' name='pk' value='{{ profile.pk }}'>
                                 <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button mb-5 w-big'>
                                     Unfollow
                                 </button>

@@ -11,14 +11,14 @@
                 <div class="header">
                     Error
                 </div>
-                <p>{{message}}</p>
+                <p>{{ message }}</p>
             </div>
         {% else %}
             <div class="ui green message">
                 <div class="header">
                     Success
                 </div>
-                <p>{{message}}</p>
+                <p>{{ message }}</p>
             </div>
         {% endif %}
     {% endfor %}
@@ -39,8 +39,8 @@
                     </div>
                         
                     </div>
-                    <img class="ui avatar image" src={{obj.author.avatar.url}}> 
-                    <a style="color:black" href="{% url 'profiles:my-profile-view' %}">{{ obj.author.user }}</a> - {{ obj.created|timesince}} ago
+                    <img class="ui avatar image" src={{ obj.author.avatar.url }}> 
+                    <a style="color:black" href="{% url 'profiles:my-profile-view' %}">{{ obj.author.user }}</a> - {{ obj.created|timesince }} ago
                 </div>
                 <div class="ui fluid image">
                     {% if obj.image %}
@@ -50,19 +50,19 @@
                 <div class="content">
                     <p> {{ obj.content }} </p>
                     <div class="right floated">
-                        <form action="{% url 'posts:switch-like-view' %}" method="POST" class='like-form' id='{{obj.id}}'>
+                        <form action="{% url 'posts:switch-like-view' %}" method="POST" class='like-form' id='{{ obj.id }}'>
                             {% csrf_token %}
-                            <input type="hidden" name="post_id" value={{obj.id}}>
+                            <input type="hidden" name="post_id" value={{ obj.id }}>
                             
                                 
                                     {% if profile not in obj.liked.all %}
-                                    <button type="submit" class="ui button positive  like-btn{{obj.id}}">Like</button>
+                                    <button type="submit" class="ui button positive  like-btn{{ obj.id }}">Like</button>
                                     {% else %}
-                                    <button type="submit" class="ui button negative  like-btn{{obj.id}}">Unlike</button>
+                                    <button type="submit" class="ui button negative  like-btn{{ obj.id }}">Unlike</button>
                                     {% endif %}
                                 <div class="ui grid">
                                     <div class="column">
-                                        <div class="like-count{{obj.id}}">{{obj.liked.all.count}} </div>
+                                        <div class="like-count{{ obj.id }}">{{ obj.liked.all.count }} </div>
                                     </div>
                                     <div class="column">
                                         likes
@@ -84,8 +84,8 @@
                         {% for c in obj.comment_set.all %}
                         
                             <div class="ui segment mb-5">
-                                <img class="ui avatar image" src={{c.profile.avatar.url}}>
-                                <span style="color:black"><a style="color:black" href="{{c.user.get_absolute_url}}">{{ c.profile }}</a> - {{c.created|timesince}} ago</span>
+                                <img class="ui avatar image" src={{ c.profile.avatar.url }}>
+                                <span style="color:black"><a style="color:black" href="{{ c.user.get_absolute_url }}">{{ c.profile }}</a> - {{ c.created|timesince }} ago</span>
                                 <div style="color:black" class='mt-5'>{{ c.body }}</div>
                                 {% if c.profile.user == request.user %}
                                     <a href="{% url 'posts:comment-delete' c.pk %}"><p style="text-align:right; color:red">Delete</p></a>
@@ -98,7 +98,7 @@
     
                     <form action="" method="POST"class='ui fluid form'>
                         {% csrf_token %}
-                        <input type="hidden" name="post_id" value={{obj.id}}>
+                        <input type="hidden" name="post_id" value={{ obj.id }}>
                         {{ c_form }}
                         <button type="submit" name="submit_c_form" class="ui primary button mt-5 w-full">Send</button>
                     </form>
@@ -110,7 +110,7 @@
             <div class="ui segment">
                 <form action="" method="POST" class='ui form' enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{p_form}}
+                    {{ p_form }}
                     <button type='submit' name="submit_p_form" class="ui positive button w-full mt-5">Send</button>
                 </form>
             </div>
