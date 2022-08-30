@@ -32,15 +32,21 @@
                     <div class="ui grid">
                         <div class="row">
                             {% if request.user == obj.author.user %}
-                                <a href="{% url 'posts:post-update' obj.pk %}"><button class="ui button bwhite-lg ">Update</button></a>
-                                <a href="{% url 'posts:post-delete' obj.pk %}"><button class="ui button bwhite-lg ">Delete</button></a>
+                                <a href="{% url 'posts:post-update' obj.pk %}">
+                                    <button class="ui button bwhite-lg ">Update</button>
+                                </a>
+                                <a href="{% url 'posts:post-delete' obj.pk %}">
+                                    <button class="ui button bwhite-lg ">Delete</button>
+                                </a>
                             {% endif %}
                         </div>
                     </div>
                         
                     </div>
                     <img class="ui avatar image" src={{ obj.author.avatar.url }}> 
-                    <a style="color:black" href="{% url 'profiles:my-profile-view' %}">{{ obj.author.user }}</a> - {{ obj.created|timesince }} ago
+                    <a style="color:black" href="{% url 'profiles:my-profile-view' %}">
+                        {{ obj.author.user }}
+                    </a> - {{ obj.created|timesince }} ago
                 </div>
                 <div class="ui fluid image">
                     {% if obj.image %}
@@ -53,21 +59,19 @@
                         <form action="{% url 'posts:switch-like-view' %}" method="POST" class='like-form' id='{{ obj.id }}'>
                             {% csrf_token %}
                             <input type="hidden" name="post_id" value={{ obj.id }}>
-                            
-                                
-                                    {% if profile not in obj.liked.all %}
-                                    <button type="submit" class="ui button positive  like-btn{{ obj.id }}">Like</button>
-                                    {% else %}
-                                    <button type="submit" class="ui button negative  like-btn{{ obj.id }}">Unlike</button>
-                                    {% endif %}
-                                <div class="ui grid">
-                                    <div class="column">
-                                        <div class="like-count{{ obj.id }}">{{ obj.liked.all.count }} </div>
-                                    </div>
-                                    <div class="column">
-                                        likes
-                                    </div>
+                            {% if profile not in obj.liked.all %}
+                            <button type="submit" class="ui button positive  like-btn{{ obj.id }}">Like</button>
+                            {% else %}
+                            <button type="submit" class="ui button negative  like-btn{{ obj.id }}">Unlike</button>
+                            {% endif %}
+                            <div class="ui grid">
+                                <div class="column">
+                                    <div class="like-count{{ obj.id }}">{{ obj.liked.all.count }}</div>
                                 </div>
+                                <div class="column">
+                                    likes
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <i class="comment icon"></i>
@@ -80,20 +84,20 @@
                         <button style="display: none"class="cmt_btn ui button mb-5">Show / Hide comments</button>
                     {% endif %}
                     <div class="comment-box">
-                    {% if obj.comment_set.all %}
-                        {% for c in obj.comment_set.all %}
-                        
-                            <div class="ui segment mb-5">
-                                <img class="ui avatar image" src={{ c.profile.avatar.url }}>
-                                <span style="color:black"><a style="color:black" href="{{ c.user.get_absolute_url }}">{{ c.profile }}</a> - {{ c.created|timesince }} ago</span>
-                                <div style="color:black" class='mt-5'>{{ c.body }}</div>
-                                {% if c.profile.user == request.user %}
-                                    <a href="{% url 'posts:comment-delete' c.pk %}"><p style="text-align:right; color:red">Delete</p></a>
-                                {% endif %}
-                            </div>
-                        
-                        {% endfor %}
-                    {% endif %}
+                        {% if obj.comment_set.all %}
+                            {% for c in obj.comment_set.all %}
+                            
+                                <div class="ui segment mb-5">
+                                    <img class="ui avatar image" src={{ c.profile.avatar.url }}>
+                                    <span style="color:black"><a style="color:black" href="{{ c.user.get_absolute_url }}">{{ c.profile }}</a> - {{ c.created|timesince }} ago</span>
+                                    <div style="color:black" class='mt-5'>{{ c.body }}</div>
+                                    {% if c.profile.user == request.user %}
+                                        <a href="{% url 'posts:comment-delete' c.pk %}"><p style="text-align:right; color:red">Delete</p></a>
+                                    {% endif %}
+                                </div>
+                            
+                            {% endfor %}
+                        {% endif %}
                     </div>
     
                     <form action="" method="POST"class='ui fluid form'>
