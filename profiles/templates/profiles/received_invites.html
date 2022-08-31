@@ -7,8 +7,12 @@
 {% block content %}
 
     <div class="ui two top attached buttons">
-        <a href="{% url 'profiles:received-invites-view' %}"><div class="ui button active">Received Invites</div></a>
-        <a href="{% url 'profiles:sent-invites-view' %}"><div class="ui button">Sent Invites</div></a>
+        <a href="{% url 'profiles:received-invites-view' %}">
+            <div class="ui button active">Received Invites</div>
+        </a>
+        <a href="{% url 'profiles:sent-invites-view' %}">
+            <div class="ui button">Sent Invites</div>
+        </a>
     </div>
 
     {% if is_empty %}
@@ -20,18 +24,19 @@
             <div class='ui grid'>
                 <div class='row'>
                     <div class='three wide column'>
-                        <img class='ui small circular image' src='{{profile.avatar.url}}'>
+                        <img class='ui small circular image' src='{{ profile.avatar.url }}'>
                     </div>
                     <div class='thirteen wide column'>
-                        <h3>{{profile.user}}</h3>
-                        <p>{{profile.bio}}</p><br>
-                        <a href='{{profile.get_absolute_url}}'>
+                        <h3>{{ profile.user }}</h3>
+                        <p>{{ profile.bio }}</p>
+                        <br>
+                        <a href='{{ profile.get_absolute_url }}'>
                             <button style="margin-top:10px; width:200px;" class="ui primary button w-big mb-5">See Profile</button>
                         </a>
                         
                         <form action='{% url 'profiles:accept-invite' %}' method='POST'>
                             {% csrf_token %}
-                            <input type='hidden' name='pk' value='{{profile.pk}}'>
+                            <input type='hidden' name='pk' value='{{ profile.pk }}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button w-big mb-5'>
                                 <i class='check icon'></i>
                                 Accept Invite
@@ -40,7 +45,7 @@
 
                         <form action='{% url 'profiles:reject-invite' %}' method='POST'>
                             {% csrf_token %}
-                            <input type='hidden' name='pk' value='{{profile.pk}}'>
+                            <input type='hidden' name='pk' value='{{ profile.pk }}'>
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button w-big mb-5'>
                                 <i class='close icon'></i>
                                 Reject Invite

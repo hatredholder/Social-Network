@@ -5,7 +5,7 @@
 {% endblock title %}
 
 {% block content %}
-    <h3 style="text-align: center">Chat with {{profile}}</h3>
+    <h3 style="text-align: center">Chat with {{ profile }}</h3>
     <form action="" method="POST" class='ui fluid form'>
         {% csrf_token %}
         {{ form }}
@@ -18,7 +18,7 @@
                 <br>
                 <div class='row'>
                     <div class='left floated four wide column'>
-                        <div class="ui blue large message">{{message}}</div>
+                        <div class="ui blue large message">{{ message }}</div>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                 <br>
                 <div class='row'>
                     <div class='right floated  four wide column'>
-                        <div class="ui left floated red large message">{{message}}</div>
+                        <div class="ui left floated red large message">{{ message }}</div>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (CommentDeleteView, PostDeleteView, PostUpdateView,
-                    switch_like, post_comment_create_and_list_view)
+                    post_comment_create_and_list_view, switch_like)
 
 app_name = 'posts'
 

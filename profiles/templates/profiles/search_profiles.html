@@ -6,20 +6,20 @@
 
 {% block content %}
     {% if search %}
-        {% if not is_empty%}
-            <h1>Showing profiles for result "{{search}}"</h1>
+        {% if not is_empty %}
+            <h1>Showing profiles for result "{{ search }}"</h1>
             <br>
             {% for profile in profiles %}
                 <div class='ui segment'>
                     <div class='ui grid'>
                         <div class='row'>
                             <div class='three wide column'>
-                                <img class='ui small circular image' src='{{profile.avatar.url}}'>
+                                <img class='ui small circular image' src='{{ profile.avatar.url }}'>
                             </div>
                             <div class='thirteen wide column'>
-                                <h3>{{profile.user}}</h3>
-                                <p>{{profile.bio}}</p>
-                                <a href='{{profile.get_absolute_url}}'>
+                                <h3>{{ profile.user }}</h3>
+                                <p>{{ profile.bio }}</p>
+                                <a href='{{ profile.get_absolute_url }}'>
                                     <button 
                                         style="margin-top:10px; width:200px;" 
                                         class='ui primary button mb-5 w-big'>

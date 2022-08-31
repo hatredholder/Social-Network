@@ -5,30 +5,24 @@
 {% endblock title %}
 
 {% block content %}
-    {% if messages %}
-        {% for message in messages %}
-            {% if 'warning' in message.tags %}
-                <div class='ui negative message'>
-                    <div class='header'>
-                        {{message}}
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-
-<div id="content-container" class="container p-none">
-    <div class="side-p">
-        <h3>Are you sure?</h3>
-        <p>You're about to delete "{{ object }}". Please confirm.</p>
-        <form action="" method="post">
-            {% csrf_token %}
-            <input class="ui button" 
-                    type="button" value="Cancel" 
-                    onclick="window.history.go(-1);"/>
-            <input class="ui button positive " type="submit" value="Confirm"/>
-        </form>
+    <div id="content-container" class="container p-none">
+        <div class="side-p">
+            <h3>Are you sure?</h3>
+            <p>You're about to delete "{{ object }}". Please confirm.</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <input 
+                    class="ui button" 
+                    type="button" 
+                    value="Cancel" 
+                    onclick="window.history.go(-1);"
+                />
+                <input 
+                    class="ui button positive" 
+                    type="submit" 
+                    value="Confirm"
+                />
+            </form>
+        </div>
     </div>
-</div>
-
 {% endblock content %}
