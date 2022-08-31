@@ -91,10 +91,10 @@ WSGI_APPLICATION = 'pybook.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gmmbpseb',
-        'USER': 'gmmbpseb',
-        'PASSWORD': 'u6hRaSgxkqUeyM8en_Y2-Wsdp0Yblj9t',
-        'HOST': 'hattie.db.elephantsql.com',
+        'NAME': 'socialnetworkdb',
+        'USER': 'admin',
+        'PASSWORD': '3250v4936',
+        'HOST': 'localhost',
         'PORT': '5432',
     },
 }

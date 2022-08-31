@@ -37,7 +37,7 @@ Database: PostgreSQL (uses an online server called ElephantSQL).
 
 - [ ] Add followers count to profile detail;
 
-- [ ] Move to a local database instead of a online server;
+- [x] Move to a local database instead of a online server;
 
 - [x] Make navbar sticky;
 
