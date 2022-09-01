@@ -43,8 +43,10 @@ def follow_unfollow(my_profile, profile):
     """
     if profile.user in my_profile.following.all():
         my_profile.following.remove(profile.user)
+        profile.followers.remove(my_profile.user)
     else:
         my_profile.following.add(profile.user)
+        profile.followers.add(my_profile.user)
 
 
 def redirect_back(request):

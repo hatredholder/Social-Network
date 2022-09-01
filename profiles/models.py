@@ -42,6 +42,10 @@ class Profile(models.Model):
         User, blank=True,
         related_name='following',
     )
+    followers = models.ManyToManyField(
+        User, blank=True,
+        related_name='followers',
+    )
     slug = models.SlugField(unique=True, blank=True)
 
     updated = models.DateTimeField(auto_now=True)

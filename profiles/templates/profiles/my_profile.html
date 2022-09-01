@@ -54,9 +54,14 @@
                     <div class='item'>
                         Likes Received
                         <div class='ui label'>{{ profile.get_likes_received_count }}</div>
-                    </div><div class='item'>
+                    </div>
+                    <div class='item'>
                         Friends
                         <div class='ui label'>{{ profile.friends.all.count }}</div>
+                    </div>
+                    <div class='item'>
+                        Followers
+                        <div class='ui label'>{{ profile.followers.all.count }}</div>
                     </div>
                 </div>
                 <button style="margin-top:10px; width:200px;" class='ui secondary button' id='modal-btn'>Update your Profile</button>
