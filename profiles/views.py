@@ -107,7 +107,7 @@ def switch_follow(request):
 def accept_invitation(request):
     """
     Accepts invitation from user by pk.
-    View url: profiles/received_invites/accept/
+    View url: /profiles/received_invites/accept/
     """
     if request.method == 'POST':
         sender = get_profile_by_pk(request)
@@ -126,7 +126,7 @@ def accept_invitation(request):
 def reject_invitation(request):
     """
     Rejects (deletes) invitation from user by pk.
-    View url: profiles/received_invites/reject/
+    View url: /profiles/received_invites/reject/
     """
     if request.method == 'POST':
         sender = get_profile_by_pk(request)
