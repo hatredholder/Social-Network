@@ -22,9 +22,9 @@ A Social Network type of project called Pybook written in Django.
 ## Instructions
 
 1. Clone this repository
-2. Start a new Virtualenv, activate it, type in console `pip install -r requirements.txt`
-3. Create a .env file with enviroment variables of `APP_SECRET, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT`
-4. Run the Django Server by typing in console `python manage.py runserver`
+2. Start a new **Virtualenv**, activate it, type in console `pip install -r requirements.txt`
+3. Create a **.env** file with enviroment variables of `APP_SECRET, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT`
+4. Run the **Django Server** by typing in console `python manage.py runserver`
 
 ## Technologies
 
