@@ -2,7 +2,7 @@
 
 :earth_americas: :earth_americas: :earth_americas:
 
-A Social Network type of project called Pybook written in Django.
+A Social Network type of project called Pybook written in **Django**.
 
 ## Features
 
@@ -22,9 +22,39 @@ A Social Network type of project called Pybook written in Django.
 ## Instructions
 
 1. Clone this repository
-2. Start a new **Virtualenv**, activate it, type in console `pip install -r requirements.txt`
-3. Create a **.env** file with enviroment variables of `APP_SECRET, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT`
-4. Run the **Django Server** by typing in console `python manage.py runserver`
+
+```
+git clone https://github.com/hatredholder/Social-Network.git
+```    
+
+2. Start a new **Virtualenv**
+
+```
+virtualenv myenv
+```  
+3. Create a PostgreSQL database
+
+```
+CREATE DATABASE socialnetwork;
+```
+
+4. Create a **.env** file with enviroment variables of `APP_SECRET, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT`
+
+```
+APP_SECRET=123
+DB_NAME=socialnetworkdb
+DB_USER=user
+DB_PASSWORD=password
+DB_HOST=localhost
+DB_PORT=5432
+``` 
+
+5. Migrate database and run the **Django Server** 
+
+```
+python manage.py migrate 
+python manage.py runserver
+```  
 
 ## Technologies
 
