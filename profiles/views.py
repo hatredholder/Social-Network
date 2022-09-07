@@ -282,7 +282,6 @@ class ProfileListView(LoginRequiredMixin, ListView):
     template_name = 'profiles/profile_list.html'
 
     def get_queryset(self):
-        # Get all profiles except request's user
         qs = Profile.objects.all()
         return qs
 
