@@ -21,10 +21,11 @@ A Social Network type of project called Pybook written in **Django**.
 
 ## Instructions
 
-1. Clone this repository
+1. Clone this repository, cd into it
 
 ```
 git clone https://github.com/hatredholder/Social-Network.git
+cd Social-Network
 ```    
 
 2. Start a new **Virtualenv**, activate it
