@@ -32,10 +32,10 @@ git clone https://github.com/hatredholder/Social-Network.git
 ```
 virtualenv myenv
 ```  
-3. Create a PostgreSQL database
+3. Create a **PostgreSQL** database
 
 ```
-CREATE DATABASE socialnetwork;
+CREATE DATABASE socialnetworkdb;
 ```
 
 4. Create a **.env** file with enviroment variables of `APP_SECRET, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT`
