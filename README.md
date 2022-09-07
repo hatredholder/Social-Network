@@ -27,10 +27,11 @@ A Social Network type of project called Pybook written in **Django**.
 git clone https://github.com/hatredholder/Social-Network.git
 ```    
 
-2. Start a new **Virtualenv**
+2. Start a new **Virtualenv**, activate it
 
 ```
 virtualenv myenv
+source myenv/bin/activate
 ```  
 3. Create a **PostgreSQL** database
 
