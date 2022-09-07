@@ -28,6 +28,8 @@
 
                             <!-- If request user didn't send invite and pk user didn't send invite and request's user not in target user friends -->
                             {% if profile.user not in invited_users and profile.user not in incoming_invite_users and request.user not in profile.friends.all %}
+                                <!-- If pk's user is not request's user (to avoid users adding themselves) -->
+                                {% if profile.user != request.user %}
                                 <form action='{% url 'profiles:send-invite' %}' method='POST'>
                                     {% csrf_token %}
                                     <input type='hidden' name='pk' value='{{ profile.pk }}'>
@@ -36,6 +38,7 @@
                                         Add Friend
                                     </button>
                                 </form>
+                                {% endif %}
                             {% endif %}
              
                         <!-- Waiting for approval -->
@@ -80,13 +83,16 @@
 
                         <!-- Follow -->
                             {% if profile.user not in following %}
-                            <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
-                                {% csrf_token %}
-                                <input type='hidden' name='pk' value='{{ profile.pk }}'>
-                                <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
-                                    Follow
-                                </button>
-                            </form>
+                            <!-- If pk's user is not request's user (to avoid users following themselves) -->
+                            {% if profile.user != request.user %}
+                                <form action='{% url "profiles:switch-follow-view" %}' method='POST'>
+                                    {% csrf_token %}
+                                    <input type='hidden' name='pk' value='{{ profile.pk }}'>
+                                    <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button mb-5 w-big'>
+                                        Follow
+                                    </button>
+                                </form>
+                            {% endif %}
                 
                         <!-- Unfollow -->
                         {% else %}

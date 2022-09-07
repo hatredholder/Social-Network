@@ -283,7 +283,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         # Get all profiles except request's user
-        qs = Profile.objects.get_all_profiles(self.request.user)
+        qs = Profile.objects.all()
         return qs
 
     def get_context_data(self, **kwargs):
