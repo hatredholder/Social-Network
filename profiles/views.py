@@ -151,9 +151,15 @@ def my_friends_view(request):
 
     profiles = Profile.objects.get_my_friends_profiles(request.user)
 
+    is_empty = False
+
+    if not profiles:
+        is_empty = True
+
     context = {
         'following': following,
         'profiles': profiles,
+        'is_empty': is_empty,
     }
 
     return render(request, 'profiles/my_friends.html', context)
