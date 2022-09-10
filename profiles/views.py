@@ -107,7 +107,7 @@ def switch_follow(request):
 def accept_invitation(request):
     """
     Accepts invitation from user by pk.
-    View url: profiles/received_invites/accept/
+    View url: /profiles/received_invites/accept/
     """
     if request.method == 'POST':
         sender = get_profile_by_pk(request)
@@ -126,7 +126,7 @@ def accept_invitation(request):
 def reject_invitation(request):
     """
     Rejects (deletes) invitation from user by pk.
-    View url: profiles/received_invites/reject/
+    View url: /profiles/received_invites/reject/
     """
     if request.method == 'POST':
         sender = get_profile_by_pk(request)
@@ -151,9 +151,15 @@ def my_friends_view(request):
 
     profiles = Profile.objects.get_my_friends_profiles(request.user)
 
+    is_empty = False
+
+    if not profiles:
+        is_empty = True
+
     context = {
         'following': following,
         'profiles': profiles,
+        'is_empty': is_empty,
     }
 
     return render(request, 'profiles/my_friends.html', context)
@@ -190,7 +196,7 @@ def search_profiles(request):
 def send_invitation(request):
     """
     Creates a "sent" relationship between request's profile
-    and target's profile.
+    and target profile.
     View url: /profiles/send-invite/
     """
     if request.method == 'POST':
@@ -231,7 +237,7 @@ def remove_friend(request):
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     """
-    Shows target's profile and it's details.
+    Shows target profile and it's details.
     View url: /profiles/users/<slug>/
     """
     model = Profile
@@ -282,8 +288,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
     template_name = 'profiles/profile_list.html'
 
     def get_queryset(self):
-        # Get all profiles except request's user
-        qs = Profile.objects.get_all_profiles(self.request.user)
+        qs = Profile.objects.all()
         return qs
 
     def get_context_data(self, **kwargs):
@@ -319,6 +324,7 @@ class MessengerListView(LoginRequiredMixin, ListView):
 
         context['profiles'] = self.get_queryset()
         context['is_empty'] = False
+
         if not self.get_queryset():
             context['is_empty'] = True
 
@@ -374,7 +380,6 @@ class ChatMessageView(LoginRequiredMixin, ListView):
         context['received'] = get_received_messages(
             self.get_object(), Profile.objects.get(user=self.request.user),
         )
-
         context['profile'] = self.get_object()
         context['form'] = self.form_class
         context['qs'] = self.get_queryset()

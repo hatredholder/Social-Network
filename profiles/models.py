@@ -11,11 +11,6 @@ from .models_utils import (get_likes_received_count,
 
 
 class ProfileManager(models.Manager):
-    def get_all_profiles(self, user):
-        # All profiles except request's user
-        profiles = Profile.objects.all().exclude(user=user)
-        return profiles
-
     def get_my_friends_profiles(self, user):
         users = Profile.objects.get(user=user).friends.all()
         profiles = get_list_of_profiles_by_user(users)

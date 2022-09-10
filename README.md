@@ -2,7 +2,7 @@
 
 :earth_americas: :earth_americas: :earth_americas:
 
-A Social Network type of project called Pybook written in Django.
+A Social Network type of project called Pybook written in **Django**.
 
 ## Features
 
@@ -21,9 +21,42 @@ A Social Network type of project called Pybook written in Django.
 
 ## Instructions
 
-1. Clone this repository
-2. Start a new Virtualenv, activate it, type in console `pip install -r requirements.txt`
-3. Run the Django Server by typing in console `python manage.py runserver`
+1. Clone this repository, cd into it
+
+```
+git clone https://github.com/hatredholder/Social-Network.git
+cd Social-Network
+```    
+
+2. Start a new **Virtualenv**, activate it
+
+```
+virtualenv myenv
+source myenv/bin/activate
+```  
+3. Create a **PostgreSQL** database
+
+```
+CREATE DATABASE socialnetworkdb;
+```
+
+4. Create a **.env** file with enviroment variables of `APP_SECRET, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT`
+
+```
+APP_SECRET=123
+DB_NAME=socialnetworkdb
+DB_USER=user
+DB_PASSWORD=password
+DB_HOST=localhost
+DB_PORT=5432
+``` 
+
+5. Migrate database and run the **Django Server** 
+
+```
+python manage.py migrate 
+python manage.py runserver
+```  
 
 ## Technologies
 
@@ -31,7 +64,7 @@ Frontend: CSS, Semantic UI 2.4.
 
 Backend: Django 4.0, JavaScript and AJAX.
 
-Database: PostgreSQL (uses an online server called ElephantSQL).
+Database: PostgreSQL.
 
 # To Do/To Add
 
@@ -52,8 +85,6 @@ Database: PostgreSQL (uses an online server called ElephantSQL).
 - [x] Add follow user functionality;
 
 - [x] Hide posts of people that user doesn't follow/didn't add as a friend;
-
-- [x] Change user appearence in comments;
 
 - [x] Add a welcome page for non-authorized users;
 
