@@ -5,6 +5,7 @@ from django.urls import include, path
 
 from .views import home_view
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
