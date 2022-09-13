@@ -57,6 +57,10 @@ class Profile(models.Model):
             kwargs={"slug": self.slug},
         )
 
+    def save(self, *args, **kwargs):
+        self.slug = str(self.user)
+        super().save(*args, **kwargs)
+
     # Methods for profile details #
 
     def get_likes_given_count(self):
@@ -76,10 +80,6 @@ class Profile(models.Model):
         return total_liked
 
     ###############################
-
-    def save(self, *args, **kwargs):
-        self.slug = str(self.user)
-        super().save(*args, **kwargs)
 
 # Relationship Model
 
