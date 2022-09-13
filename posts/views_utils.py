@@ -41,7 +41,7 @@ def get_post_id_and_post_obj(request):
 
 def like_unlike_post(profile, post_id, post_obj):
 
-    # Remove / add target profile
+    # Add / remove target profile
     # from liked field in post_obj
     if profile in post_obj.liked.all():
         post_obj.liked.remove(profile)
