@@ -40,7 +40,7 @@ def post_comment_create_and_list_view(request):
         'p_form': p_form,
         'c_form': c_form,
     }
-    
+
     return render(request, 'posts/main.html', context)
 
 
