@@ -87,5 +87,3 @@ Database: PostgreSQL.
 - [x] Hide posts of people that user doesn't follow/didn't add as a friend;
 
 - [x] Add a welcome page for non-authorized users;
-
-- [x] Change user profile detail view so it shows posts in a better way;
