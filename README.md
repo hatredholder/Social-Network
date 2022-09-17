@@ -28,11 +28,12 @@ git clone https://github.com/hatredholder/Social-Network.git
 cd Social-Network
 ```    
 
-2. Start a new **Virtualenv**, activate it
+2. Start a new **Virtualenv**, activate it, install Python module requirements
 
 ```
 virtualenv myenv
 source myenv/bin/activate
+pip install -r requirements.txt
 ```  
 3. Create a **PostgreSQL** database
 
@@ -51,7 +52,7 @@ DB_HOST=localhost
 DB_PORT=5432
 ``` 
 
-5. Migrate database and run the **Django Server** 
+5. Migrate database and run the **Django** server 
 
 ```
 python manage.py migrate 
