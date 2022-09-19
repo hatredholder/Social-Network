@@ -52,7 +52,7 @@ DB_HOST=localhost
 DB_PORT=5432
 ``` 
 
-5. Migrate database and run the **Django** server 
+5. Apply migrations to the database and run the **Django** server 
 
 ```
 python manage.py migrate 
