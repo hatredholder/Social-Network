@@ -1,4 +1,4 @@
-# Social Network
+# Pybook - Social Network
 
 :earth_americas: :earth_americas: :earth_americas:
 
