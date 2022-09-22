@@ -15,6 +15,9 @@ from .views_utils import (add_comment_if_submitted, add_post_if_submitted,
                           get_post_id_and_post_obj, like_unlike_post)
 
 
+# Function-based views
+
+
 @login_required
 def post_comment_create_and_list_view(request):
     """
@@ -57,6 +60,9 @@ def switch_like(request):
         like_unlike_post(profile, post_id, post_obj)
 
     return redirect_back(request)
+
+
+# Class-based views
 
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
