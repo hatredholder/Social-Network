@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
@@ -27,18 +28,22 @@ def my_profile_view(request):
 
     posts = profile.posts.all()
 
-    confirm = False
-
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            confirm = True
+
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Profile updated successfully!',
+            )
+            
+            return redirect_back(request)
 
     context = {
         'profile': profile,
         'form': form,
         'posts': posts,
-        'confirm': confirm,
     }
 
     return render(request, 'profiles/my_profile.html', context)
