@@ -22,6 +22,7 @@
             </div>
         {% endif %}
     {% endfor %}
+
     <div class="ui grid">
         <div class="eleven wide column">
             
@@ -29,19 +30,18 @@
             <div class="ui fluid card">
                 <div class="content">
                     <div class="right floated meta">
-                    <div class="ui grid">
-                        <div class="row">
-                            {% if request.user == obj.author.user %}
-                                <a href="{% url 'posts:post-update' obj.pk %}">
-                                    <button class="ui button bwhite-lg ">Update</button>
-                                </a>
-                                <a href="{% url 'posts:post-delete' obj.pk %}">
-                                    <button class="ui button bwhite-lg ">Delete</button>
-                                </a>
-                            {% endif %}
+                        <div class="ui grid">
+                            <div class="row">
+                                {% if request.user == obj.author.user %}
+                                    <a href="{% url 'posts:post-update' obj.pk %}">
+                                        <button class="ui button bwhite-lg ">Update</button>
+                                    </a>
+                                    <a href="{% url 'posts:post-delete' obj.pk %}">
+                                        <button class="ui button bwhite-lg ">Delete</button>
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                        
                     </div>
                     <img class="ui avatar image" src={{ obj.author.avatar.url }}> 
                     <a style="color:black" href="{% url 'profiles:my-profile-view' %}">
@@ -106,9 +106,11 @@
                         {{ c_form }}
                         <button type="submit" name="submit_c_form" class="ui primary button mt-5 w-full">Send</button>
                     </form>
+
                 </div>
             </div>
             {% endfor %}
+
         </div>
         <div class="five wide column">
             <div class="ui segment">
