@@ -158,17 +158,16 @@ def search_profiles(request):
     Searches for profiles by their username.
     View url: /profiles/search/
     """
-    if request.method == 'POST':
-        search = request.POST['search']
-        profiles = Profile.objects.filter(user__username__contains=search)
+    search = request.GET['q']
+    profiles = Profile.objects.filter(user__username__icontains=search)
 
-        context = {
-            'search': search,
-            'profiles': profiles,
-        }
+    context = {
+        'search': search,
+        'profiles': profiles,
+    }
 
-        if search:
-            return render(request, 'profiles/search_profiles.html', context)
+    if search:
+        return render(request, 'profiles/search_profiles.html', context)
 
     return render(request, 'profiles/search_profiles.html')
 

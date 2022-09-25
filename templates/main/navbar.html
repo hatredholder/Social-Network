@@ -28,7 +28,7 @@
   
       <div class="right menu">
           {% if request.user.is_authenticated %}
-          <div class="item">
+            <div class="item">
               <div class="ui floating dropdown icon button teal"> Friends
                   <i class="dropdown icon"></i>
                   <div class="menu">
@@ -43,17 +43,18 @@
                       </a>
                   </div>
                </div>
-          </div>
-                <div class="item">
-                    <form action="{% url 'profiles:search-profiles-view' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="ui action left icon input">
-                        <input class="prompt" type="search" name='search' placeholder="Search for profiles">
+            </div>
+            <!-- Search -->
+            <div class="item">
+                <form action="{% url 'profiles:search-profiles-view' %}" method="GET">
+                    <div class="ui action left icon input">
+                        <input class="prompt" type="search" name='q' placeholder="Search for profiles">
                         <i class="search icon"></i>
                         <button type='submit' class="ui button">Search</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Search end -->
           
               <a href="{{path_to_my_profile}}" class="{% if request.path == path_to_my_profile %}active{% endif %} item">
                  <img src={{profile_pic.url}} class='ui avatar image'>&nbsp;
