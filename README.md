@@ -75,7 +75,7 @@ Database: PostgreSQL.
 
 - [x] Make navbar sticky;
 
-- [x] Refactor all code (add comments everywhere they're needed, make sure all code is formatted by PEP8, etc.);
+- [x] Refactor all code (add comments everywhere they're needed, make sure all code is formatted by PEP8);
 
 - [x] Add delete comment functionality; 
 
