@@ -15,7 +15,7 @@
         </a>
     </div>
 
-    {% if is_empty %}
+    {% if not profiles %}
         <h1>You haven't received any invites yet.</h1>
     {% endif %}
 
@@ -56,4 +56,5 @@
             </div>
         </div>
     {% endfor %}
+    
 {% endblock content %}

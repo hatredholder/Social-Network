@@ -6,8 +6,8 @@
 
 {% block content %}
 
-    {% if is_empty %}
-        <h1>You haven't added any friends yet</h1>
+    {% if not profiles %}
+        <h1>You haven't added any friends yet.</h1>
     {% endif %}
 
     {% for profile in profiles %}
@@ -43,7 +43,7 @@
                                         </button>
                                     </form>
                                 {% endif %}
-                             
+                            
                             <!-- Waiting for approval -->
             
                                 <!-- If request user sent invite -->
@@ -111,4 +111,5 @@
             </div>
         </div>
     {% endfor %}
+
 {% endblock content %}

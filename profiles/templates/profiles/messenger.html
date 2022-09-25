@@ -5,9 +5,10 @@
 {% endblock title %}
 
 {% block content %}
-    {% if is_empty  %}    
+    {% if not profiles %}    
         <h1 style="text-align:center">All your friends will show here</h1>
     {% endif %}
+
     {% for profile in profiles %}
         <div class='ui segment'>
             <div class='ui grid'>

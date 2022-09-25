@@ -48,7 +48,7 @@
                     <form action="{% url 'profiles:search-profiles-view' %}" method="POST">
                         {% csrf_token %}
                         <div class="ui action left icon input">
-                        <input class="prompt" type="search" name='search' placeholder="Name of a friend...">
+                        <input class="prompt" type="search" name='search' placeholder="Search for profiles">
                         <i class="search icon"></i>
                         <button type='submit' class="ui button">Search</button>
                         </div>

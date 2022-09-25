@@ -6,7 +6,7 @@
 
 {% block content %}
     {% if search %}
-        {% if not is_empty %}
+        {% if profiles %}
             <h1>Showing profiles for result "{{ search }}"</h1>
             <br>
             {% for profile in profiles %}
