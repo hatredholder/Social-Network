@@ -58,14 +58,8 @@ def received_invites_view(request):
     profile = get_request_user_profile(request.user)
     profiles = get_received_invites(profile)
 
-    is_empty = False
-
-    if not profiles:
-        is_empty = True
-
     context = {
         'profiles': profiles,
-        'is_empty': is_empty,
     }
 
     return render(request, 'profiles/received_invites.html', context)
@@ -80,14 +74,8 @@ def sent_invites_view(request):
     profile = get_request_user_profile(request.user)
     profiles = get_sent_invites(profile)
 
-    is_empty = False
-
-    if not profiles:
-        is_empty = True
-
     context = {
         'profiles': profiles,
-        'is_empty': is_empty,
     }
 
     return render(request, 'profiles/sent_invites.html', context)
@@ -156,15 +144,9 @@ def my_friends_view(request):
 
     profiles = Profile.objects.get_my_friends_profiles(request.user)
 
-    is_empty = False
-
-    if not profiles:
-        is_empty = True
-
     context = {
         'following': following,
         'profiles': profiles,
-        'is_empty': is_empty,
     }
 
     return render(request, 'profiles/my_friends.html', context)
@@ -180,14 +162,8 @@ def search_profiles(request):
         search = request.POST['search']
         profiles = Profile.objects.filter(user__username__contains=search)
 
-        is_empty = False
-
-        if not profiles:
-            is_empty = True
-
         context = {
             'search': search,
-            'is_empty': is_empty,
             'profiles': profiles,
         }
 
@@ -328,10 +304,6 @@ class MessengerListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         context['profiles'] = self.get_queryset()
-        context['is_empty'] = False
-
-        if not self.get_queryset():
-            context['is_empty'] = True
 
         return context
 
@@ -388,9 +360,5 @@ class ChatMessageView(LoginRequiredMixin, ListView):
         context['profile'] = self.get_object()
         context['form'] = self.form_class
         context['qs'] = self.get_queryset()
-
-        context['is_empty'] = False
-        if not self.get_queryset():
-            context['is_empty'] = True
 
         return context
