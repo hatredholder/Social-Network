@@ -63,7 +63,7 @@ python manage.py runserver
 
 Frontend: CSS, Semantic UI 2.4.
 
-Backend: Django 4.0, JavaScript and AJAX.
+Backend: Django 4.1, JavaScript and AJAX.
 
 Database: PostgreSQL.
 
