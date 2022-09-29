@@ -1,5 +1,6 @@
 __pycache__
 .env
 .vscode
+.pytest_cache
 media/posts
 media/avatars
