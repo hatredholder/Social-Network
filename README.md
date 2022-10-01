@@ -44,7 +44,7 @@ CREATE DATABASE socialnetworkdb;
 4. Create a **.env** file with enviroment variables of `APP_SECRET, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT`
 
 ```
-APP_SECRET=123
+APP_SECRET=your_very_very_secure_secret_key
 DB_NAME=socialnetworkdb
 DB_USER=user
 DB_PASSWORD=password
