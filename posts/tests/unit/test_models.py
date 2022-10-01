@@ -71,4 +71,3 @@ def test_post_model_manager_get_related_posts_method(create_profile_with_friends
     assert len(
         Post.objects.get_related_posts(user=create_profile_with_friends_followings.user)
     ) == 2
-
