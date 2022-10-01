@@ -7,6 +7,9 @@ from profiles.models import Profile
 import pytest
 
 
+# Post model tests
+
+
 @pytest.mark.django_db
 def test_post_model_is_created(create_test_post):
     """
@@ -68,3 +71,4 @@ def test_post_model_manager_get_related_posts_method(create_profile_with_friends
     assert len(
         Post.objects.get_related_posts(user=create_profile_with_friends_followings.user)
     ) == 2
+
