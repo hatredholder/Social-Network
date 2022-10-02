@@ -1,6 +1,6 @@
-from posts.models import Post
-
 from django.contrib.auth.models import User
+
+from posts.models import Post
 
 from profiles.models import Profile
 
