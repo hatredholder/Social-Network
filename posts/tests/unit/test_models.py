@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from posts.models import Post
+from posts.models import Post, Comment
 
 from profiles.models import Profile
 
@@ -71,3 +71,19 @@ def test_post_model_manager_get_related_posts_method(create_profile_with_friends
     assert len(
         Post.objects.get_related_posts(user=create_profile_with_friends_followings.user)
     ) == 2
+
+
+# Comment model tests
+
+
+@pytest.mark.django_db
+def test_comment_model_is_created(create_empty_profile, create_test_post):
+    """
+    Test if the comment model is being successfully created
+    """
+    Comment.objects.create(
+        profile=create_empty_profile,
+        post=create_test_post,
+        body="test comment",
+    )
+    assert len(Comment.objects.all()) == 1

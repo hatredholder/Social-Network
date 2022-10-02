@@ -13,6 +13,8 @@ def create_empty_profile():
     Create an empty profile
     """
     user = User.objects.create(username="testuser")
+
+    # Profile gets created automatically by a signal
     profile = Profile.objects.get(user=user)
 
     return profile
