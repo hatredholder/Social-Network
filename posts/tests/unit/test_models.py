@@ -87,3 +87,16 @@ def test_comment_model_is_created(create_empty_profile, create_test_post):
         body="test comment",
     )
     assert len(Comment.objects.all()) == 1
+
+
+@pytest.mark.django_db
+def test_comment_model_str_method(create_empty_profile, create_test_post):
+    """
+    Test if the comment model str method is working as intended
+    """
+    comment = Comment.objects.create(
+        profile=create_empty_profile,
+        post=create_test_post,
+        body="test comment",
+    )
+    assert str(comment) == f"{create_empty_profile} - test comment"
