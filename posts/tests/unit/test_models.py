@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from posts.models import Post, Comment
+from posts.models import Post, Comment, Like
 
 from profiles.models import Profile
 
@@ -100,3 +100,30 @@ def test_comment_model_str_method(create_empty_profile, create_test_post):
         body="test comment",
     )
     assert str(comment) == f"{create_empty_profile} - test comment"
+
+
+# Like model tests
+
+
+@pytest.mark.django_db
+def test_like_model_is_created(create_empty_profile, create_test_post):
+    """
+    Test if the like model is being successfully created
+    """
+    Like.objects.create(
+        profile=create_empty_profile,
+        post=create_test_post,
+    )
+    assert len(Like.objects.all()) == 1
+
+
+@pytest.mark.django_db
+def test_like_model_str_method(create_empty_profile, create_test_post):
+    """
+    Test if the like model str method is working as intended
+    """
+    like = Like.objects.create(
+        profile=create_empty_profile,
+        post=create_test_post,
+    )
+    assert str(like) == f"{create_empty_profile} liked {create_test_post}"
