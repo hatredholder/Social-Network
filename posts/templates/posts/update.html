@@ -9,7 +9,7 @@
         <h3>Update Post</h3>
         <form action="" method="POST" class="ui form" enctype="mutlipart/form-data">
             {% csrf_token %}
-            {{ form }}
+            {{ form.as_p }}
             <input 
                 class="ui button" 
                 type="button"

@@ -103,7 +103,7 @@
                     <form action="" method="POST"class='ui fluid form'>
                         {% csrf_token %}
                         <input type="hidden" name="post_id" value={{ obj.id }}>
-                        {{ c_form }}
+                        {{ c_form.as_p }}
                         <button type="submit" name="submit_c_form" class="ui primary button mt-5 w-full">Send</button>
                     </form>
 
@@ -116,7 +116,7 @@
             <div class="ui segment">
                 <form action="" method="POST" class='ui form' enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ p_form }}
+                    {{ p_form.as_p }}
                     <button type='submit' name="submit_p_form" class="ui positive button w-full mt-5">Send</button>
                 </form>
             </div>

@@ -9,7 +9,7 @@
     
     <form action="" method="POST" class='ui fluid form'>
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p  }}
         <button type="submit" class="ui primary button mt-5 w-full">Send</button>
     </form>
     <br>
