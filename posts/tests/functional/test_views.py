@@ -9,6 +9,9 @@ from pytest_django.asserts import assertTemplateUsed
 
 @pytest.mark.django_db
 def test_post_comment_create_and_list_view_template_used(create_test_user, client):
+    """
+    Test if appopriate template is used in view
+    """
     client.force_login(user=create_test_user)
 
     response = client.get('/posts/')
@@ -19,6 +22,9 @@ def test_post_comment_create_and_list_view_template_used(create_test_user, clien
 
 @pytest.mark.django_db
 def test_post_comment_create_and_list_view_related_post(client, create_test_post, create_test_user):
+    """
+    Test if created related post appears on testuser's posts page
+    """
     
     # Add testuser to user friend list
     Profile.objects.get(user=create_test_user).friends.add(User.objects.get(username="user"))
