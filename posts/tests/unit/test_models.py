@@ -32,10 +32,8 @@ def test_post_model_str_method(create_empty_profile):
         author=create_empty_profile,
     )
 
-    assert str(post_short_content) == "testuser - short content"
-    assert (
-        str(post_long_content) == "testuser - long content long content long content long conten.."
-    )
+    assert str(post_short_content) == "user - short content"
+    assert str(post_long_content) == "user - long content long content long content long conten.."
 
 
 @pytest.mark.django_db
@@ -57,7 +55,7 @@ def test_post_model_manager_get_related_posts_method(create_profile_with_friends
     # (user comes from the fixture)
     Post.objects.create(
         content="following content",
-        author=Profile.objects.get(user=User.objects.get(username="testuser")),
+        author=Profile.objects.get(user=User.objects.get(username="user")),
     )
 
     # Create a post of user's friend

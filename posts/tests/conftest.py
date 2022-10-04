@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 
+from django.test import Client
+
 from posts.models import Post
 
 from profiles.models import Profile
@@ -12,7 +14,7 @@ def create_empty_profile():
     """
     Create an empty profile
     """
-    user = User.objects.create(username="testuser")
+    user = User.objects.create(username="user")
 
     # Profile gets created automatically by a signal
     profile = Profile.objects.get(user=user)
@@ -21,12 +23,28 @@ def create_empty_profile():
 
 
 @pytest.fixture
+def client():
+    client = Client()
+    return client
+
+
+@pytest.fixture
+def create_test_user():
+    user = User.objects.create(
+        username="testuser",
+        password="testpass",
+        email="testuser@gmail.com",
+    )
+    return user
+
+
+@pytest.fixture
 def create_test_post(create_empty_profile):
     """
     Create a post
     """
     post = Post.objects.create(
-        content="test content",
+        content="test post content",
         author=create_empty_profile,
     )
     return post
