@@ -69,6 +69,8 @@ Database: PostgreSQL.
 
 # To Do/To Add
 
+- [ ] Add tests;
+
 - [x] Add followers count to profile detail;
 
 - [x] Move to a local database instead of a online server;
