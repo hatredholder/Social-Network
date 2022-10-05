@@ -24,7 +24,7 @@ def add_comment_if_submitted(request, profile):
 
         if c_form.is_valid():
             instance = c_form.save(commit=False)
-            instance.user = profile
+            instance.profile = profile
             instance.post = Post.objects.get(id=request.POST.get('post_id'))
             instance.save()
 

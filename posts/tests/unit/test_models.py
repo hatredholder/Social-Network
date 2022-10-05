@@ -82,7 +82,7 @@ def test_comment_model_is_created(create_empty_profile, create_test_post):
     Comment.objects.create(
         profile=create_empty_profile,
         post=create_test_post,
-        body="test comment",
+        content="test comment",
     )
     assert len(Comment.objects.all()) == 1
 
@@ -95,7 +95,7 @@ def test_comment_model_str_method(create_empty_profile, create_test_post):
     comment = Comment.objects.create(
         profile=create_empty_profile,
         post=create_test_post,
-        body="test comment",
+        content="test comment",
     )
     assert str(comment) == f"{create_empty_profile} - test comment"
 
