@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 
+from posts.models import Post
+
 from profiles.models import Profile
 
 import pytest
@@ -34,3 +36,21 @@ def test_post_comment_create_and_list_view_related_post(client, create_test_post
     response = client.get('/posts/')
 
     assert b"test post content" in response.content
+
+
+@pytest.mark.django_db
+def test_post_comment_create_and_list_view_post_create(create_test_user, client):
+    """
+    Test if appopriate template is used in view
+    """
+    client.force_login(user=create_test_user)
+
+    data = {
+        "content": "post content",
+        "submit_p_form": "",
+    }
+
+    response = client.post('/posts/', data=data)
+
+    assert response.status_code == 302
+    assert len(Post.objects.all()) == 1
