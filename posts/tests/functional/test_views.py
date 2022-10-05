@@ -41,7 +41,7 @@ def test_post_comment_create_and_list_view_related_post(client, create_test_post
 @pytest.mark.django_db
 def test_post_comment_create_and_list_view_post_create(create_test_user, client):
     """
-    Test if appopriate template is used in view
+    Test if post gets created successfully
     """
     client.force_login(user=create_test_user)
 
