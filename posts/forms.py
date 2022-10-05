@@ -20,11 +20,11 @@ class PostUpdateModelForm(forms.ModelForm):
 
 
 class CommentCreateModelForm(forms.ModelForm):
-    body = forms.CharField(
+    content = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Add a comment..'}),
         label='',
     )
 
     class Meta:
         model = Comment
-        fields = ('body', )
+        fields = ('content', )
