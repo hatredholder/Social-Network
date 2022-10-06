@@ -9,6 +9,9 @@ import pytest
 from pytest_django.asserts import assertTemplateUsed
 
 
+# post_comment_create_and_list_view
+
+
 @pytest.mark.django_db
 def test_post_comment_create_and_list_view_template_used(create_test_user, client):
     """
@@ -79,6 +82,9 @@ def test_post_comment_create_and_list_view_comment_create(
     assert len(Comment.objects.all()) == 1
 
 
+# switch_like
+
+
 @pytest.mark.django_db
 def test_switch_like_view(create_test_user, create_test_post, client):
     """
@@ -98,12 +104,30 @@ def test_switch_like_view(create_test_user, create_test_post, client):
     assert len(Like.objects.all()) == 1
 
 
+# PostDeleteView
+
+
 @pytest.mark.django_db
-def test_PostDeleteView(create_test_post, client):
+def test_PostDeleteView_template_used(create_test_user, create_test_post, client):
+    """
+    Test if the right template is used in view
+    """
+    client.force_login(user=create_test_user)
+
+    post_id = Post.objects.all().first().id
+
+    response = client.get(f'/posts/{post_id}/delete/')
+
+    assert response.status_code == 200
+    assertTemplateUsed(response, "posts/confirm_delete.html")
+
+
+@pytest.mark.django_db
+def test_PostDeleteView_delete_post(create_test_post, client):
     """
     Test if Like object gets created successfully through a POST request
     """
-    
+
     # User object comes from create_test_post fixture
     client.force_login(user=User.objects.get(username="user"))
 
