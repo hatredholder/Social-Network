@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from posts.models import Comment, Post
+from posts.models import Comment, Like, Post
 
 from profiles.models import Profile
 
@@ -77,3 +77,22 @@ def test_post_comment_create_and_list_view_comment_create(
 
     assert response.status_code == 302
     assert len(Comment.objects.all()) == 1
+
+
+@pytest.mark.django_db
+def test_switch_like_view(create_test_user, create_test_post, client):
+    """
+    Test if like object gets created successfully through a POST request
+    """
+    client.force_login(user=create_test_user)
+
+    post_id = Post.objects.all().first().id
+
+    data = {
+        "post_id": post_id,
+    }
+
+    response = client.post('/posts/like/', data=data)
+
+    assert response.status_code == 302
+    assert len(Like.objects.all()) == 1
