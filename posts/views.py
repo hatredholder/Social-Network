@@ -77,7 +77,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     def form_valid(self, *args, **kwargs):
         post = self.get_object()
         
-        # If post's author doesnt equal request's user
+        # If post's author user doesnt equal request's user
         if post.author.user != self.request.user:
             messages.add_message(
                 self.request,
