@@ -12,7 +12,7 @@ from pytest_django.asserts import assertTemplateUsed
 @pytest.mark.django_db
 def test_post_comment_create_and_list_view_template_used(create_test_user, client):
     """
-    Test if appopriate template is used in view
+    Test if the right template is used in view
     """
     client.force_login(user=create_test_user)
 
@@ -27,7 +27,7 @@ def test_post_comment_create_and_list_view_related_post(client, create_test_post
     """
     Test if created related post appears on testuser's posts page
     """
-    
+
     # Add testuser to user friend list
     Profile.objects.get(user=create_test_user).friends.add(User.objects.get(username="user"))
 
@@ -41,7 +41,7 @@ def test_post_comment_create_and_list_view_related_post(client, create_test_post
 @pytest.mark.django_db
 def test_post_comment_create_and_list_view_post_create(create_test_user, client):
     """
-    Test if post object gets created successfully through a POST request
+    Test if Post object gets created successfully through a POST request
     """
     client.force_login(user=create_test_user)
 
@@ -61,7 +61,7 @@ def test_post_comment_create_and_list_view_comment_create(
     create_test_user, create_test_post, client,
 ):
     """
-    Test if comment object gets created successfully through a POST request
+    Test if Comment object gets created successfully through a POST request
     """
     client.force_login(user=create_test_user)
 
@@ -82,7 +82,7 @@ def test_post_comment_create_and_list_view_comment_create(
 @pytest.mark.django_db
 def test_switch_like_view(create_test_user, create_test_post, client):
     """
-    Test if like object gets created successfully through a POST request
+    Test if Like object gets created successfully through a POST request
     """
     client.force_login(user=create_test_user)
 
@@ -96,3 +96,20 @@ def test_switch_like_view(create_test_user, create_test_post, client):
 
     assert response.status_code == 302
     assert len(Like.objects.all()) == 1
+
+
+@pytest.mark.django_db
+def test_PostDeleteView(create_test_post, client):
+    """
+    Test if Like object gets created successfully through a POST request
+    """
+    
+    # User object comes from create_test_post fixture
+    client.force_login(user=User.objects.get(username="user"))
+
+    post_id = Post.objects.all().first().id
+
+    response = client.post(f'/posts/{post_id}/delete/')
+
+    assert response.status_code == 302
+    assert len(Post.objects.all()) == 0
