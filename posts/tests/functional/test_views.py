@@ -182,3 +182,35 @@ def test_CommentDeleteView_delete_comment(create_test_user, create_test_post, cl
 
     assert response.status_code == 302
     assert len(Comment.objects.all()) == 0
+
+
+# PostUpdateView
+
+
+@pytest.mark.django_db
+def test_PostUpdateView_template_used(create_test_user, create_test_post, client):
+    client.force_login(user=create_test_user)
+
+    post_id = Post.objects.all().first().id
+
+    response = client.get(f'/posts/{post_id}/update/')
+
+    assert response.status_code == 200
+    assertTemplateUsed(response, "posts/update.html")
+
+
+@pytest.mark.django_db
+def test_PostUpdateView_update_post(create_test_post, client):
+    # User object comes from create_test_post fixture
+    client.force_login(user=User.objects.get(username="user"))
+
+    post_id = Post.objects.all().first().id
+
+    data = {
+        "content": "new post content",
+    }
+
+    response = client.post(f'/posts/{post_id}/update/', data=data)
+
+    assert response.status_code == 302
+    assert Post.objects.all().first().content == "new post content"
