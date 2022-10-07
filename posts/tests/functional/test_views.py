@@ -139,21 +139,36 @@ def test_PostDeleteView_delete_post(create_test_post, client):
     assert len(Post.objects.all()) == 0
 
 
+@pytest.mark.django_db
+def test_PostDeleteView_check_message(create_test_user, create_test_post, client):
+    """
+    Test if message sent by the view is right
+    """
+    client.force_login(user=create_test_user)
+    post_id = Post.objects.all().first().id
+    client.post(f'/posts/{post_id}/delete/')
+    response = client.get('/posts/')
+
+    # &#x27 means the ' symbol
+    assert b'You aren&#x27;t allowed to delete this post' in response.content
+
+    client.force_login(user=User.objects.get(username="user"))
+    post_id = Post.objects.all().first().id
+    client.post(f'/posts/{post_id}/delete/')
+    response = client.get('/posts/')
+
+    assert b'Post deleted successfully!' in response.content
+
+
 # CommentDeleteView
 
 
 @pytest.mark.django_db
-def test_CommentDeleteView_template_used(create_test_user, create_test_post, client):
+def test_CommentDeleteView_template_used(create_test_user, create_test_comment, client):
     """
     Test if the right template is used in view
     """
     client.force_login(user=create_test_user)
-
-    Comment.objects.create(
-        profile=Profile.objects.get(user=create_test_user),
-        post=create_test_post,
-        content="comment content",
-    )
 
     comment_id = Comment.objects.all().first().id
 
@@ -164,17 +179,13 @@ def test_CommentDeleteView_template_used(create_test_user, create_test_post, cli
 
 
 @pytest.mark.django_db
-def test_CommentDeleteView_delete_comment(create_test_user, create_test_post, client):
+def test_CommentDeleteView_delete_comment(create_test_user, create_test_comment, client):
     """
     Test if Comment object gets deleted successfully through a POST request
     """
-    client.force_login(user=create_test_user)
 
-    Comment.objects.create(
-        profile=Profile.objects.get(user=create_test_user),
-        post=create_test_post,
-        content="comment content",
-    )
+    # User object comes from create_test_comment fixture
+    client.force_login(user=User.objects.get(username="user"))
 
     comment_id = Comment.objects.all().first().id
 
@@ -182,6 +193,27 @@ def test_CommentDeleteView_delete_comment(create_test_user, create_test_post, cl
 
     assert response.status_code == 302
     assert len(Comment.objects.all()) == 0
+
+
+@pytest.mark.django_db
+def test_CommentDeleteView_check_message(create_test_user, create_test_comment, client):
+    """
+    Test if message sent by the view is right
+    """
+    client.force_login(user=create_test_user)
+    comment_id = Comment.objects.all().first().id
+    client.post(f'/posts/comments/{comment_id}/delete/')
+    response = client.get('/posts/')
+
+    # &#x27 means the ' symbol
+    assert b'You aren&#x27;t allowed to delete this comment' in response.content
+
+    client.force_login(user=User.objects.get(username="user"))
+    comment_id = Comment.objects.all().first().id
+    client.post(f'/posts/comments/{comment_id}/delete/')
+    response = client.get('/posts/')
+
+    assert b'Comment deleted successfully!' in response.content
 
 
 # PostUpdateView
@@ -221,3 +253,24 @@ def test_PostUpdateView_update_post(create_test_post, client):
 
     assert response.status_code == 302
     assert Post.objects.all().first().content == "new post content"
+
+
+@pytest.mark.django_db
+def test_PostUpdateView_check_message(create_test_user, create_test_post, client):
+    """
+    Test if message sent by the view is right
+    """
+    client.force_login(user=create_test_user)
+    post_id = Post.objects.all().first().id
+    client.post(f'/posts/{post_id}/update/', data={"content": "new post content"})
+    response = client.get('/posts/')
+
+    # &#x27 means the ' symbol
+    assert b'You aren&#x27;t allowed to update this post' in response.content
+
+    client.force_login(user=User.objects.get(username="user"))
+    post_id = Post.objects.all().first().id
+    client.post(f'/posts/{post_id}/update/', data={"content": "new post content"})
+    response = client.get('/posts/')
+
+    assert b'Post updated successfully!' in response.content

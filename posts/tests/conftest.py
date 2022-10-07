@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 
 from django.test import Client
 
-from posts.models import Post
+from posts.models import Post, Comment
 
 from profiles.models import Profile
 
@@ -64,3 +64,13 @@ def create_profile_with_friends_followings(create_empty_profile):
     profile.friends.add(friend)
 
     return profile
+
+
+@pytest.fixture
+def create_test_comment(create_empty_profile, create_test_post):
+    comment = Comment.objects.create(
+        profile=create_empty_profile,
+        post=create_test_post,
+        content="comment content",
+    )
+    return comment
