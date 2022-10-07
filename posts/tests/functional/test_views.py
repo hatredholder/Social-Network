@@ -86,7 +86,7 @@ def test_post_comment_create_and_list_view_comment_create(
 
 
 @pytest.mark.django_db
-def test_switch_like_view(create_test_user, create_test_post, client):
+def test_switch_like_view_add_like(create_test_user, create_test_post, client):
     """
     Test if Like object gets created successfully through a POST request
     """
@@ -102,6 +102,26 @@ def test_switch_like_view(create_test_user, create_test_post, client):
 
     assert response.status_code == 302
     assert len(Like.objects.all()) == 1
+
+
+@pytest.mark.django_db
+def test_switch_like_view_delete_like(create_test_user, create_test_post, client):
+    """
+    Test if sending POST request twice deletes the Like object
+    """
+    client.force_login(user=create_test_user)
+
+    post_id = Post.objects.all().first().id
+
+    data = {
+        "post_id": post_id,
+    }
+
+    client.post('/posts/like/', data=data)
+    assert len(Like.objects.all()) == 1
+
+    client.post('/posts/like/', data=data)
+    assert len(Like.objects.all()) == 0
 
 
 # PostDeleteView
