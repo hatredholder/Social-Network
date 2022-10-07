@@ -137,3 +137,42 @@ def test_PostDeleteView_delete_post(create_test_post, client):
 
     assert response.status_code == 302
     assert len(Post.objects.all()) == 0
+
+
+# CommentDeleteView
+
+
+@pytest.mark.django_db
+def test_CommentDeleteView_template_used(create_test_user, create_test_post, client):
+    client.force_login(user=create_test_user)
+
+    Comment.objects.create(
+        profile=Profile.objects.get(user=create_test_user),
+        post=create_test_post,
+        content="comment content",
+    )
+
+    comment_id = Comment.objects.all().first().id
+
+    response = client.get(f'/posts/comments/{comment_id}/delete/')
+
+    assert response.status_code == 200
+    assertTemplateUsed(response, "posts/confirm_delete.html")
+
+
+@pytest.mark.django_db
+def test_CommentDeleteView_delete_comment(create_test_user, create_test_post, client):
+    client.force_login(user=create_test_user)
+
+    Comment.objects.create(
+        profile=Profile.objects.get(user=create_test_user),
+        post=create_test_post,
+        content="comment content",
+    )
+
+    comment_id = Comment.objects.all().first().id
+
+    response = client.post(f'/posts/comments/{comment_id}/delete/')
+
+    assert response.status_code == 302
+    assert len(Comment.objects.all()) == 0
