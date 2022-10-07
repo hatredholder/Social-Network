@@ -125,7 +125,7 @@ def test_PostDeleteView_template_used(create_test_user, create_test_post, client
 @pytest.mark.django_db
 def test_PostDeleteView_delete_post(create_test_post, client):
     """
-    Test if Like object gets created successfully through a POST request
+    Test if Post object gets deleted successfully through a POST request
     """
 
     # User object comes from create_test_post fixture
@@ -144,6 +144,9 @@ def test_PostDeleteView_delete_post(create_test_post, client):
 
 @pytest.mark.django_db
 def test_CommentDeleteView_template_used(create_test_user, create_test_post, client):
+    """
+    Test if the right template is used in view
+    """
     client.force_login(user=create_test_user)
 
     Comment.objects.create(
@@ -162,6 +165,9 @@ def test_CommentDeleteView_template_used(create_test_user, create_test_post, cli
 
 @pytest.mark.django_db
 def test_CommentDeleteView_delete_comment(create_test_user, create_test_post, client):
+    """
+    Test if Comment object gets deleted successfully through a POST request
+    """
     client.force_login(user=create_test_user)
 
     Comment.objects.create(
