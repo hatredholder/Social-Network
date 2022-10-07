@@ -189,6 +189,9 @@ def test_CommentDeleteView_delete_comment(create_test_user, create_test_post, cl
 
 @pytest.mark.django_db
 def test_PostUpdateView_template_used(create_test_user, create_test_post, client):
+    """
+    Test if the right template is used in view
+    """
     client.force_login(user=create_test_user)
 
     post_id = Post.objects.all().first().id
@@ -201,6 +204,10 @@ def test_PostUpdateView_template_used(create_test_user, create_test_post, client
 
 @pytest.mark.django_db
 def test_PostUpdateView_update_post(create_test_post, client):
+    """
+    Test if Post object gets updated successfully through a POST request
+    """
+
     # User object comes from create_test_post fixture
     client.force_login(user=User.objects.get(username="user"))
 
