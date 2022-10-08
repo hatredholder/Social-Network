@@ -19,8 +19,7 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     """
-    This model gets created automatically everytime
-    a new user sign ups
+    This model gets created automatically everytime a new user sign ups
     """
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)
