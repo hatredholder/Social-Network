@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import Client
 
-from posts.models import Comment, Post
+from posts.models import Comment, Like, Post
 
 from profiles.models import Profile
 
@@ -73,3 +73,12 @@ def create_test_comment(create_empty_profile, create_test_post):
         content="comment content",
     )
     return comment
+
+
+@pytest.fixture
+def create_test_like(create_empty_profile, create_test_post):
+    like = Like.objects.create(
+        profile=create_empty_profile,
+        post=create_test_post,
+    )
+    return like

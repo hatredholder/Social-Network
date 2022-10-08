@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
-
 from django.test import Client
+
+# Add fixtures from other conftest.py
+from posts.tests.conftest import create_test_like, create_test_post  # noqa: F401
 
 from profiles.models import Profile
 
@@ -18,3 +20,9 @@ def create_empty_profile():
     profile = Profile.objects.get(user=user)
 
     return profile
+
+
+@pytest.fixture
+def client():
+    client = Client()
+    return client
