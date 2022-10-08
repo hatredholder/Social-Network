@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
-
 from django.test import Client
 
-from posts.models import Post, Comment
+from posts.models import Comment, Post
 
 from profiles.models import Profile
 
