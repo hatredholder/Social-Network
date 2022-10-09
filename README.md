@@ -69,7 +69,7 @@ Database: PostgreSQL.
 
 # To Do/To Add
 
-- [ ] Add tests;
+- [ ] Add 100% coverage tests;
 
 - [x] Add followers count to profile detail;
 
