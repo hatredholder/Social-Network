@@ -46,7 +46,7 @@ def test_post_model_num_comments_method(create_test_post):
 
 
 @pytest.mark.django_db
-def test_post_model_manager_get_related_posts_method(create_profile_with_friends_followings):
+def test_post_manager_get_related_posts_method(create_profile_friends_followings):
     """
     Test if post model manager get related posts method works correctly
     """
@@ -67,7 +67,7 @@ def test_post_model_manager_get_related_posts_method(create_profile_with_friends
 
     # Check if get_related_posts returns 2 posts
     assert len(
-        Post.objects.get_related_posts(user=create_profile_with_friends_followings.user),
+        Post.objects.get_related_posts(user=create_profile_friends_followings.user),
     ) == 2
 
 

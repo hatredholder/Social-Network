@@ -50,7 +50,7 @@ def create_test_post(create_empty_profile):
 
 
 @pytest.fixture
-def create_profile_with_friends_followings(create_empty_profile):
+def create_profile_friends_followings(create_empty_profile):
     """
     Creates a profile with a friend in their friendlist
     and with a following

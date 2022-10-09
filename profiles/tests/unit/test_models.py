@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from profiles.models import Profile
+from profiles.models import Profile, Relationship
 
 import pytest
 
@@ -50,7 +50,7 @@ def test_profile_model_get_likes_received_count_method(create_empty_profile, cre
 
 
 @pytest.mark.django_db
-def test_profile_manager_model_get_my_friends_profiles_method(create_test_user):
+def test_profile_manager_get_my_friends_profiles_method(create_test_user):
     """
     Test if the Profile model get_likes_given_count method is working as intended
     """
@@ -60,4 +60,42 @@ def test_profile_manager_model_get_my_friends_profiles_method(create_test_user):
     assert len(Profile.objects.get_my_friends_profiles(create_test_user)) == 1
 
 
-# Profile model tests
+# Relationship model tests
+
+
+@pytest.mark.django_db
+def test_relationship_model_is_created(create_test_relationship):
+    """
+    Test if the Relationship model is being successfully created
+    """
+    assert len(Relationship.objects.all()) == 1
+
+
+@pytest.mark.django_db
+def test_relationship_model_str_method(create_test_relationship):
+    """
+    Test if the Relationship model str method is working as intended
+    """
+    assert str(Relationship.objects.all().first()) == "user - followinguser - sent"
+
+
+@pytest.mark.django_db
+def test_relationship_manager_invitations_received_method(
+    create_test_relationship, create_empty_profile, create_profile_friends_followings,
+):
+    """
+    Test if the Relationship model invitations_received method is working as intended
+    """
+    assert len(Relationship.objects.invitations_received(create_empty_profile)) == 0
+    assert len(Relationship.objects.invitations_received(create_profile_friends_followings)) == 1
+
+
+@pytest.mark.django_db
+def test_relationship_manager_invitations_sent_method(
+    create_test_relationship, create_empty_profile, create_profile_friends_followings,
+):
+    """
+    Test if the Relationship model invitations_sent method is working as intended
+    """
+    assert len(Relationship.objects.invitations_sent(create_empty_profile)) == 1
+    assert len(Relationship.objects.invitations_sent(create_profile_friends_followings)) == 0
