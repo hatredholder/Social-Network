@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from profiles.models import Profile, Relationship, Message
+from profiles.models import Message, Profile, Relationship
 
 import pytest
 
