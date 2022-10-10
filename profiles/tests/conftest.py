@@ -4,7 +4,7 @@ from posts.tests.conftest import (client, create_empty_profile,  # noqa: F401
                                   create_test_like, create_test_post,
                                   create_test_user)
 
-from profiles.models import Relationship
+from profiles.models import Message, Relationship
 
 import pytest
 
@@ -19,3 +19,15 @@ def create_test_relationship(
         status='sent',
     )
     return relationship
+
+
+@pytest.fixture
+def create_test_message(
+    create_empty_profile, create_profile_friends_followings,  # noqa: F811
+):
+    message = Message.objects.create(
+        sender=create_empty_profile,
+        receiver=create_profile_friends_followings,
+        content='test message content',
+    )
+    return message

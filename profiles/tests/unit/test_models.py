@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from profiles.models import Profile, Relationship
+from profiles.models import Profile, Relationship, Message
 
 import pytest
 
@@ -99,3 +99,34 @@ def test_relationship_manager_invitations_sent_method(
     """
     assert len(Relationship.objects.invitations_sent(create_empty_profile)) == 1
     assert len(Relationship.objects.invitations_sent(create_profile_friends_followings)) == 0
+
+
+# Message model tests
+
+
+@pytest.mark.django_db
+def test_message_model_is_created(create_test_message):
+    """
+    Test if the Message model is being successfully created
+    """
+    assert len(Message.objects.all()) == 1
+
+
+@pytest.mark.django_db
+def test_message_model_str_method(create_empty_profile, create_profile_friends_followings):
+    """
+    Test if the Message model str method is working as intended
+    """
+    short_message = Message.objects.create(
+        sender=create_empty_profile,
+        receiver=create_profile_friends_followings,
+        content='short content',
+    )
+    long_message = Message.objects.create(
+        sender=create_empty_profile,
+        receiver=create_profile_friends_followings,
+        content='long content long content long content long content long content long content',
+    )
+
+    assert str(short_message) == "user - short content"
+    assert str(long_message) == "user - long content long content long content long conten.."
