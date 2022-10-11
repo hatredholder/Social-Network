@@ -13,6 +13,9 @@ import pytest
 def create_test_relationship(
     create_empty_profile, create_profile_friends_followings,  # noqa: F811
 ):
+    """
+    Create and return a Relationship object
+    """
     relationship = Relationship.objects.create(
         sender=create_empty_profile,
         receiver=create_profile_friends_followings,
@@ -25,6 +28,9 @@ def create_test_relationship(
 def create_test_message(
     create_empty_profile, create_profile_friends_followings,  # noqa: F811
 ):
+    """
+    Create and return a Message object
+    """
     message = Message.objects.create(
         sender=create_empty_profile,
         receiver=create_profile_friends_followings,
