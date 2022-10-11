@@ -38,7 +38,7 @@ def test_my_profile_view_update(create_test_user, client):
 @pytest.mark.django_db
 def test_my_profile_view_check_message(create_test_user, client):
     """
-    Test if message sent by the view is right
+    Test if message is sent by the view
     """
     client.force_login(user=create_test_user)
 
