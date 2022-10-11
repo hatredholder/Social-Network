@@ -11,7 +11,7 @@ import pytest
 @pytest.fixture
 def create_empty_profile():
     """
-    Create an empty profile
+    Create and return an empty profile
     """
     user = User.objects.create(username="user")
 
@@ -23,12 +23,19 @@ def create_empty_profile():
 
 @pytest.fixture
 def client():
+    """
+    Create and return a Django Client object
+    (used to send requests)
+    """
     client = Client()
     return client
 
 
 @pytest.fixture
 def create_test_user():
+    """
+    Create and return a User object
+    """
     user = User.objects.create(
         username="testuser",
         password="testpass",
@@ -40,7 +47,7 @@ def create_test_user():
 @pytest.fixture
 def create_test_post(create_empty_profile):
     """
-    Create a post
+    Create and return a Post object
     """
     post = Post.objects.create(
         content="test post content",
@@ -67,6 +74,9 @@ def create_profile_friends_followings(create_empty_profile):
 
 @pytest.fixture
 def create_test_comment(create_empty_profile, create_test_post):
+    """
+    Create and return Comment object
+    """
     comment = Comment.objects.create(
         profile=create_empty_profile,
         post=create_test_post,
@@ -77,6 +87,9 @@ def create_test_comment(create_empty_profile, create_test_post):
 
 @pytest.fixture
 def create_test_like(create_empty_profile, create_test_post):
+    """
+    Create and return Like object
+    """
     like = Like.objects.create(
         profile=create_empty_profile,
         post=create_test_post,
