@@ -192,3 +192,6 @@ def test_reject_invitation_accept_relationship(create_test_relationship, client)
 
     assert response.status_code == 302
     assert len(Profile.objects.get(id=profile_pk).friends.all()) == 0
+
+
+# my_friends_view
