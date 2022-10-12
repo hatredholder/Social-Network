@@ -1,3 +1,7 @@
+from django.contrib.auth.models import User
+
+from profiles.models import Profile
+
 import pytest
 
 from pytest_django.asserts import assertTemplateUsed
@@ -83,3 +87,108 @@ def test_sent_invites_view_template_used(create_test_user, client):
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/sent_invites.html")
+
+
+# switch_follow
+
+
+@pytest.mark.django_db
+def test_switch_follow_POST(create_empty_profile, create_test_user, client):
+    """
+    Test if the view is working correctly
+    """
+    client.force_login(user=create_test_user)
+
+    # Check if user has 0 followers before POST request
+    assert len(create_empty_profile.followers.all()) == 0
+
+    profile_id = Profile.objects.all().first().id
+
+    data = {
+        "pk": profile_id,
+    }
+
+    client.post('/profiles/switch_follow/', data=data)
+
+    # Check if user has 1 follower after POST request
+    assert len(create_empty_profile.followers.all()) == 1
+
+
+# accept_invitation
+
+
+@pytest.mark.django_db
+def test_accept_invitation_no_relationship(create_test_user, client):
+    """
+    Test if the view is throwing a 404 error when an incorrent pk is sent
+    """
+    client.force_login(user=create_test_user)
+
+    profile_pk = Profile.objects.get(user=create_test_user).id
+
+    data = {
+        'pk': profile_pk,
+    }
+
+    response = client.post('/profiles/received_invites/accept/', data=data)
+
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_accept_invitation_accept_relationship(create_test_relationship, client):
+    """
+    Test if the view works correctly when a correct pk is sent
+    """
+    client.force_login(user=User.objects.get(username="followinguser"))
+
+    profile_pk = Profile.objects.get(user=User.objects.get(username="user")).id
+
+    data = {
+        'pk': profile_pk,
+    }
+
+    response = client.post('/profiles/received_invites/accept/', data=data)
+
+    assert response.status_code == 302
+    assert len(Profile.objects.get(id=profile_pk).friends.all()) == 1
+
+
+# reject_invitation
+
+
+@pytest.mark.django_db
+def test_reject_invitation_no_relationship(create_test_user, client):
+    """
+    Test if the view is throwing a 404 error when an incorrent pk is sent
+    """
+    client.force_login(user=create_test_user)
+
+    profile_pk = Profile.objects.get(user=create_test_user).id
+
+    data = {
+        'pk': profile_pk,
+    }
+
+    response = client.post('/profiles/received_invites/reject/', data=data)
+
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_reject_invitation_accept_relationship(create_test_relationship, client):
+    """
+    Test if the view works correctly when a correct pk is sent
+    """
+    client.force_login(user=User.objects.get(username="followinguser"))
+
+    profile_pk = Profile.objects.get(user=User.objects.get(username="user")).id
+
+    data = {
+        'pk': profile_pk,
+    }
+
+    response = client.post('/profiles/received_invites/reject/', data=data)
+
+    assert response.status_code == 302
+    assert len(Profile.objects.get(id=profile_pk).friends.all()) == 0
