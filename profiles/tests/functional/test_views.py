@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from profiles.models import Profile
+from profiles.models import Profile, Relationship
 
 import pytest
 
@@ -238,3 +238,26 @@ def test_search_profiles_search_for_testuser(create_test_user, client):
     assert b"testuser" in response.content
     assert b"No Bio.." in response.content
     assert b"See Profile" in response.content
+
+
+# send_invitation
+
+
+@pytest.mark.django_db
+def test_send_invitation_send_relationship(create_test_user, create_empty_profile, client):
+    """
+    Test if the view creates a relationship correctly
+    """
+    client.force_login(user=create_test_user)
+
+    profile_pk = create_empty_profile.id
+
+    data = {
+        'pk': profile_pk,
+    }
+
+    response = client.post('/profiles/send-invite/', data=data)
+
+    assert response.status_code == 302
+    assert len(Relationship.objects.all()) == 1
+    assert Relationship.objects.all().first().status == 'sent'
