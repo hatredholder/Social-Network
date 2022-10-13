@@ -158,7 +158,7 @@ def search_profiles(request):
     Searches for profiles by their username.
     View url: /profiles/search/
     """
-    search = request.GET['q']
+    search = request.GET.get('q', "")
     profiles = Profile.objects.filter(user__username__icontains=search)
 
     context = {
