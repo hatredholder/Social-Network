@@ -195,3 +195,19 @@ def test_reject_invitation_accept_relationship(create_test_relationship, client)
 
 
 # my_friends_view
+
+
+@pytest.mark.django_db
+def test_my_friends_view_template_used(create_test_user, client):
+    """
+    Test if the right template is used in view
+    """
+    client.force_login(user=create_test_user)
+
+    response = client.get('/profiles/my_friends/')
+
+    assert response.status_code == 200
+    assertTemplateUsed(response, "profiles/my_friends.html")
+
+
+# search_profiles
