@@ -211,3 +211,30 @@ def test_my_friends_view_template_used(create_test_user, client):
 
 
 # search_profiles
+
+@pytest.mark.django_db
+def test_search_profiles_template_used(create_test_user, client):
+    """
+    Test if the right template is used in view
+    """
+    client.force_login(user=create_test_user)
+
+    response = client.get('/profiles/search/')
+
+    assert response.status_code == 200
+    assertTemplateUsed(response, "profiles/search_profiles.html")
+
+
+@pytest.mark.django_db
+def test_search_profiles_search_for_testuser(create_test_user, client):
+    """
+    Test if the search result view returns testuser's profile
+    """
+    client.force_login(user=create_test_user)
+
+    response = client.get('/profiles/search/?q=testuser')
+
+    assert response.status_code == 200
+    assert b"testuser" in response.content
+    assert b"No Bio.." in response.content
+    assert b"See Profile" in response.content
