@@ -261,3 +261,26 @@ def test_send_invitation_send_relationship(create_test_user, create_empty_profil
     assert response.status_code == 302
     assert len(Relationship.objects.all()) == 1
     assert Relationship.objects.all().first().status == 'sent'
+
+
+# remove_friend
+
+@pytest.mark.django_db
+def test_remove_friend_delete_relationship(create_test_relationship, client):
+    """
+    Test if the view deletes a relationship correctly
+    """
+    assert len(Relationship.objects.all()) == 1
+
+    client.force_login(user=User.objects.get(username="followinguser"))
+
+    profile_pk = Profile.objects.get(user=User.objects.get(username="user")).id
+
+    data = {
+        'pk': profile_pk,
+    }
+
+    response = client.post('/profiles/remove-friend/', data=data)
+
+    assert response.status_code == 302
+    assert len(Relationship.objects.all()) == 0
