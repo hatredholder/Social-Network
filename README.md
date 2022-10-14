@@ -28,7 +28,7 @@ git clone https://github.com/hatredholder/Social-Network.git
 cd Social-Network
 ```    
 
-2. Start a new **Virtualenv**, activate it, install Python module requirements
+2. Start a new **Virtualenv**, activate it, install Python module requirements on it
 
 ```
 virtualenv myenv
