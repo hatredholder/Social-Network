@@ -328,3 +328,29 @@ def test_ProfileDetailView_invitation_sent(create_test_relationship, client):
 
 
 # ProfileListView
+
+
+@pytest.mark.django_db
+def test_ProfileListView_template_used(create_test_user, client):
+    """
+    Test if the right template is used in view
+    """
+    client.force_login(user=create_test_user)
+
+    response = client.get('/profiles/')
+
+    assert response.status_code == 200
+    assertTemplateUsed(response, "profiles/profile_list.html")
+
+
+@pytest.mark.django_db
+def test_ProfileListView_invitation_sent(create_test_relationship, client):
+    """
+    Test if the view shows "Waiting for approval" when an invitation is sent
+    """
+    client.force_login(user=User.objects.get(username="user"))
+
+    response = client.get('/profiles/')
+
+    assert response.status_code == 200
+    assert b'Waiting for approval' in response.content
