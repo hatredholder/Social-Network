@@ -325,3 +325,6 @@ def test_ProfileDetailView_invitation_sent(create_test_relationship, client):
 
     assert response.status_code == 200
     assert b'Waiting for approval' in response.content
+
+
+# ProfileListView
