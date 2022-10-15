@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from profiles.models import Profile, Relationship
+from profiles.models import Message, Profile, Relationship
 
 import pytest
 
@@ -371,3 +371,39 @@ def test_MessengerListView_template_used(create_test_user, client):
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/messenger.html")
 
+
+# ChatMessageView
+
+
+@pytest.mark.django_db
+def test_ChatMessageView_template_used(create_profile_friends_followings, client):
+    """
+    Test if the right template is used in view
+    """
+    client.force_login(user=User.objects.get(username="followinguser"))
+
+    profile_pk = Profile.objects.get(user=User.objects.get(username="frienduser")).id
+
+    response = client.get(f'/profiles/chat/{profile_pk}/')
+
+    assert response.status_code == 200
+    assertTemplateUsed(response, "profiles/chat.html")
+
+
+@pytest.mark.django_db
+def test_ChatMessageView_send_message(create_profile_friends_followings, client):
+    """
+    Test if the view message sending works correctly
+    """
+    client.force_login(user=User.objects.get(username="followinguser"))
+
+    profile_pk = Profile.objects.get(user=User.objects.get(username="frienduser")).id
+
+    data = {
+        "content": "test content",
+    }
+
+    response = client.post(f'/profiles/chat/{profile_pk}/', data=data)
+
+    assert response.status_code == 302
+    assert len(Message.objects.all()) == 1
