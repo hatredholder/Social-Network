@@ -284,3 +284,44 @@ def test_remove_friend_delete_relationship(create_test_relationship, client):
 
     assert response.status_code == 302
     assert len(Relationship.objects.all()) == 0
+
+
+# ProfileDetailView
+
+
+@pytest.mark.django_db
+def test_ProfileDetailView_template_used(create_test_user, create_empty_profile, client):
+    """
+    Test if the right template is used in view
+    """
+    client.force_login(user=create_test_user)
+
+    response = client.get('/profiles/users/user/')
+
+    assert response.status_code == 200
+    assertTemplateUsed(response, "profiles/profile_detail.html")
+
+
+@pytest.mark.django_db
+def test_ProfileDetailView_redirect_myprofile(create_test_user, client):
+    """
+    Test if the view redirects when user tries to reach his own profile details
+    """
+    client.force_login(user=create_test_user)
+
+    response = client.get('/profiles/users/testuser/')
+
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_ProfileDetailView_invitation_sent(create_test_relationship, client):
+    """
+    Test if the view shows "Waiting for approval" when an invitation is sent
+    """
+    client.force_login(user=User.objects.get(username="user"))
+
+    response = client.get('/profiles/users/followinguser/')
+
+    assert response.status_code == 200
+    assert b'Waiting for approval' in response.content
