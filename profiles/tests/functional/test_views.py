@@ -354,3 +354,20 @@ def test_ProfileListView_invitation_sent(create_test_relationship, client):
 
     assert response.status_code == 200
     assert b'Waiting for approval' in response.content
+
+
+# MessengerListView
+
+
+@pytest.mark.django_db
+def test_MessengerListView_template_used(create_test_user, client):
+    """
+    Test if the right template is used in view
+    """
+    client.force_login(user=create_test_user)
+
+    response = client.get('/profiles/messenger/')
+
+    assert response.status_code == 200
+    assertTemplateUsed(response, "profiles/messenger.html")
+
