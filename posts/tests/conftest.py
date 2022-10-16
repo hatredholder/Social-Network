@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.test import Client
 
 from posts.models import Comment, Like, Post
 
@@ -19,16 +18,6 @@ def create_empty_profile():
     profile = Profile.objects.get(user=user)
 
     return profile
-
-
-@pytest.fixture
-def client():
-    """
-    Create and return a Django Client object
-    (used to send requests)
-    """
-    client = Client()
-    return client
 
 
 @pytest.fixture
