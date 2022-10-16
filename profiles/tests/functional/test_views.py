@@ -113,6 +113,11 @@ def test_switch_follow_POST(create_empty_profile, create_test_user, client):
     # Check if user has 1 follower after POST request
     assert len(create_empty_profile.followers.all()) == 1
 
+    client.post('/profiles/switch_follow/', data=data)
+
+    # Check if user has 0 followers after second POST request
+    assert len(create_empty_profile.followers.all()) == 0
+
 
 # accept_invitation
 
