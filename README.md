@@ -1,6 +1,6 @@
 # Pybook - Social Network 
 
-![Pytest](https://github.com/hatredholder/Social-Network/workflows/Pytesting/badge.svg)
+![Pytest](https://github.com/hatredholder/Social-Network/workflows/Pytesting/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/hatredholder/Social-Network/badge.svg?branch=main)](https://coveralls.io/github/hatredholder/Social-Network?branch=main)
 
 :earth_americas: :earth_americas: :earth_americas:
 
