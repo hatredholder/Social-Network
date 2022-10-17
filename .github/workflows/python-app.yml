@@ -20,9 +20,9 @@ jobs:
         image: postgres
 
         env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: user
+          POSTGRES_DB: socialnetworkdb
 
         options: >-
           --health-cmd pg_isready
@@ -54,3 +54,10 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+      env:
+        APP_SECRET: your_very_very_secure_secret_key
+        DB_NAME: socialnetworkdb
+        DB_USER: user
+        DB_PASSWORD: password
+        DB_HOST: localhost
+        DB_PORT: 5432
