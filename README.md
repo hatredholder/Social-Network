@@ -1,4 +1,6 @@
-# Pybook - Social Network
+# Pybook - Social Network 
+
+![Pytest](https://github.com/hatredholder/Social-Network/workflows/Pytesting/badge.svg)
 
 :earth_americas: :earth_americas: :earth_americas:
 
