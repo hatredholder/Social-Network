@@ -1,6 +1,7 @@
 __pycache__
+.coverage
 .env
 .vscode
 .pytest_cache
-media/posts
 media/avatars
+media/posts

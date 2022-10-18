@@ -1,4 +1,6 @@
-# Pybook - Social Network
+# Pybook - Social Network 
+
+![Pytest](https://github.com/hatredholder/Social-Network/workflows/tests/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/hatredholder/Social-Network/badge.svg?branch=main)](https://coveralls.io/github/hatredholder/Social-Network?branch=main)
 
 :earth_americas: :earth_americas: :earth_americas:
 
@@ -69,7 +71,7 @@ Database: PostgreSQL.
 
 # To Do/To Add
 
-- [ ] Add 100% coverage tests;
+- [x] Add 100% coverage tests;
 
 - [x] Add followers count to profile detail;
 
