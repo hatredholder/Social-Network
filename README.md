@@ -23,27 +23,27 @@ A Social Network type of project called Pybook written in **Django**.
 
 ## Instructions
 
-1. Clone this repository, cd into it
+Clone this repository, cd into it
 
 ```
 git clone https://github.com/hatredholder/Social-Network.git
 cd Social-Network
 ```    
 
-2. Start a new **Virtualenv**, activate it, install Python module requirements on it
+Start a new **Virtualenv**, activate it, install Python module requirements on it
 
 ```
 virtualenv myenv
 source myenv/bin/activate
 pip install -r requirements/base.txt
 ```  
-3. Create a **PostgreSQL** database
+Create a **PostgreSQL** database
 
 ```
 CREATE DATABASE socialnetworkdb;
 ```
 
-4. Create a **.env** file with enviroment variables of `APP_SECRET, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT`
+Create a **.env** file with enviroment variables of `APP_SECRET, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT`
 
 ```
 APP_SECRET=your_very_very_secure_secret_key
@@ -54,12 +54,34 @@ DB_HOST=localhost
 DB_PORT=5432
 ``` 
 
-5. Apply migrations to the database and run the **Django** server 
+Apply migrations to the database and run the **Django** server 
 
 ```
 python manage.py migrate 
 python manage.py runserver
 ```  
+
+## Testing
+
+To use the tests you need to install **local** module requirements first, to do that, use:
+```
+pip install -r requirements/local.txt
+```
+
+To run the tests and check the coverage use:
+```
+pytest --cov
+```
+
+To generate an HTML coverage report use:
+```
+pytest --cov-report html:cov_html --cov
+```
+
+And finally to test the code quality (see if there are any PEP8 errors) use:
+```
+flake8
+```
 
 ## Technologies
 
@@ -69,7 +91,7 @@ Backend: Django 4.1, JavaScript and AJAX.
 
 Database: PostgreSQL.
 
-# To Do/To Add
+## To Do/To Add
 
 - [x] Add 100% coverage tests;
 
