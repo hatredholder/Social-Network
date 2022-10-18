@@ -91,6 +91,8 @@ Backend: Django 4.1, JavaScript and AJAX.
 
 Database: PostgreSQL.
 
+Tests: Pytest, Pytest-Django.
+
 ## To Do/To Add
 
 - [x] Add 100% coverage tests;
