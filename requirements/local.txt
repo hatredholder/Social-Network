@@ -1,0 +1,15 @@
+-r ./base.txt
+
+# Testing
+# ------------------------------------------------------------------------------
+pytest # https://github.com/pytest-dev/pytest
+pytest-django # https://github.com/pytest-dev/pytest-cov
+pytest-dotenv # https://github.com/quiqua/pytest-dotenv
+
+# Linting
+# ------------------------------------------------------------------------------
+flake8 # https://github.com/pycqa/flake8
+
+# Django
+# ------------------------------------------------------------------------------
+django-debug-toolbar # https://github.com/jazzband/django-debug-toolbar

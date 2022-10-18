@@ -1,0 +1,13 @@
+# Python
+# ----------------------------------------------------------------------------
+Pillow # https://github.com/python-pillow/Pillow
+python-dotenv # https://github.com/theskumar/python-dotenv
+
+# Django
+# ----------------------------------------------------------------------------
+Django # https://www.djangoproject.com/
+django-allauth # https://github.com/pennersr/django-allauth
+
+# PostgreSQL
+# ----------------------------------------------------------------------------
+psycopg2-binary # https://github.com/psycopg/psycopg2
