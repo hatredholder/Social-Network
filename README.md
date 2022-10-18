@@ -35,7 +35,7 @@ cd Social-Network
 ```
 virtualenv myenv
 source myenv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements/base.txt
 ```  
 3. Create a **PostgreSQL** database
 
