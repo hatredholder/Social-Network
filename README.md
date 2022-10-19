@@ -63,22 +63,22 @@ python manage.py runserver
 
 ## Testing
 
-To use the tests you need to install **local** module requirements first, to do that, use:
+To use the **tests** you need to install **local** module requirements first, to do that, use:
 ```
 pip install -r requirements/local.txt
 ```
 
-To run the tests and check the coverage use:
+To run the **tests** and check the **coverage** use:
 ```
 pytest --cov
 ```
 
-To generate an HTML coverage report use:
+To generate an HTML **coverage** report use:
 ```
 pytest --cov-report html:cov_html --cov
 ```
 
-And finally to test the code quality (see if there are any PEP8 errors) use:
+And finally to test the **code quality** (see if there are any PEP8 errors) use:
 ```
 flake8
 ```
