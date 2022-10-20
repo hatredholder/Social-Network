@@ -85,9 +85,9 @@ flake8
 
 ## Technologies
 
-Frontend: CSS, Semantic UI 2.4.
+Frontend: CSS, Semantic UI.
 
-Backend: Django 4.1, JavaScript and AJAX.
+Backend: Django, JavaScript and AJAX.
 
 Database: PostgreSQL.
 
