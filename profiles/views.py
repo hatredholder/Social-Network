@@ -16,6 +16,7 @@ from .views_utils import (follow_unfollow, get_form_by_request_method,
 
 # Function-based views
 
+
 @login_required
 def my_profile_view(request):
     """
