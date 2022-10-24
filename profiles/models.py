@@ -3,8 +3,7 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.shortcuts import reverse
 
-from .models_utils import (get_likes_received_count,
-                           get_list_of_profiles_by_user)
+from .models_utils import get_likes_received_count, get_list_of_profiles_by_user
 
 
 # Profile Model
@@ -21,24 +20,28 @@ class Profile(models.Model):
     """
     This model gets created automatically everytime a new user sign ups
     """
+
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(default='No Bio..', max_length=300, blank=True)
+    bio = models.TextField(default="No Bio..", max_length=300, blank=True)
     email = models.EmailField(max_length=200, blank=True)
     country = models.CharField(max_length=200, blank=True)
     avatar = models.ImageField(
-        default='avatar.png', upload_to='avatars/',
-        validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],
+        default="avatar.png",
+        upload_to="avatars/",
+        validators=[FileExtensionValidator(["png", "jpg", "jpeg"])],
     )
-    friends = models.ManyToManyField(User, blank=True, related_name='friends')
+    friends = models.ManyToManyField(User, blank=True, related_name="friends")
     following = models.ManyToManyField(
-        User, blank=True,
-        related_name='following',
+        User,
+        blank=True,
+        related_name="following",
     )
     followers = models.ManyToManyField(
-        User, blank=True,
-        related_name='followers',
+        User,
+        blank=True,
+        related_name="followers",
     )
     slug = models.SlugField(unique=True, blank=True)
 
@@ -80,22 +83,23 @@ class Profile(models.Model):
 
     ###############################
 
+
 # Relationship Model
 
 
 class RelationshipManager(models.Manager):
     def invitations_received(self, receiver):
-        qs = Relationship.objects.filter(receiver=receiver, status='sent')
+        qs = Relationship.objects.filter(receiver=receiver, status="sent")
         return qs
 
     def invitations_sent(self, sender):
-        qs = Relationship.objects.filter(sender=sender, status='sent')
+        qs = Relationship.objects.filter(sender=sender, status="sent")
         return qs
 
 
 STATUS_CHOICES = (
-    ('sent', 'sent'),
-    ('accepted', 'accepted'),
+    ("sent", "sent"),
+    ("accepted", "accepted"),
 )
 
 
@@ -103,14 +107,12 @@ class Relationship(models.Model):
     """
     This model is used to send/receive friend requests
     """
-    sender = models.ForeignKey(
-        Profile,
-        on_delete=models.CASCADE,
-        related_name='sender')
+
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="sender")
     receiver = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='receiver',
+        related_name="receiver",
     )
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
 
@@ -130,15 +132,16 @@ class Message(models.Model):
     """
     This model is used in chat for messages (obviously)
     """
+
     sender = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='message_sender',
+        related_name="message_sender",
     )
     receiver = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='message_receiver',
+        related_name="message_receiver",
     )
     content = models.TextField(max_length=200)
 

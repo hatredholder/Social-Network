@@ -17,7 +17,7 @@ def test_my_profile_view_template_used(create_test_user, client):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/myprofile/')
+    response = client.get("/profiles/myprofile/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/my_profile.html")
@@ -34,7 +34,7 @@ def test_my_profile_view_update(create_test_user, client):
         "bio": "new bio",
     }
 
-    response = client.post('/profiles/myprofile/', data=data)
+    response = client.post("/profiles/myprofile/", data=data)
 
     assert response.status_code == 302
 
@@ -50,11 +50,11 @@ def test_my_profile_view_check_message(create_test_user, client):
         "bio": "new bio",
     }
 
-    client.post('/profiles/myprofile/', data=data)
+    client.post("/profiles/myprofile/", data=data)
 
-    response = client.get('/profiles/myprofile/')
+    response = client.get("/profiles/myprofile/")
 
-    assert b'Profile updated successfully!' in response.content
+    assert b"Profile updated successfully!" in response.content
 
 
 # received_invites_view
@@ -67,7 +67,7 @@ def test_received_invites_view_template_used(create_test_user, client):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/received_invites/')
+    response = client.get("/profiles/received_invites/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/received_invites.html")
@@ -83,7 +83,7 @@ def test_sent_invites_view_template_used(create_test_user, client):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/sent_invites/')
+    response = client.get("/profiles/sent_invites/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/sent_invites.html")
@@ -108,12 +108,12 @@ def test_switch_follow_POST(create_empty_profile, create_test_user, client):
         "pk": profile_id,
     }
 
-    client.post('/profiles/switch_follow/', data=data)
+    client.post("/profiles/switch_follow/", data=data)
 
     # Check if user has 1 follower after POST request
     assert len(create_empty_profile.followers.all()) == 1
 
-    client.post('/profiles/switch_follow/', data=data)
+    client.post("/profiles/switch_follow/", data=data)
 
     # Check if user has 0 followers after second POST request
     assert len(create_empty_profile.followers.all()) == 0
@@ -132,10 +132,10 @@ def test_accept_invitation_no_relationship(create_test_user, client):
     profile_pk = Profile.objects.get(user=create_test_user).id
 
     data = {
-        'pk': profile_pk,
+        "pk": profile_pk,
     }
 
-    response = client.post('/profiles/received_invites/accept/', data=data)
+    response = client.post("/profiles/received_invites/accept/", data=data)
 
     assert response.status_code == 404
 
@@ -150,10 +150,10 @@ def test_accept_invitation_accept_relationship(create_test_relationship, client)
     profile_pk = Profile.objects.get(user=User.objects.get(username="user")).id
 
     data = {
-        'pk': profile_pk,
+        "pk": profile_pk,
     }
 
-    response = client.post('/profiles/received_invites/accept/', data=data)
+    response = client.post("/profiles/received_invites/accept/", data=data)
 
     assert response.status_code == 302
     assert len(Profile.objects.get(id=profile_pk).friends.all()) == 1
@@ -172,10 +172,10 @@ def test_reject_invitation_no_relationship(create_test_user, client):
     profile_pk = Profile.objects.get(user=create_test_user).id
 
     data = {
-        'pk': profile_pk,
+        "pk": profile_pk,
     }
 
-    response = client.post('/profiles/received_invites/reject/', data=data)
+    response = client.post("/profiles/received_invites/reject/", data=data)
 
     assert response.status_code == 404
 
@@ -190,10 +190,10 @@ def test_reject_invitation_accept_relationship(create_test_relationship, client)
     profile_pk = Profile.objects.get(user=User.objects.get(username="user")).id
 
     data = {
-        'pk': profile_pk,
+        "pk": profile_pk,
     }
 
-    response = client.post('/profiles/received_invites/reject/', data=data)
+    response = client.post("/profiles/received_invites/reject/", data=data)
 
     assert response.status_code == 302
     assert len(Profile.objects.get(id=profile_pk).friends.all()) == 0
@@ -209,13 +209,14 @@ def test_my_friends_view_template_used(create_test_user, client):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/my_friends/')
+    response = client.get("/profiles/my_friends/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/my_friends.html")
 
 
 # search_profiles
+
 
 @pytest.mark.django_db
 def test_search_profiles_template_used(create_test_user, client):
@@ -224,7 +225,7 @@ def test_search_profiles_template_used(create_test_user, client):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/search/')
+    response = client.get("/profiles/search/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/search_profiles.html")
@@ -237,7 +238,7 @@ def test_search_profiles_search_for_testuser(create_test_user, client):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/search/?q=testuser')
+    response = client.get("/profiles/search/?q=testuser")
 
     assert response.status_code == 200
     assert b"testuser" in response.content
@@ -249,7 +250,9 @@ def test_search_profiles_search_for_testuser(create_test_user, client):
 
 
 @pytest.mark.django_db
-def test_send_invitation_send_relationship(create_test_user, create_empty_profile, client):
+def test_send_invitation_send_relationship(
+    create_test_user, create_empty_profile, client
+):
     """
     Test if the view creates a relationship correctly
     """
@@ -258,17 +261,18 @@ def test_send_invitation_send_relationship(create_test_user, create_empty_profil
     profile_pk = create_empty_profile.id
 
     data = {
-        'pk': profile_pk,
+        "pk": profile_pk,
     }
 
-    response = client.post('/profiles/send-invite/', data=data)
+    response = client.post("/profiles/send-invite/", data=data)
 
     assert response.status_code == 302
     assert len(Relationship.objects.all()) == 1
-    assert Relationship.objects.all().first().status == 'sent'
+    assert Relationship.objects.all().first().status == "sent"
 
 
 # remove_friend
+
 
 @pytest.mark.django_db
 def test_remove_friend_delete_relationship(create_test_relationship, client):
@@ -282,10 +286,10 @@ def test_remove_friend_delete_relationship(create_test_relationship, client):
     profile_pk = Profile.objects.get(user=User.objects.get(username="user")).id
 
     data = {
-        'pk': profile_pk,
+        "pk": profile_pk,
     }
 
-    response = client.post('/profiles/remove-friend/', data=data)
+    response = client.post("/profiles/remove-friend/", data=data)
 
     assert response.status_code == 302
     assert len(Relationship.objects.all()) == 0
@@ -295,13 +299,15 @@ def test_remove_friend_delete_relationship(create_test_relationship, client):
 
 
 @pytest.mark.django_db
-def test_ProfileDetailView_template_used(create_test_user, create_empty_profile, client):
+def test_ProfileDetailView_template_used(
+    create_test_user, create_empty_profile, client
+):
     """
     Test if the right template is used in view
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/users/user/')
+    response = client.get("/profiles/users/user/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/profile_detail.html")
@@ -314,7 +320,7 @@ def test_ProfileDetailView_redirect_myprofile(create_test_user, client):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/users/testuser/')
+    response = client.get("/profiles/users/testuser/")
 
     assert response.status_code == 302
 
@@ -326,10 +332,10 @@ def test_ProfileDetailView_invitation_sent(create_test_relationship, client):
     """
     client.force_login(user=User.objects.get(username="user"))
 
-    response = client.get('/profiles/users/followinguser/')
+    response = client.get("/profiles/users/followinguser/")
 
     assert response.status_code == 200
-    assert b'Waiting for approval' in response.content
+    assert b"Waiting for approval" in response.content
 
 
 # ProfileListView
@@ -342,7 +348,7 @@ def test_ProfileListView_template_used(create_test_user, client):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/')
+    response = client.get("/profiles/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/profile_list.html")
@@ -355,10 +361,10 @@ def test_ProfileListView_invitation_sent(create_test_relationship, client):
     """
     client.force_login(user=User.objects.get(username="user"))
 
-    response = client.get('/profiles/')
+    response = client.get("/profiles/")
 
     assert response.status_code == 200
-    assert b'Waiting for approval' in response.content
+    assert b"Waiting for approval" in response.content
 
 
 # MessengerListView
@@ -371,7 +377,7 @@ def test_MessengerListView_template_used(create_test_user, client):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/profiles/messenger/')
+    response = client.get("/profiles/messenger/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/messenger.html")
@@ -389,7 +395,7 @@ def test_ChatMessageView_template_used(create_profile_friends_followings, client
 
     profile_pk = Profile.objects.get(user=User.objects.get(username="frienduser")).id
 
-    response = client.get(f'/profiles/chat/{profile_pk}/')
+    response = client.get(f"/profiles/chat/{profile_pk}/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/chat.html")
@@ -408,7 +414,7 @@ def test_ChatMessageView_send_message(create_profile_friends_followings, client)
         "content": "test content",
     }
 
-    response = client.post(f'/profiles/chat/{profile_pk}/', data=data)
+    response = client.post(f"/profiles/chat/{profile_pk}/", data=data)
 
     assert response.status_code == 302
     assert len(Message.objects.all()) == 1

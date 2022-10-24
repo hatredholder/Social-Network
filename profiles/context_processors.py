@@ -8,7 +8,7 @@ def profile_pic(request):
 
         pic = profile.avatar
 
-        return {'profile_pic': pic}
+        return {"profile_pic": pic}
     return {}
 
 
@@ -17,6 +17,6 @@ def invitations_received_count(request):
         profile = get_request_user_profile(request.user)
 
         result = Relationship.objects.invitations_received(profile).count()
-        
-        return {'invitations_received_count': result}
+
+        return {"invitations_received_count": result}
     return {}

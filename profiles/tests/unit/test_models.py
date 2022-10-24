@@ -29,11 +29,15 @@ def test_profile_model_get_absolute_url_method(create_empty_profile):
     """
     Test if the Profile model get_absolute_url method is working as intended
     """
-    assert str(Profile.objects.all().first().get_absolute_url()) == "/profiles/users/user/"
+    assert (
+        str(Profile.objects.all().first().get_absolute_url()) == "/profiles/users/user/"
+    )
 
 
 @pytest.mark.django_db
-def test_profile_model_get_likes_given_count_method(create_empty_profile, create_test_like):
+def test_profile_model_get_likes_given_count_method(
+    create_empty_profile, create_test_like
+):
     """
     Test if the Profile model get_likes_given_count method is working as intended
     """
@@ -41,7 +45,9 @@ def test_profile_model_get_likes_given_count_method(create_empty_profile, create
 
 
 @pytest.mark.django_db
-def test_profile_model_get_likes_received_count_method(create_empty_profile, create_test_post):
+def test_profile_model_get_likes_received_count_method(
+    create_empty_profile, create_test_post
+):
     """
     Test if the Profile model get_likes_given_count method is working as intended
     """
@@ -81,24 +87,36 @@ def test_relationship_model_str_method(create_test_relationship):
 
 @pytest.mark.django_db
 def test_relationship_manager_invitations_received_method(
-    create_test_relationship, create_empty_profile, create_profile_friends_followings,
+    create_test_relationship,
+    create_empty_profile,
+    create_profile_friends_followings,
 ):
     """
     Test if the Relationship model invitations_received method is working as intended
     """
     assert len(Relationship.objects.invitations_received(create_empty_profile)) == 0
-    assert len(Relationship.objects.invitations_received(create_profile_friends_followings)) == 1
+    assert (
+        len(
+            Relationship.objects.invitations_received(create_profile_friends_followings)
+        )
+        == 1
+    )
 
 
 @pytest.mark.django_db
 def test_relationship_manager_invitations_sent_method(
-    create_test_relationship, create_empty_profile, create_profile_friends_followings,
+    create_test_relationship,
+    create_empty_profile,
+    create_profile_friends_followings,
 ):
     """
     Test if the Relationship model invitations_sent method is working as intended
     """
     assert len(Relationship.objects.invitations_sent(create_empty_profile)) == 1
-    assert len(Relationship.objects.invitations_sent(create_profile_friends_followings)) == 0
+    assert (
+        len(Relationship.objects.invitations_sent(create_profile_friends_followings))
+        == 0
+    )
 
 
 # Message model tests
@@ -113,20 +131,25 @@ def test_message_model_is_created(create_test_message):
 
 
 @pytest.mark.django_db
-def test_message_model_str_method(create_empty_profile, create_profile_friends_followings):
+def test_message_model_str_method(
+    create_empty_profile, create_profile_friends_followings
+):
     """
     Test if the Message model str method is working as intended
     """
     short_message = Message.objects.create(
         sender=create_empty_profile,
         receiver=create_profile_friends_followings,
-        content='short content',
+        content="short content",
     )
     long_message = Message.objects.create(
         sender=create_empty_profile,
         receiver=create_profile_friends_followings,
-        content='long content long content long content long content long content long content',
+        content="long content long content long content long content long content long content",
     )
 
     assert str(short_message) == "user - short content"
-    assert str(long_message) == "user - long content long content long content long conten.."
+    assert (
+        str(long_message)
+        == "user - long content long content long content long conten.."
+    )
