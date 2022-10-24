@@ -10,7 +10,7 @@ def get_request_user_profile(request_user):
 
 
 def get_form_by_request_method(request, profile):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ProfileModelForm(request.POST, request.FILES, instance=profile)
     else:
         form = ProfileModelForm(instance=profile)
@@ -18,7 +18,7 @@ def get_form_by_request_method(request, profile):
 
 
 def get_profile_by_pk(request):
-    pk = request.POST.get('pk')
+    pk = request.POST.get("pk")
     profile = Profile.objects.get(pk=pk)
     return profile
 
@@ -50,13 +50,14 @@ def follow_unfollow(my_profile, profile):
 
 
 def redirect_back(request):
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect(request.META.get("HTTP_REFERER", "/"))
 
 
 def get_relationship_users(profile):
-    relship_sent = Relationship.objects.filter(sender=profile, status='sent')
+    relship_sent = Relationship.objects.filter(sender=profile, status="sent")
     relship_received = Relationship.objects.filter(
-        receiver=profile, status='sent',
+        receiver=profile,
+        status="sent",
     )
 
     # Users that request's user sent friendship invite to
@@ -69,4 +70,4 @@ def get_relationship_users(profile):
 
 def get_received_messages(sender, receiver):
     messages = Message.objects.filter(sender=sender, receiver=receiver)
-    return messages.values_list('content', flat=True)
+    return messages.values_list("content", flat=True)
