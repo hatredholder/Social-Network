@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
@@ -7,11 +7,17 @@ from django.views.generic import DetailView, ListView
 
 from .forms import MessageModelForm
 from .models import Message, Profile, Relationship
-from .views_utils import (follow_unfollow, get_form_by_request_method,
-                          get_profile_by_pk, get_received_invites,
-                          get_received_messages, get_relationship_users,
-                          get_request_user_profile, get_sent_invites,
-                          redirect_back)
+from .views_utils import (
+    follow_unfollow,
+    get_form_by_request_method,
+    get_profile_by_pk,
+    get_received_invites,
+    get_received_messages,
+    get_relationship_users,
+    get_request_user_profile,
+    get_sent_invites,
+    redirect_back,
+)
 
 
 # Function-based views
@@ -29,25 +35,25 @@ def my_profile_view(request):
 
     posts = profile.posts.all()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         if form.is_valid():
             form.save()
 
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                'Profile updated successfully!',
+                "Profile updated successfully!",
             )
-            
+
             return redirect_back(request)
 
     context = {
-        'profile': profile,
-        'form': form,
-        'posts': posts,
+        "profile": profile,
+        "form": form,
+        "posts": posts,
     }
 
-    return render(request, 'profiles/my_profile.html', context)
+    return render(request, "profiles/my_profile.html", context)
 
 
 @login_required
@@ -60,10 +66,10 @@ def received_invites_view(request):
     profiles = get_received_invites(profile)
 
     context = {
-        'profiles': profiles,
+        "profiles": profiles,
     }
 
-    return render(request, 'profiles/received_invites.html', context)
+    return render(request, "profiles/received_invites.html", context)
 
 
 @login_required
@@ -76,10 +82,10 @@ def sent_invites_view(request):
     profiles = get_sent_invites(profile)
 
     context = {
-        'profiles': profiles,
+        "profiles": profiles,
     }
 
-    return render(request, 'profiles/sent_invites.html', context)
+    return render(request, "profiles/sent_invites.html", context)
 
 
 @login_required
@@ -88,7 +94,7 @@ def switch_follow(request):
     Follows/unfollows user by pk.
     View url: /profiles/switch_follow/
     """
-    if request.method == 'POST':
+    if request.method == "POST":
         my_profile = get_request_user_profile(request.user)
         profile = get_profile_by_pk(request)
 
@@ -103,14 +109,14 @@ def accept_invitation(request):
     Accepts invitation from user by pk.
     View url: /profiles/received_invites/accept/
     """
-    if request.method == 'POST':
+    if request.method == "POST":
         sender = get_profile_by_pk(request)
         receiver = get_request_user_profile(request.user)
 
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
 
-        if rel.status == 'sent':
-            rel.status = 'accepted'
+        if rel.status == "sent":
+            rel.status = "accepted"
             rel.save()
 
     return redirect_back(request)
@@ -122,13 +128,13 @@ def reject_invitation(request):
     Rejects (deletes) invitation from user by pk.
     View url: /profiles/received_invites/reject/
     """
-    if request.method == 'POST':
+    if request.method == "POST":
         sender = get_profile_by_pk(request)
         receiver = get_request_user_profile(request.user)
 
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
 
-        if rel.status == 'sent':
+        if rel.status == "sent":
             rel.delete()
 
     return redirect_back(request)
@@ -146,11 +152,11 @@ def my_friends_view(request):
     profiles = Profile.objects.get_my_friends_profiles(request.user)
 
     context = {
-        'following': following,
-        'profiles': profiles,
+        "following": following,
+        "profiles": profiles,
     }
 
-    return render(request, 'profiles/my_friends.html', context)
+    return render(request, "profiles/my_friends.html", context)
 
 
 @login_required
@@ -159,18 +165,18 @@ def search_profiles(request):
     Searches for profiles by their username.
     View url: /profiles/search/
     """
-    search = request.GET.get('q', "")
+    search = request.GET.get("q", "")
     profiles = Profile.objects.filter(user__username__icontains=search)
 
     context = {
-        'search': search,
-        'profiles': profiles,
+        "search": search,
+        "profiles": profiles,
     }
 
     if search:
-        return render(request, 'profiles/search_profiles.html', context)
+        return render(request, "profiles/search_profiles.html", context)
 
-    return render(request, 'profiles/search_profiles.html')
+    return render(request, "profiles/search_profiles.html")
 
 
 @login_required
@@ -180,12 +186,14 @@ def send_invitation(request):
     and target profile.
     View url: /profiles/send-invite/
     """
-    if request.method == 'POST':
+    if request.method == "POST":
         sender = get_request_user_profile(request.user)
         receiver = get_profile_by_pk(request)
 
         Relationship.objects.create(
-            sender=sender, receiver=receiver, status='sent',
+            sender=sender,
+            receiver=receiver,
+            status="sent",
         )
 
     return redirect_back(request)
@@ -197,7 +205,7 @@ def remove_friend(request):
     Deletes relationship between request's profile and target profile.
     View url: /profiles/remove-friend/
     """
-    if request.method == 'POST':
+    if request.method == "POST":
         sender = get_request_user_profile(request.user)
         receiver = get_profile_by_pk(request)
 
@@ -206,7 +214,8 @@ def remove_friend(request):
         # or where sender is target profile and receiver is request's profile,
         # then delete it
         rel = Relationship.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender)),
+            (Q(sender=sender) & Q(receiver=receiver))
+            | (Q(sender=receiver) & Q(receiver=sender)),
         )
         rel.delete()
 
@@ -221,8 +230,9 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     Shows target profile and it's details.
     View url: /profiles/users/<slug>/
     """
+
     model = Profile
-    template_name = 'profiles/profile_detail.html'
+    template_name = "profiles/profile_detail.html"
 
     def get(self, request, *args, **kwargs):
 
@@ -238,7 +248,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         return self.render_to_response(context)
 
     def get_object(self):
-        slug = self.kwargs.get('slug')
+        slug = self.kwargs.get("slug")
         profile = Profile.objects.get(slug=slug)
         return profile
 
@@ -250,12 +260,12 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
         invited_users, incoming_invite_users = get_relationship_users(profile)
 
-        context['invited_users'] = invited_users
-        context['incoming_invite_users'] = incoming_invite_users
-        context['following'] = following
-        context['profile'] = self.get_object()
+        context["invited_users"] = invited_users
+        context["incoming_invite_users"] = incoming_invite_users
+        context["following"] = following
+        context["profile"] = self.get_object()
 
-        context['posts'] = self.get_object().posts.all()
+        context["posts"] = self.get_object().posts.all()
 
         return context
 
@@ -265,8 +275,9 @@ class ProfileListView(LoginRequiredMixin, ListView):
     Shows list of all profiles except request's user.
     View url: /profiles/
     """
+
     model = Profile
-    template_name = 'profiles/profile_list.html'
+    template_name = "profiles/profile_list.html"
 
     def get_queryset(self):
         qs = Profile.objects.all()
@@ -280,10 +291,10 @@ class ProfileListView(LoginRequiredMixin, ListView):
 
         invited_users, incoming_invite_users = get_relationship_users(profile)
 
-        context['invited_users'] = invited_users
-        context['incoming_invite_users'] = incoming_invite_users
-        context['following'] = following
-        context['profiles'] = self.get_queryset()
+        context["invited_users"] = invited_users
+        context["incoming_invite_users"] = incoming_invite_users
+        context["following"] = following
+        context["profiles"] = self.get_queryset()
 
         return context
 
@@ -293,8 +304,9 @@ class MessengerListView(LoginRequiredMixin, ListView):
     Shows list of all profiles except request's user.
     View url: /profiles/messenger/
     """
+
     model = Profile
-    template_name = 'profiles/messenger.html'
+    template_name = "profiles/messenger.html"
 
     def get_queryset(self):
         qs = Profile.objects.get(user=self.request.user)
@@ -303,7 +315,7 @@ class MessengerListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['profiles'] = self.get_queryset()
+        context["profiles"] = self.get_queryset()
 
         return context
 
@@ -313,8 +325,9 @@ class ChatMessageView(LoginRequiredMixin, ListView):
     Shows messages between request's user and target user.
     View url: /profiles/chat/<pk>/
     """
+
     model = Message
-    template_name = 'profiles/chat.html'
+    template_name = "profiles/chat.html"
     form_class = MessageModelForm
 
     def post(self, request, *args, **kwargs):
@@ -337,15 +350,17 @@ class ChatMessageView(LoginRequiredMixin, ListView):
         profile = Profile.objects.get(user=self.request.user)
 
         sent = Message.objects.filter(
-            sender=profile, receiver=self.get_object(),
+            sender=profile,
+            receiver=self.get_object(),
         )
         received = Message.objects.filter(
-            sender=self.get_object(), receiver=profile,
+            sender=self.get_object(),
+            receiver=profile,
         )
 
         messages = sent | received
         ordered_messages = list(
-            messages.order_by('-created').values_list('content', flat=True),
+            messages.order_by("-created").values_list("content", flat=True),
         )
 
         return ordered_messages
@@ -354,12 +369,12 @@ class ChatMessageView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         # Used to check which messages are received and which are sent
-        context['received'] = get_received_messages(
-            self.get_object(), Profile.objects.get(user=self.request.user),
+        context["received"] = get_received_messages(
+            self.get_object(),
+            Profile.objects.get(user=self.request.user),
         )
-        context['profile'] = self.get_object()
-        context['form'] = self.form_class
-        context['qs'] = self.get_queryset()
+        context["profile"] = self.get_object()
+        context["form"] = self.form_class
+        context["qs"] = self.get_queryset()
 
         return context
-
