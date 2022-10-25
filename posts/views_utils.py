@@ -3,7 +3,7 @@ from .models import Like, Post
 
 
 def add_post_if_submitted(request, profile):
-    if 'submit_p_form' in request.POST:
+    if "submit_p_form" in request.POST:
 
         p_form = PostCreateModelForm(request.POST, request.FILES)
 
@@ -18,14 +18,14 @@ def add_post_if_submitted(request, profile):
 
 
 def add_comment_if_submitted(request, profile):
-    if 'submit_c_form' in request.POST:
-        
+    if "submit_c_form" in request.POST:
+
         c_form = CommentCreateModelForm(request.POST)
 
         if c_form.is_valid():
             instance = c_form.save(commit=False)
             instance.profile = profile
-            instance.post = Post.objects.get(id=request.POST.get('post_id'))
+            instance.post = Post.objects.get(id=request.POST.get("post_id"))
             instance.save()
 
             c_form = CommentCreateModelForm()
@@ -34,7 +34,7 @@ def add_comment_if_submitted(request, profile):
 
 
 def get_post_id_and_post_obj(request):
-    post_id = request.POST.get('post_id')
+    post_id = request.POST.get("post_id")
     post_obj = Post.objects.get(id=post_id)
     return post_id, post_obj
 
