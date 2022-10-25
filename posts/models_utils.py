@@ -5,7 +5,7 @@ def get_related_posts_queryset(profile, friends, following):
     """
     This function gets all profile's own posts, posts of users profile's friends,
     posts of users profile follows in a queryset.
-    
+
     Here's how it works:
 
     1) We get all profiles of both his friends and of users he follows,
