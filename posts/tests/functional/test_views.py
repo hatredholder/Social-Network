@@ -19,24 +19,28 @@ def test_post_comment_create_and_list_view_template_used(create_test_user, clien
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/posts/')
+    response = client.get("/posts/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "posts/main.html")
 
 
 @pytest.mark.django_db
-def test_post_comment_create_and_list_view_related_post(client, create_test_post, create_test_user):
+def test_post_comment_create_and_list_view_related_post(
+    client, create_test_post, create_test_user
+):
     """
     Test if created related post appears on testuser's posts page
     """
 
     # Add testuser to user friend list
-    Profile.objects.get(user=create_test_user).friends.add(User.objects.get(username="user"))
+    Profile.objects.get(user=create_test_user).friends.add(
+        User.objects.get(username="user")
+    )
 
     client.force_login(user=create_test_user)
 
-    response = client.get('/posts/')
+    response = client.get("/posts/")
 
     assert b"test post content" in response.content
 
@@ -53,7 +57,7 @@ def test_post_comment_create_and_list_view_post_create(create_test_user, client)
         "submit_p_form": "",
     }
 
-    response = client.post('/posts/', data=data)
+    response = client.post("/posts/", data=data)
 
     assert response.status_code == 302
     assert len(Post.objects.all()) == 1
@@ -61,7 +65,9 @@ def test_post_comment_create_and_list_view_post_create(create_test_user, client)
 
 @pytest.mark.django_db
 def test_post_comment_create_and_list_view_comment_create(
-    create_test_user, create_test_post, client,
+    create_test_user,
+    create_test_post,
+    client,
 ):
     """
     Test if Comment object gets created successfully through a POST request
@@ -76,7 +82,7 @@ def test_post_comment_create_and_list_view_comment_create(
         "submit_c_form": "",
     }
 
-    response = client.post('/posts/', data=data)
+    response = client.post("/posts/", data=data)
 
     assert response.status_code == 302
     assert len(Comment.objects.all()) == 1
@@ -98,7 +104,7 @@ def test_switch_like_view_add_like(create_test_user, create_test_post, client):
         "post_id": post_id,
     }
 
-    response = client.post('/posts/like/', data=data)
+    response = client.post("/posts/like/", data=data)
 
     assert response.status_code == 302
     assert len(Like.objects.all()) == 1
@@ -117,10 +123,10 @@ def test_switch_like_view_delete_like(create_test_user, create_test_post, client
         "post_id": post_id,
     }
 
-    client.post('/posts/like/', data=data)
+    client.post("/posts/like/", data=data)
     assert len(Like.objects.all()) == 1
 
-    client.post('/posts/like/', data=data)
+    client.post("/posts/like/", data=data)
     assert len(Like.objects.all()) == 0
 
 
@@ -136,7 +142,7 @@ def test_PostDeleteView_template_used(create_test_user, create_test_post, client
 
     post_id = Post.objects.all().first().id
 
-    response = client.get(f'/posts/{post_id}/delete/')
+    response = client.get(f"/posts/{post_id}/delete/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "posts/confirm_delete.html")
@@ -153,7 +159,7 @@ def test_PostDeleteView_delete_post(create_test_post, client):
 
     post_id = Post.objects.all().first().id
 
-    response = client.post(f'/posts/{post_id}/delete/')
+    response = client.post(f"/posts/{post_id}/delete/")
 
     assert response.status_code == 302
     assert len(Post.objects.all()) == 0
@@ -166,18 +172,18 @@ def test_PostDeleteView_check_message(create_test_user, create_test_post, client
     """
     client.force_login(user=create_test_user)
     post_id = Post.objects.all().first().id
-    client.post(f'/posts/{post_id}/delete/')
-    response = client.get('/posts/')
+    client.post(f"/posts/{post_id}/delete/")
+    response = client.get("/posts/")
 
     # &#x27 means the ' symbol
-    assert b'You aren&#x27;t allowed to delete this post' in response.content
+    assert b"You aren&#x27;t allowed to delete this post" in response.content
 
     client.force_login(user=User.objects.get(username="user"))
     post_id = Post.objects.all().first().id
-    client.post(f'/posts/{post_id}/delete/')
-    response = client.get('/posts/')
+    client.post(f"/posts/{post_id}/delete/")
+    response = client.get("/posts/")
 
-    assert b'Post deleted successfully!' in response.content
+    assert b"Post deleted successfully!" in response.content
 
 
 # CommentDeleteView
@@ -192,14 +198,16 @@ def test_CommentDeleteView_template_used(create_test_user, create_test_comment, 
 
     comment_id = Comment.objects.all().first().id
 
-    response = client.get(f'/posts/comments/{comment_id}/delete/')
+    response = client.get(f"/posts/comments/{comment_id}/delete/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "posts/confirm_delete.html")
 
 
 @pytest.mark.django_db
-def test_CommentDeleteView_delete_comment(create_test_user, create_test_comment, client):
+def test_CommentDeleteView_delete_comment(
+    create_test_user, create_test_comment, client
+):
     """
     Test if Comment object gets deleted successfully through a POST request
     """
@@ -209,7 +217,7 @@ def test_CommentDeleteView_delete_comment(create_test_user, create_test_comment,
 
     comment_id = Comment.objects.all().first().id
 
-    response = client.post(f'/posts/comments/{comment_id}/delete/')
+    response = client.post(f"/posts/comments/{comment_id}/delete/")
 
     assert response.status_code == 302
     assert len(Comment.objects.all()) == 0
@@ -222,18 +230,18 @@ def test_CommentDeleteView_check_message(create_test_user, create_test_comment, 
     """
     client.force_login(user=create_test_user)
     comment_id = Comment.objects.all().first().id
-    client.post(f'/posts/comments/{comment_id}/delete/')
-    response = client.get('/posts/')
+    client.post(f"/posts/comments/{comment_id}/delete/")
+    response = client.get("/posts/")
 
     # &#x27 means the ' symbol
-    assert b'You aren&#x27;t allowed to delete this comment' in response.content
+    assert b"You aren&#x27;t allowed to delete this comment" in response.content
 
     client.force_login(user=User.objects.get(username="user"))
     comment_id = Comment.objects.all().first().id
-    client.post(f'/posts/comments/{comment_id}/delete/')
-    response = client.get('/posts/')
+    client.post(f"/posts/comments/{comment_id}/delete/")
+    response = client.get("/posts/")
 
-    assert b'Comment deleted successfully!' in response.content
+    assert b"Comment deleted successfully!" in response.content
 
 
 # PostUpdateView
@@ -248,7 +256,7 @@ def test_PostUpdateView_template_used(create_test_user, create_test_post, client
 
     post_id = Post.objects.all().first().id
 
-    response = client.get(f'/posts/{post_id}/update/')
+    response = client.get(f"/posts/{post_id}/update/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "posts/update.html")
@@ -269,7 +277,7 @@ def test_PostUpdateView_update_post(create_test_post, client):
         "content": "new post content",
     }
 
-    response = client.post(f'/posts/{post_id}/update/', data=data)
+    response = client.post(f"/posts/{post_id}/update/", data=data)
 
     assert response.status_code == 302
     assert Post.objects.all().first().content == "new post content"
@@ -282,15 +290,15 @@ def test_PostUpdateView_check_message(create_test_user, create_test_post, client
     """
     client.force_login(user=create_test_user)
     post_id = Post.objects.all().first().id
-    client.post(f'/posts/{post_id}/update/', data={"content": "new post content"})
-    response = client.get('/posts/')
+    client.post(f"/posts/{post_id}/update/", data={"content": "new post content"})
+    response = client.get("/posts/")
 
     # &#x27 means the ' symbol
-    assert b'You aren&#x27;t allowed to update this post' in response.content
+    assert b"You aren&#x27;t allowed to update this post" in response.content
 
     client.force_login(user=User.objects.get(username="user"))
     post_id = Post.objects.all().first().id
-    client.post(f'/posts/{post_id}/update/', data={"content": "new post content"})
-    response = client.get('/posts/')
+    client.post(f"/posts/{post_id}/update/", data={"content": "new post content"})
+    response = client.get("/posts/")
 
-    assert b'Post updated successfully!' in response.content
+    assert b"Post updated successfully!" in response.content

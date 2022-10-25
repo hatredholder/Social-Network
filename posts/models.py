@@ -22,13 +22,14 @@ class Post(models.Model):
     """
     This model is used to show results in main.html
     """
+
     content = models.TextField()
     image = models.ImageField(
         blank=True,
-        upload_to='posts',
-        validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],
+        upload_to="posts",
+        validators=[FileExtensionValidator(["png", "jpg", "jpeg"])],
     )
-    liked = models.ManyToManyField(Profile, blank=True, related_name='likes')
+    liked = models.ManyToManyField(Profile, blank=True, related_name="likes")
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="posts")
 
     updated = models.DateTimeField(auto_now=True)
@@ -40,18 +41,19 @@ class Post(models.Model):
         if len(str(self.content)) > 50:
             return f"{self.author} - {str(self.content)[:50].strip()}.."
         return f"{self.author} - {str(self.content)}"
-    
+
     def num_comments(self):
         return self.comment_set.all().count()
-        
+
     class Meta:
-        ordering = ('-created', )
+        ordering = ("-created",)
 
 
 class Comment(models.Model):
     """
     This model is used in Posts for comments
     """
+
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.TextField(max_length=300)
@@ -67,6 +69,7 @@ class Like(models.Model):
     """
     This model is used to leave likes on Posts
     """
+
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 

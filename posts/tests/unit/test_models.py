@@ -16,7 +16,7 @@ def test_post_model_is_created(create_test_post):
     Test if the post model is being successfully created
     """
     assert len(Post.objects.all()) == 1
-    
+
 
 @pytest.mark.django_db
 def test_post_model_str_method(create_empty_profile):
@@ -33,7 +33,10 @@ def test_post_model_str_method(create_empty_profile):
     )
 
     assert str(post_short_content) == "user - short content"
-    assert str(post_long_content) == "user - long content long content long content long conten.."
+    assert (
+        str(post_long_content)
+        == "user - long content long content long content long conten.."
+    )
 
 
 @pytest.mark.django_db
@@ -66,9 +69,12 @@ def test_post_manager_get_related_posts_method(create_profile_friends_followings
     )
 
     # Check if get_related_posts returns 2 posts
-    assert len(
-        Post.objects.get_related_posts(user=create_profile_friends_followings.user),
-    ) == 2
+    assert (
+        len(
+            Post.objects.get_related_posts(user=create_profile_friends_followings.user),
+        )
+        == 2
+    )
 
 
 # Comment model tests
