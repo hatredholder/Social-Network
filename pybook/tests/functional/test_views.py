@@ -10,7 +10,7 @@ def test_home_view_template_used(client):
     """
     Test if the right template is used in view
     """
-    response = client.get('/')
+    response = client.get("/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "main/home.html")
@@ -23,6 +23,6 @@ def test_home_view_check_redirect(client, create_test_user):
     """
     client.force_login(user=create_test_user)
 
-    response = client.get('/')
+    response = client.get("/")
 
     assert response.status_code == 302
