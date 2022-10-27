@@ -310,10 +310,9 @@ class MessengerListView(LoginRequiredMixin, ListView):
     model = Profile
     template_name = "profiles/messenger.html"
 
-
     def get_queryset(self):
-       qs = get_friends_of_user(self.request.user) 
-       return qs
+        qs = get_friends_of_user(self.request.user)
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

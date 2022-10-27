@@ -21,11 +21,13 @@ def get_profiles_by_users_list(list):
     result = [Profile.objects.get(user=user) for user in list]
     return result
 
+
 def get_friends_of_user(user):
     request_user_profile = Profile.objects.get(user=user)
     friends_users = request_user_profile.friends.all()
     friends_profiles = get_profiles_by_users_list(friends_users)
     return friends_profiles
+
 
 def get_profile_by_pk(request):
     pk = request.POST.get("pk")
