@@ -14,7 +14,7 @@
             <div class='ui grid'>
                 <div class='row'>
                     <div class='four wide column'>
-                        <h3>{{ profile }}</h3> 
+                      <a style="color: black;" href='{{ profile.get_absolute_url }}'>{{ profile }}</a>
                         <a href={% url "profiles:chat-message-view" profile.pk %}>
                             <button 
                                 style="margin-top:10px; width:200px;" 

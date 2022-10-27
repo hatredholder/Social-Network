@@ -10,6 +10,8 @@ from .models import Message, Profile, Relationship
 from .views_utils import (
     follow_unfollow,
     get_form_by_request_method,
+    get_friends_of_user,
+    get_profiles_by_users_list,
     get_profile_by_pk,
     get_received_invites,
     get_received_messages,
@@ -308,9 +310,10 @@ class MessengerListView(LoginRequiredMixin, ListView):
     model = Profile
     template_name = "profiles/messenger.html"
 
+
     def get_queryset(self):
-        qs = Profile.objects.get(user=self.request.user)
-        return qs.friends.all()
+       qs = get_friends_of_user(self.request.user) 
+       return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
