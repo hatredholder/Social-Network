@@ -95,6 +95,8 @@ Tests: Pytest, Pytest-Django.
 
 ## To Do/To Add
 
+- [ ] Change messenger url from pk to slug;
+
 - [x] Add 100% coverage tests;
 
 - [x] Add followers count to profile detail;
