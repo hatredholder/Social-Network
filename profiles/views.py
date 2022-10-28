@@ -11,7 +11,6 @@ from .views_utils import (
     follow_unfollow,
     get_form_by_request_method,
     get_friends_of_user,
-    get_profiles_by_users_list,
     get_profile_by_pk,
     get_received_invites,
     get_received_messages,
