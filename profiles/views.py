@@ -36,17 +36,16 @@ def my_profile_view(request):
 
     posts = profile.posts.all()
 
-    if request.method == "POST":
-        if form.is_valid():
-            form.save()
+    if request.method == "POST" and form.is_valid():
+        form.save()
 
-            messages.add_message(
-                request,
-                messages.SUCCESS,
-                "Profile updated successfully!",
-            )
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            "Profile updated successfully!",
+        )
 
-            return redirect_back(request)
+        return redirect_back(request)
 
     context = {
         "profile": profile,
@@ -215,8 +214,8 @@ def remove_friend(request):
         # or where sender is target profile and receiver is request's profile,
         # then delete it
         rel = Relationship.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver)) |
-            (Q(sender=receiver) & Q(receiver=sender)),
+            (Q(sender=sender) & Q(receiver=receiver))
+            | (Q(sender=receiver) & Q(receiver=sender)),
         )
         rel.delete()
 
