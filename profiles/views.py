@@ -215,8 +215,8 @@ def remove_friend(request):
         # or where sender is target profile and receiver is request's profile,
         # then delete it
         rel = Relationship.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver))
-            | (Q(sender=receiver) & Q(receiver=sender)),
+            (Q(sender=sender) & Q(receiver=receiver)) |
+            (Q(sender=receiver) & Q(receiver=sender)),
         )
         rel.delete()
 
