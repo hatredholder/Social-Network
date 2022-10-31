@@ -112,7 +112,7 @@
 
                     <!-- Send a message -->
                     {% if request.user in profile.friends.all %}
-                        <a href="{% url "profiles:chat-message-view" profile.pk %}">
+                        <a href="{% url "profiles:chat-message-view" profile.slug %}">
                             <button style="margin-top:10px; width:200px;" type='submit' class='ui info teal basic button mb-5 w-big'>
                                 Send a Message
                             </button>
