@@ -8,6 +8,7 @@ from django.views.generic import DetailView, ListView
 from .forms import MessageModelForm
 from .models import Message, Profile, Relationship
 from .views_utils import (
+    check_if_friends,
     follow_unfollow,
     get_form_by_request_method,
     get_friends_of_user,
@@ -372,6 +373,10 @@ class ChatMessageView(LoginRequiredMixin, ListView):
         context["received"] = get_received_messages(
             self.get_object(),
             Profile.objects.get(user=self.request.user),
+        )
+        context["are_friends"] = check_if_friends(
+            self.get_object(),
+            self.request.user,
         )
         context["profile"] = self.get_object()
         context["form"] = self.form_class

@@ -22,6 +22,14 @@ def get_profiles_by_users_list(users):
     return result
 
 
+def check_if_friends(profile, request_user):
+    """
+    Returns true if request user is in profile's friends
+    and vice versa
+    """
+    return request_user in profile.friends.all()
+
+
 def get_friends_of_user(user):
     request_user_profile = Profile.objects.get(user=user)
     friends_users = request_user_profile.friends.all()
