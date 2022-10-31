@@ -17,8 +17,8 @@ def get_form_by_request_method(request, profile):
     return form
 
 
-def get_profiles_by_users_list(list):
-    result = [Profile.objects.get(user=user) for user in list]
+def get_profiles_by_users_list(users):
+    result = [Profile.objects.get(user=user) for user in users]
     return result
 
 
