@@ -15,7 +15,7 @@
                 <div class='row'>
                     <div class='four wide column'>
                       <a style="color: black;" href='{{ profile.get_absolute_url }}'>{{ profile }}</a>
-                        <a href={% url "profiles:chat-message-view" profile.pk %}>
+                        <a href={% url "profiles:chat-message-view" profile.slug %}>
                             <button 
                                 style="margin-top:10px; width:200px;" 
                                 class='ui teal button mb-5 w-big'>

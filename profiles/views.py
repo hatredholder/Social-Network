@@ -323,7 +323,7 @@ class MessengerListView(LoginRequiredMixin, ListView):
 class ChatMessageView(LoginRequiredMixin, ListView):
     """
     Shows messages between request's user and target user.
-    View url: /profiles/chat/<pk>/
+    View url: /profiles/chat/<slug>/
     """
 
     model = Message
@@ -342,8 +342,8 @@ class ChatMessageView(LoginRequiredMixin, ListView):
         return redirect_back(self.request)
 
     def get_object(self):
-        pk = self.kwargs.get("pk")
-        profile = Profile.objects.get(pk=pk)
+        slug = self.kwargs.get("slug")
+        profile = Profile.objects.get(slug=slug)
         return profile
 
     def get_queryset(self):
