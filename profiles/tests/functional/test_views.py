@@ -397,9 +397,11 @@ def test_ChatMessageView_template_used(create_profile_friends_followings, client
     """
     client.force_login(user=User.objects.get(username="followinguser"))
 
-    profile_pk = Profile.objects.get(user=User.objects.get(username="frienduser")).id
+    profile_slug = Profile.objects.get(
+        user=User.objects.get(username="frienduser"),
+    ).slug
 
-    response = client.get(f"/profiles/chat/{profile_pk}/")
+    response = client.get(f"/profiles/chat/{profile_slug}/")
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/chat.html")
@@ -412,13 +414,15 @@ def test_ChatMessageView_send_message(create_profile_friends_followings, client)
     """
     client.force_login(user=User.objects.get(username="followinguser"))
 
-    profile_pk = Profile.objects.get(user=User.objects.get(username="frienduser")).id
+    profile_slug = Profile.objects.get(
+        user=User.objects.get(username="frienduser"),
+    ).slug
 
     data = {
         "content": "test content",
     }
 
-    response = client.post(f"/profiles/chat/{profile_pk}/", data=data)
+    response = client.post(f"/profiles/chat/{profile_slug}/", data=data)
 
     assert response.status_code == 302
     assert len(Message.objects.all()) == 1
