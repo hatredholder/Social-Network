@@ -27,7 +27,9 @@ def test_post_comment_create_and_list_view_template_used(create_test_user, clien
 
 @pytest.mark.django_db
 def test_post_comment_create_and_list_view_related_post(
-    client, create_test_post, create_test_user
+    client,
+    create_test_post,
+    create_test_user,
 ):
     """
     Test if created related post appears on testuser's posts page
@@ -35,7 +37,7 @@ def test_post_comment_create_and_list_view_related_post(
 
     # Add testuser to user friend list
     Profile.objects.get(user=create_test_user).friends.add(
-        User.objects.get(username="user")
+        User.objects.get(username="user"),
     )
 
     client.force_login(user=create_test_user)
@@ -206,7 +208,7 @@ def test_CommentDeleteView_template_used(create_test_user, create_test_comment, 
 
 @pytest.mark.django_db
 def test_CommentDeleteView_delete_comment(
-    create_test_user, create_test_comment, client
+    create_test_user, create_test_comment, client,
 ):
     """
     Test if Comment object gets deleted successfully through a POST request

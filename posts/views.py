@@ -93,7 +93,9 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         # and request's user are the same
         self.object.delete()
         messages.add_message(
-            self.request, messages.SUCCESS, "Post deleted successfully!"
+            self.request,
+            messages.SUCCESS,
+            "Post deleted successfully!",
         )
         return HttpResponseRedirect(self.success_url)
 
@@ -122,7 +124,9 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
 
         self.object.delete()
         messages.add_message(
-            self.request, messages.SUCCESS, "Comment deleted successfully!"
+            self.request,
+            messages.SUCCESS,
+            "Comment deleted successfully!",
         )
         return HttpResponseRedirect(self.success_url)
 
@@ -152,6 +156,8 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 
         self.object = form.save()
         messages.add_message(
-            self.request, messages.SUCCESS, "Post updated successfully!"
+            self.request,
+            messages.SUCCESS,
+            "Post updated successfully!",
         )
         return HttpResponseRedirect(self.success_url)

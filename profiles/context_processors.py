@@ -20,4 +20,3 @@ def invitations_received_count(request):
 
         return {"invitations_received_count": result}
     return {}
-

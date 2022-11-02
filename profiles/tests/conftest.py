@@ -1,6 +1,6 @@
 # Add fixtures from other conftest.py
 from posts.tests.conftest import (  # noqa: F401
-    create_empty_profile, 
+    create_empty_profile,
     create_profile_friends_followings,
     create_test_like,
     create_test_post,
@@ -14,7 +14,7 @@ import pytest
 
 @pytest.fixture
 def create_test_relationship(
-    create_empty_profile,
+    create_empty_profile,  # noqa: F811
     create_profile_friends_followings,  # noqa: F811
 ):
     """
@@ -30,7 +30,7 @@ def create_test_relationship(
 
 @pytest.fixture
 def create_test_message(
-    create_empty_profile,
+    create_empty_profile,  # noqa: F811
     create_profile_friends_followings,  # noqa: F811
 ):
     """

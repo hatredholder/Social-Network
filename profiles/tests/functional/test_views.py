@@ -251,7 +251,9 @@ def test_search_profiles_search_for_testuser(create_test_user, client):
 
 @pytest.mark.django_db
 def test_send_invitation_send_relationship(
-    create_test_user, create_empty_profile, client
+    create_test_user,
+    create_empty_profile,
+    client,
 ):
     """
     Test if the view creates a relationship correctly
@@ -300,7 +302,9 @@ def test_remove_friend_delete_relationship(create_test_relationship, client):
 
 @pytest.mark.django_db
 def test_ProfileDetailView_template_used(
-    create_test_user, create_empty_profile, client
+    create_test_user,
+    create_empty_profile,
+    client,
 ):
     """
     Test if the right template is used in view
