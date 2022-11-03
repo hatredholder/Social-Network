@@ -1,4 +1,4 @@
-// Open / hide post comment
+// Update profile open modal 
 $(document).ready(function(){
     $('#modal-btn').click(function(){
         $('.ui.modal')
