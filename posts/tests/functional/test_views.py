@@ -108,7 +108,8 @@ def test_switch_like_view_add_like(create_test_user, create_test_post, client):
 
     response = client.post("/posts/like/", data=data)
 
-    assert response.status_code == 302
+    assert response.status_code == 200
+    assert b'"like_added": true' in response.content
     assert len(Like.objects.all()) == 1
 
 
@@ -208,7 +209,9 @@ def test_CommentDeleteView_template_used(create_test_user, create_test_comment, 
 
 @pytest.mark.django_db
 def test_CommentDeleteView_delete_comment(
-    create_test_user, create_test_comment, client,
+    create_test_user,
+    create_test_comment,
+    client,
 ):
     """
     Test if Comment object gets deleted successfully through a POST request
