@@ -43,10 +43,13 @@ def like_unlike_post(profile, post_id, post_obj):
 
     # Add / remove target profile
     # from liked field in post_obj
+    # and create like_added variable
     if profile in post_obj.liked.all():
         post_obj.liked.remove(profile)
+        like_added = False
     else:
         post_obj.liked.add(profile)
+        like_added = True
 
     # Get Like object if post already liked, create Like object if not
     like, created = Like.objects.get_or_create(profile=profile, post_id=post_id)
@@ -59,3 +62,6 @@ def like_unlike_post(profile, post_id, post_obj):
     else:
         like.save()
         post_obj.save()
+
+    # like_added is used for the like.js script
+    return like_added

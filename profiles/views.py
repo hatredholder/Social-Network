@@ -264,7 +264,9 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context["invited_users"] = invited_users
         context["incoming_invite_users"] = incoming_invite_users
         context["following"] = following
+
         context["profile"] = self.get_object()
+        context["request_user_profile"] = profile
 
         context["posts"] = self.get_object().posts.all()
 

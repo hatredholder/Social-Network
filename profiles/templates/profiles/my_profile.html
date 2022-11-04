@@ -91,11 +91,35 @@
                                 <h3>Post #{{ forloop.revcounter }}</h3>
                                 <small><strong>Created {{ post.created|timesince }} ago</strong></small>
                                 <hr>
-                                {{ post.content }}
                             </div>
                             {% if post.image %}
                             <div class="post-image">
                                 <img class="img-src" src="{{ post.image.url }}">
+                            </div>
+                            <p>{{ post.content }}</p>
+                            <i class="comment icon"></i>
+                            <span> {{ post.num_comments }} comments</span>
+
+                            <div style="text-align: right;"> 
+                              <form action="{% url 'posts:switch-like-view' %}" method="POST" class='like-form' id='{{ post.id }}'>
+                                {% csrf_token %}
+                                <input type="hidden" name="post_id" value={{ post.id }}>
+                                {% if profile not in post.liked.all %}
+                                  <button type="submit" class="ui button black like-btn{{ post.id }}">
+                                    <i class="heart icon"></i>
+                                    <p style="display: inline-block;" class="like-count{{ post.id }}">
+                                      {{ post.liked.all.count }}
+                                    </p>
+                                  </button>
+                                {% else %}
+                                  <button type="submit" class="ui button negative like-btn{{ post.id }}">
+                                    <i class="heart icon"></i>
+                                    <p style="display: inline-block;" class="like-count{{ post.id }}">
+                                      {{ post.liked.all.count }}
+                                    </p>
+                                  </button>
+                                {% endif %}
+                              </form>
                             </div>
                             {% endif %}
                         </div>
@@ -107,3 +131,7 @@
         </div>
     </div>
 {% endblock content %}
+{% block scripts %}
+{% load static %}
+    <script src="{% static 'like.js' %}"></script>
+{% endblock scripts %}

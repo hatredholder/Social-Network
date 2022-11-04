@@ -4,9 +4,6 @@ $('.like-form').submit(function(e){
 
   const post_id = $(this).attr('id')
 
-  const likeText = $(`.like-btn${post_id}`).text()
-  const trim = $.trim(likeText)
-
   const url = $(this).attr('action')
 
   let res;
@@ -21,16 +18,15 @@ $('.like-form').submit(function(e){
           'post_id':post_id,
       },
       success: function(response) {
-          if(trim === 'Unlike') {
-              $(`.like-btn${post_id}`).text('Like');
-              $(`.like-btn${post_id}`).removeClass('negative')
-              $(`.like-btn${post_id}`).addClass('positive')
-              res = trimCount - 1
-          } else {
-              $(`.like-btn${post_id}`).text('Unlike')
-              $(`.like-btn${post_id}`).removeClass('positive')
+        console.log(response)
+          if(response['like_added']) {
+              $(`.like-btn${post_id}`).removeClass('black')
               $(`.like-btn${post_id}`).addClass('negative')
               res = trimCount + 1
+          } else {
+              $(`.like-btn${post_id}`).removeClass('negative')
+              $(`.like-btn${post_id}`).addClass('black')
+              res = trimCount - 1
           }
 
           $(`.like-count${post_id}`).text(res)

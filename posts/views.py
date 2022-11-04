@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView
@@ -59,9 +59,12 @@ def switch_like(request):
         post_id, post_obj = get_post_id_and_post_obj(request)
         profile = get_request_user_profile(request.user)
 
-        like_unlike_post(profile, post_id, post_obj)
+        like_added = like_unlike_post(profile, post_id, post_obj)
 
-    return redirect_back(request)
+    # Return JSON response for AJAX script in like.js
+    return JsonResponse(
+        {"total_likes": post_obj.liked.count(), "like_added": like_added},
+    )
 
 
 # Class-based views
