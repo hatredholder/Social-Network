@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <img class="ui avatar image" src={{ obj.author.avatar.url }}> 
-                    <a style="color:black" href="{% url 'profiles:my-profile-view' %}">
+                    <a style="color:black" href="{{ obj.author.get_absolute_url }}">
                         {{ obj.author.user }}
                     </a> - {{ obj.created|timesince }} ago
                 </div>
@@ -89,7 +89,11 @@
                             
                                 <div class="ui segment mb-5">
                                     <img class="ui avatar image" src={{ c.profile.avatar.url }}>
-                                    <span style="color:black"><a style="color:black" href="{{ c.user.get_absolute_url }}">{{ c.profile }}</a> - {{ c.created|timesince }} ago</span>
+                                    <span style="color:black">
+                                      <a style="color:black" href="{{ c.profile.get_absolute_url }}">
+                                        {{ c.profile }}
+                                      </a> - {{ c.created|timesince }} ago
+                                    </span>
                                     <div style="color:black" class='mt-5'>{{ c.content }}</div>
                                     {% if c.profile.user == request.user %}
                                         <a href="{% url 'posts:comment-delete' c.pk %}"><p style="text-align:right; color:red">Delete</p></a>
@@ -125,61 +129,7 @@
 {% endblock content %}
 
 {% block scripts %} 
-    <script>
-        $( document ).ready(function() {
-            let display = false
-            $(".cmt_btn").click(function () {
-                if (display===false) {
-                    $(this).next(".comment-box").show("slow");
-                    display=true
-                } else {
-                    $(this).next(".comment-box").hide("slow");
-                    display=false
-                }  
-            });
-
-            $('.like-form').submit(function(e){
-                e.preventDefault()
-                
-                const post_id = $(this).attr('id')
-                
-                const likeText = $(`.like-btn${post_id}`).text()
-                const trim = $.trim(likeText)
-
-                const url = $(this).attr('action')
-                
-                let res;
-                const likes = $(`.like-count${post_id}`).text()
-                const trimCount = parseInt(likes)
-                
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: {
-                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                        'post_id':post_id,
-                    },
-                    success: function(response) {
-                        if(trim === 'Unlike') {
-                            $(`.like-btn${post_id}`).text('Like');
-                            $(`.like-btn${post_id}`).removeClass('negative')
-                            $(`.like-btn${post_id}`).addClass('positive')
-                            res = trimCount - 1
-                        } else {
-                            $(`.like-btn${post_id}`).text('Unlike')
-                            $(`.like-btn${post_id}`).removeClass('positive')
-                            $(`.like-btn${post_id}`).addClass('negative')
-                            res = trimCount + 1
-                        }
-
-                        $(`.like-count${post_id}`).text(res)
-                    },
-                    error: function(response) {
-                        console.log('error', response)
-                    }
-                })
-
-            })
-        });
-    </script>
+{% load static %}
+    <script src="{% static 'comments.js' %}"></script>
+    <script src="{% static 'like.js' %}"></script>
 {% endblock scripts %}
