@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Board
+  Board
 {% endblock title %}
 
 {% block content %}
@@ -56,9 +56,13 @@
 
                 <div class="content">
                   <p>{{ post.content }}</p>
-                  <i class="comment icon"></i>
-                  <span> {{ post.num_comments }} comments</span>
-                  <div style="text-align: right;"> 
+                  <div style="display: flex; justify-content: right;"> 
+                    <div class="cmt_btn {{ post.id }} ui button mb-5">
+                      <i class="comment icon"></i>
+                      <p style="display: inline-block;">
+                        {{ post.num_comments }}
+                      </p>
+                    </div>
                     <form action="{% url 'posts:switch-like-view' %}" method="POST" class='like-form' id='{{ post.id }}'>
                       {% csrf_token %}
                       <input type="hidden" name="post_id" value={{ post.id }}>
@@ -82,15 +86,9 @@
                 </div>
 
                 <div class="extra content">
-                    {% if post.comment_set.all %}
-                        <button class="cmt_btn ui button mb-5">Show / Hide comments</button>
-                    {% else %}
-                        <button style="display: none"class="cmt_btn ui button mb-5">Show / Hide comments</button>
-                    {% endif %}
                     <div class="comment-box">
                         {% if post.comment_set.all %}
                             {% for c in post.comment_set.all %}
-                            
                                 <div class="ui segment mb-5">
                                     <img class="ui avatar image" src={{ c.profile.avatar.url }}>
                                     <span style="color:black">
@@ -103,12 +101,11 @@
                                         <a href="{% url 'posts:comment-delete' c.pk %}"><p style="text-align:right; color:red">Delete</p></a>
                                     {% endif %}
                                 </div>
-                            
                             {% endfor %}
                         {% endif %}
                     </div>
-    
-                    <form action="" method="POST"class='ui fluid form'>
+
+                    <form action="" method="POST"class='form{{ post.id }} ui fluid form'>
                         {% csrf_token %}
                         <input type="hidden" name="post_id" value={{ post.id }}>
                         {{ c_form.as_p }}

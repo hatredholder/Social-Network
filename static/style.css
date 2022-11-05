@@ -39,10 +39,6 @@ body {
     width: 10px !important;
 }
 
-.comment-box {
-    display: none;
-}
-
 .post-content{
     margin-bottom: 25px;
 }

@@ -1,13 +1,10 @@
-// Open / hide post comment
+// Focus input form
 $( document ).ready(function() {
-    let display = false
     $(".cmt_btn").click(function () {
-        if (display===false) {
-            $(this).next(".comment-box").show("slow");
-            display=true
-        } else {
-            $(this).next(".comment-box").hide("slow");
-            display=false
-        }  
+      // Get form id from button
+      formId = $(this).attr("class").split(/\s+/)[1]
+
+      // Focus input from form
+      $(`.form${formId}`)[0][2].focus()
     });
 })
