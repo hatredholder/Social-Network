@@ -98,7 +98,10 @@
                                     </span>
                                     <div style="color:black" class='mt-5'>{{ c.content }}</div>
                                     {% if c.profile.user == request.user %}
-                                        <a href="{% url 'posts:comment-delete' c.pk %}"><p style="text-align:right; color:red">Delete</p></a>
+                                      <form method="POST" action="{% url 'posts:comment-delete' c.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" style="text-align:right; color:red">Delete</button>
+                                      </form>
                                     {% endif %}
                                 </div>
                             {% endfor %}

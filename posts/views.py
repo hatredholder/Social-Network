@@ -111,8 +111,6 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
     """
 
     model = Comment
-    template_name = "posts/confirm_delete.html"
-    success_url = reverse_lazy("posts:main-post-view")
 
     def form_valid(self, *args, **kwargs):
         comment = self.get_object()
@@ -123,7 +121,7 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
                 messages.ERROR,
                 "You aren't allowed to delete this comment",
             )
-            return HttpResponseRedirect(self.success_url)
+            return redirect_back(self.request)
 
         self.object.delete()
         messages.add_message(
@@ -131,7 +129,7 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
             messages.SUCCESS,
             "Comment deleted successfully!",
         )
-        return HttpResponseRedirect(self.success_url)
+        return redirect_back(self.request)
 
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
