@@ -89,18 +89,23 @@
                         <div class='segment ui fluid'>
                             <div class="post-content">
                                 <h3>Post #{{ forloop.revcounter }}</h3>
-                                <small><strong>Created {{ post.created|timesince }} ago</strong></small>
+                                <small><strong>{{ post.created|timesince }} ago</strong></small>
                                 <hr>
                             </div>
                             {% if post.image %}
                             <div class="post-image">
                                 <img class="img-src" src="{{ post.image.url }}">
                             </div>
+                            {% endif %}
                             <p>{{ post.content }}</p>
-                            <i class="comment icon"></i>
-                            <span> {{ post.num_comments }} comments</span>
+                            <div style="display: flex; justify-content: right;"> 
+                              <div class="cmt_btn {{ post.id }} ui button mb-5">
+                                <i class="comment icon"></i>
+                                <p style="display: inline-block;">
+                                  {{ post.num_comments }}
+                                </p>
+                              </div>
 
-                            <div style="text-align: right;"> 
                               <form action="{% url 'posts:switch-like-view' %}" method="POST" class='like-form' id='{{ post.id }}'>
                                 {% csrf_token %}
                                 <input type="hidden" name="post_id" value={{ post.id }}>
@@ -121,7 +126,32 @@
                                 {% endif %}
                               </form>
                             </div>
-                            {% endif %}
+                            <br>
+                              <div class="comment-box">
+                                  {% if post.comment_set.all %}
+                                      {% for c in post.comment_set.all %}
+                                          <div class="ui segment mb-5">
+                                              <img class="ui avatar image" src={{ c.profile.avatar.url }}>
+                                              <span style="color:black">
+                                                <a style="color:black" href="{{ c.profile.get_absolute_url }}">
+                                                  {{ c.profile }}
+                                                </a> - {{ c.created|timesince }} ago
+                                              </span>
+                                              <div style="color:black" class='mt-5'>{{ c.content }}</div>
+                                              {% if c.profile.user == request.user %}
+                                                  <a href="{% url 'posts:comment-delete' c.pk %}"><p style="text-align:right; color:red">Delete</p></a>
+                                              {% endif %}
+                                          </div>
+                                      {% endfor %}
+                                  {% endif %}
+                              </div>
+                              <form action="" method="POST"class='form{{ post.id }} ui fluid form'>
+                                  {% csrf_token %}
+                                  <input type="hidden" name="post_id" value={{ post.id }}>
+                                  {{ c_form.as_p }}
+                                  <button type="submit" name="submit_c_form" class="ui primary button mt-5 w-full">Send</button>
+                              </form>
+
                         </div>
                     {% endfor %}
                 {% else %}

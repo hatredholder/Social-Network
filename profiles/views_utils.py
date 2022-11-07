@@ -9,7 +9,7 @@ def get_request_user_profile(request_user):
     return user
 
 
-def get_form_by_request_method(request, profile):
+def get_profile_form_by_request_method(request, profile):
     if request.method == "POST":
         form = ProfileModelForm(request.POST, request.FILES, instance=profile)
     else:

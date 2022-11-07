@@ -5,14 +5,17 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
 
+from posts.forms import CommentCreateModelForm
+from posts.views_utils import add_comment_if_submitted
+
 from .forms import MessageModelForm
 from .models import Message, Profile, Relationship
 from .views_utils import (
     check_if_friends,
     follow_unfollow,
-    get_form_by_request_method,
     get_friends_of_user,
     get_profile_by_pk,
+    get_profile_form_by_request_method,
     get_received_invites,
     get_received_messages,
     get_relationship_users,
@@ -33,9 +36,14 @@ def my_profile_view(request):
     """
     profile = get_request_user_profile(request.user)
 
-    form = get_form_by_request_method(request, profile)
+    form = get_profile_form_by_request_method(request, profile)
 
     posts = profile.posts.all()
+
+    c_form = CommentCreateModelForm()
+
+    if add_comment_if_submitted(request, profile):
+        return redirect_back(request)
 
     if request.method == "POST" and form.is_valid():
         form.save()
@@ -52,6 +60,7 @@ def my_profile_view(request):
         "profile": profile,
         "form": form,
         "posts": posts,
+        "c_form": c_form,
     }
 
     return render(request, "profiles/my_profile.html", context)
