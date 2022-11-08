@@ -193,21 +193,6 @@ def test_PostDeleteView_check_message(create_test_user, create_test_post, client
 
 
 @pytest.mark.django_db
-def test_CommentDeleteView_template_used(create_test_user, create_test_comment, client):
-    """
-    Test if the right template is used in view
-    """
-    client.force_login(user=create_test_user)
-
-    comment_id = Comment.objects.all().first().id
-
-    response = client.get(f"/posts/comments/{comment_id}/delete/")
-
-    assert response.status_code == 200
-    assertTemplateUsed(response, "posts/confirm_delete.html")
-
-
-@pytest.mark.django_db
 def test_CommentDeleteView_delete_comment(
     create_test_user,
     create_test_comment,
