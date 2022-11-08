@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 
+from posts.models import Comment, Post
+
 from profiles.models import Message, Profile, Relationship
+
 
 import pytest
 
@@ -21,6 +24,27 @@ def test_my_profile_view_template_used(create_test_user, client):
 
     assert response.status_code == 200
     assertTemplateUsed(response, "profiles/my_profile.html")
+
+
+@pytest.mark.django_db
+def test_my_profile_view_comment_create(create_test_post, client):
+    """
+    Test if comment gets created successfully
+    """
+    client.force_login(user=User.objects.get(username="user"))
+
+    post_id = Post.objects.first().pk
+
+    data = {
+        "post_id": post_id,
+        "content": "test comment content",
+        "submit_c_form": "",
+    }
+
+    response = client.post("/profiles/myprofile/", data=data)
+
+    assert response.status_code == 302
+    assert len(Comment.objects.all()) == 1
 
 
 @pytest.mark.django_db
