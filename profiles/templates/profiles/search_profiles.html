@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
-
 {% block title %}
     Search
 {% endblock title %}
-
 {% block content %}
     {% if search %}
         {% if profiles %}
@@ -20,11 +18,9 @@
                                 <h3>{{ profile.user }}</h3>
                                 <p>{{ profile.bio }}</p>
                                 <a href='{{ profile.get_absolute_url }}'>
-                                    <button 
-                                        style="margin-top:10px; width:200px;" 
-                                        class='ui primary button mb-5 w-big'>
-                                        See Profile
-                                    </button>
+                                    <button style="margin-top:10px;
+                                                   width:200px"
+                                            class='ui primary button mb-5 w-big'>See Profile</button>
                                 </a>
                             </div>
                         </div>
@@ -38,4 +34,3 @@
         <h1>To use Search type text into the Search bar</h1>
     {% endif %}
 {% endblock content %}
-

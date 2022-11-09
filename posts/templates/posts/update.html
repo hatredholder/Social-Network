@@ -1,27 +1,18 @@
 {% extends 'base.html' %}
-
 {% block title %}
     Update Post
 {% endblock title %}
-
 {% block content %}
     <div class="ui segment">
         <h3>Update Post</h3>
         <form action="" method="POST" class="ui form" enctype="mutlipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <input 
-                class="ui button" 
-                type="button"
-                value="Cancel" 
-                onclick="window.history.go(-1);"
-            />
-            <button 
-                type="submit" 
-                class="ui button primary mt-5"
-            >
-            Update
-            </button>
+            <input class="ui button"
+                   type="button"
+                   value="Cancel"
+                   onclick="window.history.go(-1);"/>
+            <button type="submit" class="ui button primary mt-5">Update</button>
         </form>
     </div>
 {% endblock content %}

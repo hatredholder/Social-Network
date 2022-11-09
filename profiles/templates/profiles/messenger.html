@@ -1,31 +1,23 @@
 {% extends 'base.html' %}
-
 {% block title %}
     Messenger
 {% endblock title %}
-
 {% block content %}
-    {% if not profiles %}    
-        <h1 style="text-align:center">All your friends will show here</h1>
-    {% endif %}
-
+    {% if not profiles %}<h1 style="text-align:center">All your friends will show here</h1>{% endif %}
     {% for profile in profiles %}
         <div class='ui segment'>
             <div class='ui grid'>
                 <div class='row'>
                     <div class='four wide column'>
-                      <a style="color: black;" href='{{ profile.get_absolute_url }}'>{{ profile }}</a>
+                        <a style="color: black;" href='{{ profile.get_absolute_url }}'>{{ profile }}</a>
                         <a href={% url "profiles:chat-message-view" profile.slug %}>
-                            <button 
-                                style="margin-top:10px; width:200px;" 
-                                class='ui teal button mb-5 w-big'>
-                                Open Chat
-                            </button>
-                        </a>   
+                            <button style="margin-top:10px;
+                                           width:200px"
+                                    class='ui teal button mb-5 w-big'>Open Chat</button>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     {% endfor %}
-
 {% endblock content %}

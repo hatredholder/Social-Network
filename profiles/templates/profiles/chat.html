@@ -1,50 +1,39 @@
 {% extends 'base.html' %}
-
 {% block title %}
     Chat
 {% endblock title %}
-
 {% block content %}
     <h3 style="text-align: center">Chat with {{ profile }}</h3>
-    
-    {% if are_friends %} 
-      <form action="" method="POST" class='ui fluid form'>
-          {% csrf_token %}
-          {{ form.as_p  }}
-          <button type="submit" class="ui primary button mt-5 w-full">Send</button>
-      </form>
-      <br>
-      {% if not qs %}
-          <h1 style="text-align: center">
-              {{profile|capfirst}} is waiting for your first message!
-          </h1>
-      {% endif %}
-
-      {% for message in qs %}
-          {% if message in received %}
-              <div class='ui grid'>
-                  <br>
-                  <div class='row'>
-                      <div class='left floated four wide column'>
-                          <div class="ui blue large message">{{ message }}</div>
-                      </div>
-                  </div>
-              </div>
-          {% else %}
-              <div class='ui grid'>
-                  <br>
-                  <div class='row'>
-                      <div class='right floated  four wide column'>
-                          <div class="ui left floated red large message">{{ message }}</div>
-                      </div>
-                  </div>
-              </div>
-          {% endif %}
-      {% endfor %}
+    {% if are_friends %}
+        <form action="" method="POST" class='ui fluid form'>
+            {% csrf_token %}
+            {{ form.as_p  }}
+            <button type="submit" class="ui primary button mt-5 w-full">Send</button>
+        </form>
+        <br>
+        {% if not qs %}<h1 style="text-align: center">{{ profile|capfirst }} is waiting for your first message!</h1>{% endif %}
+        {% for message in qs %}
+            {% if message in received %}
+                <div class='ui grid'>
+                    <br>
+                    <div class='row'>
+                        <div class='left floated four wide column'>
+                            <div class="ui blue large message">{{ message }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class='ui grid'>
+                    <br>
+                    <div class='row'>
+                        <div class='right floated  four wide column'>
+                            <div class="ui left floated red large message">{{ message }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
     {% else %}
-      <h1 style="text-align: center">
-          You are not friends with {{profile}}!
-      </h1>
+        <h1 style="text-align: center">You are not friends with {{ profile }}!</h1>
     {% endif %}
-
 {% endblock content %}

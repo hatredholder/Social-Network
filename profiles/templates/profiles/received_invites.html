@@ -1,11 +1,8 @@
 {% extends 'base.html' %}
-
 {% block title %}
     Received Invites
 {% endblock title %}
-
 {% block content %}
-
     <div class="ui two top attached buttons">
         <a href="{% url 'profiles:received-invites-view' %}">
             <div class="ui button active">Received Invites</div>
@@ -14,11 +11,7 @@
             <div class="ui button">Sent Invites</div>
         </a>
     </div>
-
-    {% if not profiles %}
-        <h1>You haven't received any invites yet.</h1>
-    {% endif %}
-
+    {% if not profiles %}<h1>You haven't received any invites yet.</h1>{% endif %}
     {% for profile in profiles %}
         <div class='ui segment'>
             <div class='ui grid'>
@@ -31,22 +24,28 @@
                         <p>{{ profile.bio }}</p>
                         <br>
                         <a href='{{ profile.get_absolute_url }}'>
-                            <button style="margin-top:10px; width:200px;" class="ui primary button w-big mb-5">See Profile</button>
+                            <button style="margin-top:10px;
+                                           width:200px"
+                                    class="ui primary button w-big mb-5">See Profile</button>
                         </a>
-                        
                         <form action='{% url 'profiles:accept-invite' %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='pk' value='{{ profile.pk }}'>
-                            <button style="margin-top:10px; width:200px;" type='submit' class='ui positive basic button w-big mb-5'>
+                            <button style="margin-top:10px;
+                                           width:200px"
+                                    type='submit'
+                                    class='ui positive basic button w-big mb-5'>
                                 <i class='check icon'></i>
                                 Accept Invite
-                            </button>   
+                            </button>
                         </form>
-
                         <form action='{% url 'profiles:reject-invite' %}' method='POST'>
                             {% csrf_token %}
                             <input type='hidden' name='pk' value='{{ profile.pk }}'>
-                            <button style="margin-top:10px; width:200px;" type='submit' class='ui negative basic button w-big mb-5'>
+                            <button style="margin-top:10px;
+                                           width:200px"
+                                    type='submit'
+                                    class='ui negative basic button w-big mb-5'>
                                 <i class='close icon'></i>
                                 Reject Invite
                             </button>
@@ -56,5 +55,4 @@
             </div>
         </div>
     {% endfor %}
-    
 {% endblock content %}

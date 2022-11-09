@@ -1,58 +1,45 @@
-
 {% extends 'base.html' %}
-
 {% block title %}
     My Profile
 {% endblock title %}
-
 {% block content %}
     {% for message in messages %}
         {% if message.tags == 'error' %}
             <div class="ui red message">
-                <div class="header">
-                    Error
-                </div>
+                <div class="header">Error</div>
                 <p>{{ message }}</p>
             </div>
         {% else %}
             <div class="ui green message">
-                <div class="header">
-                    Success
-                </div>
+                <div class="header">Success</div>
                 <p>{{ message }}</p>
             </div>
         {% endif %}
     {% endfor %}
-
     <!-- Modal -->
     <div class="ui modal mymodal">
         <i class="close icon"></i>
-        <div class="header">
-            Update your Profile
-        </div>
+        <div class="header">Update your Profile</div>
         <div class="image content">
             <div class="ui medium image">
-                <img src="{{profile.avatar.url}}">
+                <img src="{{ profile.avatar.url }}">
             </div>
             <div class="description">
-                <div class="ui header">
-                    Update Your Info
-                </div>
+                <div class="ui header">Update Your Info</div>
                 <form action="" method="POST" class="ui form" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{form.as_p}}
+                    {{ form.as_p }}
+                </div>
             </div>
-        </div>
-        <div class="actions">
-            <button type="submit" class="ui positive right labeled icon button">
-                Update
-                <i class="checkmark icon"></i>
-            </button>
+            <div class="actions">
+                <button type="submit" class="ui positive right labeled icon button">
+                    Update
+                    <i class="checkmark icon"></i>
+                </button>
             </form>
         </div>
     </div>
     <!-- Modal End -->
-
     <div class='ui grid'>
         <br>
         <div class='row'>
@@ -81,7 +68,10 @@
                         <div class='ui label'>{{ profile.followers.all.count }}</div>
                     </div>
                 </div>
-                <button style="margin-top:10px; width:200px;" class='ui secondary button' id='modal-btn'>Update your Profile</button>
+                <button style="margin-top:10px;
+                               width:200px"
+                        class='ui secondary button'
+                        id='modal-btn'>Update your Profile</button>
             </div>
             <div class='twelve wide column'>
                 {% if posts %}
@@ -93,68 +83,63 @@
                                 <hr>
                             </div>
                             {% if post.image %}
-                            <div class="post-image">
-                                <img class="img-src" src="{{ post.image.url }}">
-                            </div>
+                                <div class="post-image">
+                                    <img class="img-src" src="{{ post.image.url }}">
+                                </div>
                             {% endif %}
                             <p>{{ post.content }}</p>
-                            <div style="display: flex; justify-content: right;"> 
-                              <div class="cmt_btn {{ post.id }} ui button mb-5">
-                                <i class="comment icon"></i>
-                                <p style="display: inline-block;">
-                                  {{ post.num_comments }}
-                                </p>
-                              </div>
-
-                              <form action="{% url 'posts:switch-like-view' %}" method="POST" class='like-form' id='{{ post.id }}'>
-                                {% csrf_token %}
-                                <input type="hidden" name="post_id" value={{ post.id }}>
-                                {% if profile not in post.liked.all %}
-                                  <button type="submit" class="ui button black like-btn{{ post.id }}">
-                                    <i class="heart icon"></i>
-                                    <p style="display: inline-block;" class="like-count{{ post.id }}">
-                                      {{ post.liked.all.count }}
-                                    </p>
-                                  </button>
-                                {% else %}
-                                  <button type="submit" class="ui button negative like-btn{{ post.id }}">
-                                    <i class="heart icon"></i>
-                                    <p style="display: inline-block;" class="like-count{{ post.id }}">
-                                      {{ post.liked.all.count }}
-                                    </p>
-                                  </button>
-                                {% endif %}
-                              </form>
+                            <div style="display: flex; justify-content: right;">
+                                <div class="cmt_btn {{ post.id }} ui button mb-5">
+                                    <i class="comment icon"></i>
+                                    <p style="display: inline-block;">{{ post.num_comments }}</p>
+                                </div>
+                                <form action="{% url 'posts:switch-like-view' %}"
+                                      method="POST"
+                                      class='like-form'
+                                      id='{{ post.id }}'>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="post_id" value={{ post.id }}>
+                                    {% if profile not in post.liked.all %}
+                                        <button type="submit" class="ui button black like-btn{{ post.id }}">
+                                            <i class="heart icon"></i>
+                                            <p style="display: inline-block;" class="like-count{{ post.id }}">{{ post.liked.all.count }}</p>
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" class="ui button negative like-btn{{ post.id }}">
+                                            <i class="heart icon"></i>
+                                            <p style="display: inline-block;" class="like-count{{ post.id }}">{{ post.liked.all.count }}</p>
+                                        </button>
+                                    {% endif %}
+                                </form>
                             </div>
                             <br>
-                              <div class="comment-box">
-                                  {% if post.comment_set.all %}
-                                      {% for c in post.comment_set.all %}
-                                          <div class="ui segment mb-5">
-                                              <img class="ui avatar image" src={{ c.profile.avatar.url }}>
-                                              <span style="color:black">
-                                                <a style="color:black" href="{{ c.profile.get_absolute_url }}">
-                                                  {{ c.profile }}
-                                                </a> - {{ c.created|timesince }} ago
-                                              </span>
-                                              <div style="color:black" class='mt-5'>{{ c.content }}</div>
-                                              {% if c.profile.user == request.user %}
-                                                  <form method="POST" action="{% url 'posts:comment-delete' c.pk %}">
+                            <div class="comment-box">
+                                {% if post.comment_set.all %}
+                                    {% for c in post.comment_set.all %}
+                                        <div class="ui segment mb-5">
+                                            <img class="ui avatar image" src={{ c.profile.avatar.url }}>
+                                            <span style="color:black">
+                                                <a style="color:black" href="{{ c.profile.get_absolute_url }}">{{ c.profile }}</a> - {{ c.created|timesince }} ago
+                                            </span>
+                                            <div style="color:black" class='mt-5'>{{ c.content }}</div>
+                                            {% if c.profile.user == request.user %}
+                                                <form method="POST" action="{% url 'posts:comment-delete' c.pk %}">
                                                     {% csrf_token %}
                                                     <button type="submit" style="text-align:right; color:red">Delete</button>
-                                                  </form>
-                                              {% endif %}
-                                          </div>
-                                      {% endfor %}
-                                  {% endif %}
-                              </div>
-                              <form action="" method="POST"class='form{{ post.id }} ui fluid form'>
-                                  {% csrf_token %}
-                                  <input type="hidden" name="post_id" value={{ post.id }}>
-                                  {{ c_form.as_p }}
-                                  <button type="submit" name="submit_c_form" class="ui primary button mt-5 w-full">Send</button>
-                              </form>
-
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <form action="" method="POST"class='form{{ post.id }} ui fluid form'>
+                                {% csrf_token %}
+                                <input type="hidden" name="post_id" value={{ post.id }}>
+                                {{ c_form.as_p }}
+                                <button type="submit"
+                                        name="submit_c_form"
+                                        class="ui primary button mt-5 w-full">Send</button>
+                            </form>
                         </div>
                     {% endfor %}
                 {% else %}
@@ -165,6 +150,6 @@
     </div>
 {% endblock content %}
 {% block scripts %}
-{% load static %}
+    {% load static %}
     <script src="{% static 'like.js' %}"></script>
 {% endblock scripts %}
