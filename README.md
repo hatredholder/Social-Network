@@ -97,7 +97,7 @@ Tests: Pytest, Pytest-Django.
 
 - [ ] Update comment delete button;
 
-- [ ] Add comments form to profile detail view;
+- [x] Add comments form to profile detail view;
 
 - [x] Change messenger url from pk to slug;
 
