@@ -95,6 +95,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         # Executes only if post's author user
         # and request's user are the same
         self.object.delete()
+
         messages.add_message(
             self.request,
             messages.SUCCESS,
@@ -123,7 +124,9 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
             )
             return redirect_back(self.request)
 
+        # Delete the comment
         self.object.delete()
+
         messages.add_message(
             self.request,
             messages.SUCCESS,
@@ -155,7 +158,9 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
             )
             return HttpResponseRedirect(self.success_url)
 
+        # Update the post
         self.object = form.save()
+
         messages.add_message(
             self.request,
             messages.SUCCESS,
