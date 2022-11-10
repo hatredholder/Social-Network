@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
 
 from posts.forms import CommentCreateModelForm
+from posts.models import Post
 from posts.views_utils import add_comment_if_submitted
 
 from .forms import MessageModelForm
@@ -243,6 +244,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
     model = Profile
     template_name = "profiles/profile_detail.html"
+    form_class = CommentCreateModelForm
 
     def get(self, request, *args, **kwargs):
 
@@ -257,6 +259,21 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
+    def post(self, request, *args, **kwargs):
+        
+        # Add comment form
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.profile = get_request_user_profile(self.request.user)
+            instance.post = Post.objects.get(id=request.POST.get("post_id"))
+            instance.save()
+
+            form = CommentCreateModelForm()
+
+            return redirect_back(self.request)
+        
     def get_object(self):
         slug = self.kwargs.get("slug")
         profile = Profile.objects.get(slug=slug)
@@ -273,6 +290,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context["invited_users"] = invited_users
         context["incoming_invite_users"] = incoming_invite_users
         context["following"] = following
+        context["form"] = self.form_class
 
         context["profile"] = self.get_object()
         context["request_user_profile"] = profile

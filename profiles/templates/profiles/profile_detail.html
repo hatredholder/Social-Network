@@ -3,6 +3,19 @@
     {{ profile.user }}
 {% endblock title %}
 {% block content %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="ui red message">
+                <div class="header">Error</div>
+                <p>{{ message }}</p>
+            </div>
+        {% else %}
+            <div class="ui green message">
+                <div class="header">Success</div>
+                <p>{{ message }}</p>
+            </div>
+        {% endif %}
+    {% endfor %}
     <div class='ui grid'>
         <br>
         <div class='row'>
@@ -142,9 +155,11 @@
                                 </div>
                             {% endif %}
                             <p>{{ post.content }}</p>
-                            <i class="comment icon"></i>
-                            <span>{{ post.num_comments }} comments</span>
-                            <div style="text-align: right;">
+                            <div style="display: flex; justify-content: right;">
+                                <div class="cmt_btn {{ post.id }} ui button mb-5">
+                                    <i class="comment icon"></i>
+                                    <p style="display: inline-block;">{{ post.num_comments }}</p>
+                                </div>
                                 <form action="{% url 'posts:switch-like-view' %}"
                                       method="POST"
                                       class='like-form'
@@ -164,16 +179,44 @@
                                     {% endif %}
                                 </form>
                             </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <h1>This user hasn't posted anything yet.</h1>
-                {% endif %}
+                            <br>
+                            <div class="comment-box">
+                                {% if post.comment_set.all %}
+                                    {% for c in post.comment_set.all %}
+                                        <div class="ui segment mb-5">
+                                            <img class="ui avatar image" src={{ c.profile.avatar.url }}>
+                                            <span style="color:black">
+                                                <a style="color:black" href="{{ c.profile.get_absolute_url }}">{{ c.profile }}</a> - {{ c.created|timesince }} ago
+                                            </span>
+                                            <div style="color:black" class='mt-5'>{{ c.content }}</div>
+                                            {% if c.profile.user == request.user %}
+                                                <form method="POST" action="{% url 'posts:comment-delete' c.pk %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" style="text-align:right; color:red">Delete</button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <form action="" method="POST"class='form{{ post.id }} ui fluid form'>
+                                {% csrf_token %}
+                                <input type="hidden" name="post_id" value={{ post.id }}>
+                                {{ form.as_p }}
+                                <button type="submit"
+                                        name="submit_c_form"
+                                        class="ui primary button mt-5 w-full">Send</button>
+                            </form>
+                        {% endfor %}
+                    {% else %}
+                        <h1>This user hasn't posted anything yet.</h1>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-{% endblock content %}
-{% block scripts %}
-    {% load static %}
-    <script src="{% static 'like.js' %}"></script>
-{% endblock scripts %}
+    {% endblock content %}
+    {% block scripts %}
+        {% load static %}
+        <script src="{% static 'like.js' %}"></script>
+        <script src="{% static 'comments.js' %}"></script>
+    {% endblock scripts %}
