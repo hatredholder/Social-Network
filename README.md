@@ -95,7 +95,7 @@ Tests: Pytest, Pytest-Django.
 
 ## To Do/To Add
 
-- [ ] Update comment delete button;
+- [x] Update comment delete button;
 
 - [x] Add comments form to profile detail view;
 
