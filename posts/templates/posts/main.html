@@ -36,7 +36,9 @@
                             </div>
                         </div>
                         <img class="ui avatar image" src={{ post.author.avatar.url }}>
-                        <a style="color:black" href="{{ post.author.get_absolute_url }}">{{ post.author.user }}</a> - {{ post.created|timesince }} ago
+                        <span style="color:gray">
+                          <a style="color:black" href="{{ post.author.get_absolute_url }}">{{ post.author.user }}</a>  {{ post.created|timesince }} ago
+                        </span>
                     </div>
                     <div class="ui fluid image">
                         {% if post.image %}<img src={{ post.image.url }}>{% endif %}
@@ -74,14 +76,15 @@
                                 {% for c in post.comment_set.all %}
                                     <div class="ui segment mb-5">
                                         <img class="ui avatar image" src={{ c.profile.avatar.url }}>
-                                        <span style="color:black">
-                                            <a style="color:black" href="{{ c.profile.get_absolute_url }}">{{ c.profile }}</a> - {{ c.created|timesince }} ago
+                                        <span style="color:gray">
+                                            <a style="color:black" href="{{ c.profile.get_absolute_url }}">{{ c.profile }}</a> {{ c.created|timesince }} ago
                                         </span>
                                         <div style="color:black" class='mt-5'>{{ c.content }}</div>
+                                        <br>
                                         {% if c.profile.user == request.user %}
                                             <form method="POST" action="{% url 'posts:comment-delete' c.pk %}">
                                                 {% csrf_token %}
-                                                <button type="submit" style="text-align:right; color:red">Delete</button>
+                                                <button type="submit" class="delete-cmt-btn">Delete</button>
                                             </form>
                                         {% endif %}
                                     </div>

@@ -59,3 +59,13 @@ body {
 .mt-100 {
     margin-top:100px;
 }
+
+.delete-cmt-btn {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    font-family: arial, sans-serif;
+    color: gray;
+    text-decoration: underline;
+    cursor: pointer; 
+}
