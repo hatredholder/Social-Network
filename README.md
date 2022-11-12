@@ -19,7 +19,7 @@ A Social Network type of project called Pybook written in **Django**.
 
 ## Preview
 
-![social_network](https://user-images.githubusercontent.com/86254474/175503144-70b07513-1a24-400a-80ce-bd8669167660.png)
+![image](https://user-images.githubusercontent.com/86254474/201476598-c993186c-8f29-465c-b9e4-0cab2abe5530.png)
 
 ## Instructions
 
