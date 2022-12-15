@@ -1,24 +1,22 @@
 {% extends "base.html" %}
-
 {% load i18n %}
-
-{% block title %} Logout{% endblock title%}
-
+{% block title %}
+    Logout
+{% endblock title %}
 {% block content %}
-<h1>{% trans "Logout" %}</h1>
-
-<p>{% trans 'Are you sure you want to sign out?' %}</p>
-
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <input class="ui button" 
-         type="button" value="Cancel" 
-         onclick="window.history.go(-1);"/>
-  <button class="ui button negative"type="submit">{% trans 'Sign Out' %}</button>
-</form>
-
-
+    <h1>{% trans "Logout" %}</h1>
+    <p>{% trans 'Are you sure you want to sign out?' %}</p>
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+            <input type="hidden"
+                   name="{{ redirect_field_name }}"
+                   value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <input class="ui button"
+               type="button"
+               value="Cancel"
+               onclick="window.history.go(-1);"/>
+        <button class="ui button negative"type="submit">{% trans 'Sign Out' %}</button>
+    </form>
 {% endblock %}
