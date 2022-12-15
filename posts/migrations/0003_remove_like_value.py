@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('posts', '0002_alter_post_liked'),
+        ("posts", "0002_alter_post_liked"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='like',
-            name='value',
+            model_name="like",
+            name="value",
         ),
     ]

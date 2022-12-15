@@ -260,7 +260,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
-        
+
         # Add comment form
         form = self.form_class(request.POST)
 
@@ -273,7 +273,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
             form = CommentCreateModelForm()
 
             return redirect_back(self.request)
-        
+
     def get_object(self):
         slug = self.kwargs.get("slug")
         profile = Profile.objects.get(slug=slug)

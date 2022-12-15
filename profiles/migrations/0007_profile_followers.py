@@ -8,13 +8,15 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('profiles', '0006_alter_profile_avatar'),
+        ("profiles", "0006_alter_profile_avatar"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='followers',
-            field=models.ManyToManyField(blank=True, related_name='followers', to=settings.AUTH_USER_MODEL),
+            model_name="profile",
+            name="followers",
+            field=models.ManyToManyField(
+                blank=True, related_name="followers", to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]
