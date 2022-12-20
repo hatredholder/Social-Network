@@ -4,7 +4,7 @@
 
 :earth_americas: :earth_americas: :earth_americas:
 
-A Social Network type of project called Pybook written in **Django**.
+An open-source Social Network project called Pybook written in **Django**.
 
 ## Features
 
