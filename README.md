@@ -1,12 +1,29 @@
-# Pybook - Social Network 
+<h1 align="center">Pybook - Social Network</h1>
+
+<div align="center">
+    	<a href="#-features">Features</a>
+  <span> • </span>
+       	<a href="#-preview">Preview</a>
+  <span> • </span>
+  	<a href="#-instructions">Instructions</a>
+  <span> • </span>
+	<a href="#-testing">Testing</a>
+  <span> • </span>
+	<a href="#-technologies">Technologies</a>
+  <span> • </span>
+	<a href="#-to-do">To Do</a>
+  <p></p>
+</div> 
+
+<div align="center">
 
 ![Pytest](https://github.com/hatredholder/Social-Network/workflows/tests/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/hatredholder/Social-Network/badge.svg?branch=main)](https://coveralls.io/github/hatredholder/Social-Network?branch=main)
 
-:earth_americas: :earth_americas: :earth_americas:
-
 An open-source Social Network project called Pybook written in **Django**.
 
-## Features
+</div> 
+
+## ✨ Features
 
 - Authentication
 - Adding as a Friend
@@ -17,11 +34,11 @@ An open-source Social Network project called Pybook written in **Django**.
 - Notifications on Friend Requests
 - Search Users
 
-## Preview
+## 🔎 Preview
 
 ![image](https://user-images.githubusercontent.com/86254474/201476598-c993186c-8f29-465c-b9e4-0cab2abe5530.png)
 
-## Instructions
+## 📖 Instructions
 
 Clone this repository, cd into it
 
@@ -61,7 +78,7 @@ python manage.py migrate
 python manage.py runserver
 ```  
 
-## Testing
+## 🧪 Testing
 
 To use the **tests** you need to install **local** module requirements first, to do that, use:
 ```
@@ -83,17 +100,21 @@ And finally to test the **code quality** (see if there are any PEP8 errors) use:
 flake8
 ```
 
-## Technologies
+## 💻 Technologies
 
-Frontend: CSS, Semantic UI.
+Frontend: **CSS**, **Semantic UI**
 
-Backend: Django, JavaScript and AJAX.
+Backend: **Django**, a tiny bit of **JavaScript**
 
-Database: PostgreSQL.
+Database: **PostgreSQL**
 
-Tests: Pytest, Pytest-Django.
+Tests: **Pytest**, **Pytest-Django**
 
-## To Do/To Add
+## 📋 To Do
+
+<details>
+
+  <summary>Click to Open</summary>
 
 - [x] Update comment delete button;
 
@@ -122,3 +143,5 @@ Tests: Pytest, Pytest-Django.
 - [x] Hide posts of people that user doesn't follow/didn't add as a friend;
 
 - [x] Add a welcome page for non-authorized users;
+
+</details>
